@@ -3,6 +3,7 @@
 import React, { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import { preload } from 'react-dom';
 import RevealText from '@/components/ui/RevealText';
 import dynamic from 'next/dynamic';
 
@@ -18,6 +19,12 @@ const Lanyard = dynamic(() => import('@/components/ui/Lanyard'), {
   ssr: false,
   loading: () => <div className="h-[500px] animate-pulse bg-[var(--bg-secondary)] rounded-3xl" />
 });
+
+// Preload 3D Asset secara paralel dengan dynamic import JS
+// Ini akan memotong rantai antrean loading, memuat file 2.4MB di background sejak detik pertama!
+if (typeof window !== 'undefined') {
+  preload('/assets/lanyard/card.glb', { as: 'fetch', crossOrigin: 'anonymous' });
+}
 
 interface Value {
   icon?: string;
