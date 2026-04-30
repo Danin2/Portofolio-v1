@@ -6,7 +6,6 @@ import { gsap } from 'gsap';
 import Link from 'next/link';
 import RevealText from '@/components/ui/RevealText';
 import LightRays from '@/components/ui/LightRays';
-import ParticleField from '@/components/ui/ParticleField';
 import ScrollReveal from '@/components/ui/ScrollReveal';
 import StaggeredText from '@/components/ui/StaggeredText';
 import TypewriterText from '@/components/ui/TypewriterText';
@@ -55,22 +54,17 @@ const Hero = () => {
           raysOrigin="top-center"
           raysColor="#4f46e5"
           raysSpeed={0.8}
-          lightSpread={1.1}
-          rayLength={1.6}
+          lightSpread={1.8}
+          rayLength={2.5}
           followMouse={true}
           mouseInfluence={0.04}
           noiseAmount={0.02}
         />
       </div>
 
-      {/* ── Particle Field background ──────────────────────────── */}
-      <div className="absolute inset-0 z-[1] opacity-25">
-        <ParticleField particleCount={1500} particleColor="#ffffff" speed={0.2} />
-      </div>
-
       {/* ── Overlays for text contrast ─────────────────────────── */}
-      <div className="absolute inset-0 z-[1] bg-[radial-gradient(circle_at_center,transparent_0%,var(--bg-primary)_100%)] opacity-80 pointer-events-none" />
-      <div className="absolute inset-0 z-[1] bg-[var(--bg-primary)] opacity-40 pointer-events-none" />
+      <div className="absolute inset-0 z-[1] bg-[radial-gradient(circle_at_center,transparent_0%,var(--bg-primary)_100%)] opacity-50 pointer-events-none" />
+      <div className="absolute inset-0 z-[1] bg-[var(--bg-primary)] opacity-10 pointer-events-none" />
 
       {/* ── Subtle grid ────────────────────────────────────────── */}
       <div
