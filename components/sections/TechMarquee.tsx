@@ -1,6 +1,7 @@
 'use client';
 
 import Marquee from '@/components/ui/Marquee';
+import { useScrollReveal } from '@/hooks/useScrollReveal';
 import {
   SiNodedotjs, SiTypescript, SiPostgresql, SiDocker, SiRedis,
   SiGraphql, SiMongodb, SiNginx, SiGithubactions, SiPrisma,
@@ -41,11 +42,22 @@ export default function TechMarquee() {
     );
   });
 
+  const { ref, isVisible } = useScrollReveal();
+
   return (
-    <div className="relative py-6 border-y border-[var(--border-primary)] bg-[var(--section-bg-alt)] overflow-hidden">
-      <Marquee speed={40} className="py-2">
+    <section
+      ref={ref}
+      className={`relative py-6 border-y border-[var(--border-primary)] bg-[var(--section-bg-alt)] overflow-hidden transition-all duration-700 ${
+        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+      }`}
+    >
+      {/* Gradient Masks */}
+      <div className="absolute top-0 bottom-0 left-0 w-20 z-10 pointer-events-none bg-gradient-to-r from-[var(--section-bg-alt)] to-transparent" />
+      <div className="absolute top-0 bottom-0 right-0 w-20 z-10 pointer-events-none bg-gradient-to-l from-[var(--section-bg-alt)] to-transparent" />
+
+      <Marquee speed={40} className="py-2 relative z-0">
         {items}
       </Marquee>
-    </div>
+    </section>
   );
 }

@@ -4,6 +4,7 @@ import './globals.css'
 import Footer from '@/components/layout/Footer'
 import Navigation from '@/components/layout/Navigation'
 import ClientProviders from '@/components/ui/ClientProviders'
+import ScrollProgress from '@/components/ui/ScrollProgress'
 
 
 const inter = Inter({
@@ -116,6 +117,7 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-[var(--bg-primary)] text-[var(--text-primary)] font-sans antialiased">
+        <ScrollProgress />
         <ClientProviders>
           <Navigation />
           <main>{children}</main>

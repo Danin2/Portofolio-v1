@@ -415,3 +415,10 @@ body {
   animation: none;
   mix-blend-mode: normal;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  * { 
+    animation-duration: 0.01ms !important; 
+    transition-duration: 0.01ms !important; 
+  }
+}

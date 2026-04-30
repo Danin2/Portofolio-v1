@@ -6,7 +6,10 @@ import { gsap } from 'gsap';
 import Link from 'next/link';
 import RevealText from '@/components/ui/RevealText';
 import LightRays from '@/components/ui/LightRays';
+import ParticleField from '@/components/ui/ParticleField';
 import ScrollReveal from '@/components/ui/ScrollReveal';
+import StaggeredText from '@/components/ui/StaggeredText';
+import TypewriterText from '@/components/ui/TypewriterText';
 
 const Hero = () => {
   const ctaRef = useRef<HTMLDivElement>(null);
@@ -60,6 +63,11 @@ const Hero = () => {
         />
       </div>
 
+      {/* ── Particle Field background ──────────────────────────── */}
+      <div className="absolute inset-0 z-[1] opacity-25">
+        <ParticleField particleCount={1500} particleColor="#ffffff" speed={0.2} />
+      </div>
+
       {/* ── Overlays for text contrast ─────────────────────────── */}
       <div className="absolute inset-0 z-[1] bg-[radial-gradient(circle_at_center,transparent_0%,var(--bg-primary)_100%)] opacity-80 pointer-events-none" />
       <div className="absolute inset-0 z-[1] bg-[var(--bg-primary)] opacity-40 pointer-events-none" />
@@ -104,24 +112,20 @@ const Hero = () => {
           {/* Name Section — Centered and Bold */}
           <div className="mb-14 lg:mb-20">
             <div className="mb-4">
-              <RevealText
-                as="h1"
+              <StaggeredText
+                text="Muhammad"
                 delay={0.2}
                 className="font-black leading-[0.9] tracking-[-0.04em] text-[var(--text-primary)] select-none whitespace-nowrap"
                 style={{ fontSize: 'clamp(3.5rem, 11vw, 8.5rem)' } as React.CSSProperties}
-              >
-                Muhammad
-              </RevealText>
+              />
             </div>
             <div>
-              <RevealText
-                as="h1"
-                delay={0.35}
-                className="font-black leading-[0.9] tracking-[-0.04em] select-none whitespace-nowrap"
+              <div
+                className="font-black leading-[0.9] tracking-[-0.04em] select-none whitespace-nowrap gradient-text"
                 style={{ fontSize: 'clamp(3.5rem, 11vw, 8.5rem)' } as React.CSSProperties}
               >
-                <span className="gradient-text">Danindra I</span>
-              </RevealText>
+                <StaggeredText text="Danindra I" delay={0.6} />
+              </div>
             </div>
           </div>
 
@@ -129,12 +133,12 @@ const Hero = () => {
           <div className="flex flex-col items-center gap-10">
             <ScrollReveal delay={0.5} yOffset={16}>
               <div className="flex flex-col items-center max-w-2xl">
-                <p
+                <TypewriterText
+                  text="Backend Systems Engineer"
+                  delay={1.2}
                   className="font-mono font-bold tracking-[0.3em] text-[var(--accent-violet)] mb-8 uppercase"
                   style={{ fontSize: 'clamp(0.75rem, 1.4vw, 0.9rem)' }}
-                >
-                  Backend Systems Engineer
-                </p>
+                />
                 <p className="text-[var(--text-secondary)] leading-relaxed text-lg md:text-2xl opacity-90 text-center font-medium">
                   I architect high-performance server-side foundations,
                   focusing on scalability, security, and elegant system design.

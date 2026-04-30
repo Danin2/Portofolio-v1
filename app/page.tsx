@@ -1,5 +1,6 @@
 import Hero from '@/components/sections/Hero';
 import FeaturedSkills from '@/components/sections/FeaturedSkills';
+import Stats from '@/components/sections/Stats';
 import ProjectPreview from '@/components/sections/ToolsWorkflow';
 import TechMarquee from '@/components/sections/TechMarquee';
 import Link from 'next/link';
@@ -31,6 +32,9 @@ export default function Home() {
 
       {/* 2. Marquee — scrolling tech logos strip */}
       <TechMarquee />
+
+      {/* Stats Section */}
+      <Stats />
 
       {/* 3. Skills — core expertise grid */}
       <FeaturedSkills />

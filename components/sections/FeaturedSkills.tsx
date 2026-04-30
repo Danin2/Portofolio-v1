@@ -2,9 +2,11 @@
 
 import React, { useEffect, useId, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import Tilt from "react-parallax-tilt";
 import { useOutsideClick } from "@/hooks/use-outside-click";
 import RevealText from '@/components/ui/RevealText';
 import ScrollReveal from '@/components/ui/ScrollReveal';
+import { useScrollReveal } from '@/hooks/useScrollReveal';
 import {
   Server,
   Database,
@@ -171,7 +173,8 @@ const skills = [
 const FeaturedSkills = () => {
   const [active, setActive] = useState<(typeof skills)[number] | boolean | null>(null);
   const id = useId();
-  const ref = useRef<HTMLDivElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
+  const { ref: sectionRef, isVisible } = useScrollReveal();
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
@@ -198,10 +201,15 @@ const FeaturedSkills = () => {
     };
   }, [active]);
 
-  useOutsideClick(ref, () => setActive(null));
+  useOutsideClick(modalRef, () => setActive(null));
 
   return (
-    <section id="skills" className="relative bg-[var(--section-bg)] py-24 px-6 md:px-12 lg:px-20 overflow-hidden border-t border-[var(--border-primary)]">
+    <section
+      id="skills"
+      ref={sectionRef}
+      className={`relative bg-[var(--section-bg)] py-24 px-6 md:px-12 lg:px-20 overflow-hidden border-t border-[var(--border-primary)] transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`}
+    >
       {/* Decorative Blur */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-[var(--accent-purple)]/5 blur-[120px] rounded-full pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[var(--accent-blue)]/5 blur-[120px] rounded-full pointer-events-none" />
@@ -252,7 +260,7 @@ const FeaturedSkills = () => {
             <div className="fixed inset-0 flex items-center justify-center z-[60] p-4 md:p-10">
               <motion.div
                 layoutId={`card-${active.title}-${id}`}
-                ref={ref}
+                ref={modalRef}
                 transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
                 className="w-full max-w-[700px] h-auto max-h-[90%] flex flex-col bg-[var(--card-bg)] border border-[var(--border-primary)] rounded-[2.5rem] overflow-hidden shadow-2xl relative"
               >
@@ -315,56 +323,70 @@ const FeaturedSkills = () => {
                   idx === 3 ? "lg:col-span-4 md:col-span-3" :
                     idx === 4 ? "lg:col-span-4 md:col-span-3" :
                       "lg:col-span-12 md:col-span-6";
-
             return (
-              <motion.div
-                layoutId={`card-${card.title}-${id}`}
+              <Tilt
                 key={card.title}
-                onClick={() => setActive(card)}
-                className={`group relative p-8 md:p-10 flex flex-col bg-[var(--card-bg)] border border-[var(--border-primary)] rounded-[2rem] cursor-pointer transition-all duration-500 hover:border-[var(--accent-purple)]/50 shadow-sm hover:shadow-2xl hover:-translate-y-1 ${colSpan}`}
+                tiltMaxAngleX={15}
+                tiltMaxAngleY={15}
+                perspective={1000}
+                scale={1}
+                transitionSpeed={1000}
+                className={`${colSpan}`}
+                glareEnable={true}
+                glareMaxOpacity={0.15}
+                glareColor="white"
+                glarePosition="all"
+                glareBorderRadius="2rem"
               >
-                {/* Visual Accent */}
-                <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
-                  {React.cloneElement(card.icon as React.ReactElement<WithClassName>, { className: 'w-6 h-6' })}
-                </div>
+                <motion.div
+                  layoutId={`card-${card.title}-${id}`}
+                  onClick={() => setActive(card)}
+                  className={`group h-full relative p-8 md:p-10 flex flex-col border border-[rgba(255,255,255,0.1)] dark:bg-[rgba(255,255,255,0.05)] bg-[rgba(0,0,0,0.03)] backdrop-blur-[10px] rounded-[2rem] cursor-pointer transition-all duration-500 hover:border-[var(--accent-purple)]/50 shadow-sm hover:shadow-2xl hover:-translate-y-1`}
+                  style={{ transformStyle: 'preserve-3d' }}
+                >
+                  {/* Visual Accent */}
+                  <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity transform-gpu" style={{ transform: 'translateZ(20px)' }}>
+                    {React.cloneElement(card.icon as React.ReactElement<WithClassName>, { className: 'w-6 h-6' })}
+                  </div>
 
-                <div className="relative z-10 flex flex-col h-full">
-                  <header className="mb-auto">
-                    <motion.div
-                      layoutId={`icon-${card.title}-${id}`}
-                      className={`inline-flex p-3 rounded-xl bg-gradient-to-br ${card.color} text-white mb-8 group-hover:scale-110 transition-transform duration-500 shadow-md`}
-                    >
-                      {React.cloneElement(card.icon as React.ReactElement<WithClassName>, { className: 'w-6 h-6' })}
-                    </motion.div>
-                    <motion.h3
-                      layoutId={`title-${card.title}-${id}`}
-                      className="font-bold text-[var(--text-primary)] text-2xl group-hover:text-[var(--accent-purple)] transition-colors mb-2"
-                    >
-                      {card.title}
-                    </motion.h3>
-                    <motion.p
-                      layoutId={`description-${card.title}-${id}`}
-                      className="text-[var(--text-secondary)] text-sm opacity-60 leading-relaxed max-w-xs"
-                    >
-                      {card.description}
-                    </motion.p>
-                  </header>
+                  <div className="relative z-10 flex flex-col h-full transform-gpu" style={{ transform: 'translateZ(30px)' }}>
+                    <header className="mb-auto">
+                      <motion.div
+                        layoutId={`icon-${card.title}-${id}`}
+                        className={`inline-flex p-3 rounded-xl bg-gradient-to-br ${card.color} text-white mb-8 group-hover:scale-110 transition-transform duration-500 shadow-md`}
+                      >
+                        {React.cloneElement(card.icon as React.ReactElement<WithClassName>, { className: 'w-6 h-6' })}
+                      </motion.div>
+                      <motion.h3
+                        layoutId={`title-${card.title}-${id}`}
+                        className="font-bold text-[var(--text-primary)] text-2xl group-hover:text-[var(--accent-purple)] transition-colors mb-2"
+                      >
+                        {card.title}
+                      </motion.h3>
+                      <motion.p
+                        layoutId={`description-${card.title}-${id}`}
+                        className="text-[var(--text-secondary)] text-sm opacity-60 leading-relaxed max-w-xs"
+                      >
+                        {card.description}
+                      </motion.p>
+                    </header>
 
-                  <footer className="mt-10 flex items-center justify-between">
-                    <div className="text-[0.6rem] font-black uppercase tracking-[0.2em] text-[var(--text-muted)] group-hover:text-[var(--accent-violet)] transition-colors">
-                      Learn More
-                    </div>
-                    <div className="w-8 h-8 rounded-full border border-[var(--border-primary)] flex items-center justify-center text-[var(--text-muted)] group-hover:bg-[var(--accent-purple)] group-hover:text-white transition-all duration-300">
-                      →
-                    </div>
-                  </footer>
-                </div>
-              </motion.div>
+                    <footer className="mt-10 flex items-center justify-between">
+                      <div className="text-[0.6rem] font-black uppercase tracking-[0.2em] text-[var(--text-muted)] group-hover:text-[var(--accent-violet)] transition-colors">
+                        Learn More
+                      </div>
+                      <div className="w-8 h-8 rounded-full border border-[var(--border-primary)] flex items-center justify-center text-[var(--text-muted)] group-hover:bg-[var(--accent-purple)] group-hover:text-white transition-all duration-300">
+                        →
+                      </div>
+                    </footer>
+                  </div>
+                </motion.div>
+              </Tilt>
             );
           })}
         </div>
       </div>
-    </section>
+    </section >
   );
 };
 
