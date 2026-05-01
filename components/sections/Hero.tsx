@@ -49,6 +49,36 @@ const Hero = () => {
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center bg-[var(--bg-primary)] overflow-hidden">
 
+      {/* ── Ambient Background Layer (Task 1) ── */}
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        <motion.div 
+          animate={{ 
+            x: [0, 50, 0, -50, 0],
+            y: [0, -30, 20, -30, 0],
+            scale: [1, 1.1, 0.9, 1.1, 1]
+          }}
+          transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+          className="absolute top-[10%] left-[10%] w-[500px] h-[500px] bg-[var(--accent-primary)]/10 blur-[120px] rounded-full"
+        />
+        <motion.div 
+          animate={{ 
+            x: [0, -60, 40, -60, 0],
+            y: [0, 40, -20, 40, 0],
+            scale: [1, 0.9, 1.1, 0.9, 1]
+          }}
+          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+          className="absolute bottom-[10%] right-[10%] w-[600px] h-[600px] bg-[var(--accent-secondary)]/10 blur-[150px] rounded-full"
+        />
+        <motion.div 
+          animate={{ 
+            x: [0, 30, -30, 30, 0],
+            y: [0, 60, -60, 60, 0],
+          }}
+          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+          className="absolute top-[40%] right-[20%] w-[400px] h-[400px] bg-[var(--accent-primary)]/5 blur-[100px] rounded-full"
+        />
+      </div>
+
       {/* ── Background Elements ────────────────────────────────── */}
       <div className="absolute inset-0 z-0">
         <LightRays
@@ -78,17 +108,18 @@ const Hero = () => {
           {/* ────────────────── LEFT CONTENT (Typography) ────────────────── */}
           <div className="lg:col-span-8 flex flex-col items-start text-left order-2 lg:order-1">
             
+            {/* Availability Badge (Task 6) */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.1, duration: 0.6 }}
-              className="inline-flex items-center gap-3 px-5 py-2.5 mb-10 rounded-full border border-[var(--accent-primary)]/20 bg-[var(--accent-primary)]/5 backdrop-blur-xl text-[var(--accent-primary)] text-[0.65rem] font-bold tracking-[0.2em] uppercase shadow-sm"
+              className="inline-flex items-center gap-3 px-6 py-3 mb-10 rounded-full border border-[var(--accent-primary)]/30 bg-[var(--accent-primary)]/10 backdrop-blur-xl text-[var(--accent-primary)] text-[0.7rem] font-black tracking-[0.2em] uppercase shadow-lg group hover:scale-105 transition-all duration-300"
             >
-              <span className="relative flex h-2.5 w-2.5">
+              <span className="relative flex h-3 w-3">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--accent-primary)] opacity-75" />
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[var(--accent-primary)]" />
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-[var(--accent-primary)] shadow-[0_0_8px_var(--accent-primary)]" />
               </span>
-              System Status: Active_Operational
+              Available for Projects
             </motion.div>
 
             <div className="mb-10 space-y-2">

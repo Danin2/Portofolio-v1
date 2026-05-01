@@ -127,8 +127,8 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
                 '--pointer-from-center': `${clamp(Math.hypot(percentY - 50, percentX - 50) / 50, 0, 1)}`,
                 '--pointer-from-top': `${percentY / 100}`,
                 '--pointer-from-left': `${percentX / 100}`,
-                '--rotate-x': `${round(-(centerX / 5))}deg`,
-                '--rotate-y': `${round(centerY / 4)}deg`
+                '--rotate-x': `${round(-(centerX / 3.33))}deg`,
+                '--rotate-y': `${round(centerY / 3.33)}deg`
             };
 
             for (const [k, v] of Object.entries(properties)) wrap.style.setProperty(k, v);
@@ -461,7 +461,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
                         backgroundBlendMode: 'color-dodge, normal, normal, normal',
                         boxShadow:
                             'rgba(0, 0, 0, 0.8) calc((var(--pointer-from-left) * 10px) - 3px) calc((var(--pointer-from-top) * 20px) - 6px) 20px -5px',
-                        transition: 'transform 1s ease',
+                        transition: 'transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)',
                         transform: 'translateZ(0) rotateX(0deg) rotateY(0deg)',
                         background: 'rgba(0, 0, 0, 0.9)',
                         backfaceVisibility: 'hidden'
@@ -475,7 +475,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
                         if (shell?.classList.contains('entering')) {
                             e.currentTarget.style.transition = 'transform 180ms ease-out';
                         } else {
-                            e.currentTarget.style.transition = 'transform 1s ease';
+                            e.currentTarget.style.transition = 'transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)';
                         }
                         e.currentTarget.style.transform = 'translateZ(0) rotateX(0deg) rotateY(0deg)';
                     }}

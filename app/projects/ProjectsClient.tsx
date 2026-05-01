@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef, useMemo, memo } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import Link from 'next/link';
 import { projects, TECH_META } from '@/lib/data/projects';
+import Tilt from "react-parallax-tilt";
 import { Project } from '@/types/project';
 import RevealText from '@/components/ui/RevealText';
 import { certificates } from '@/lib/data/certificates';
@@ -107,103 +108,116 @@ const ProjectCard = memo(({ project, isFeatured }: { project: Project; isFeature
   const header = CARD_HEADERS[project.slug] || CARD_HEADERS['ecommerce-rest-api'];
 
   return (
-    <motion.div
-      layout
-      initial={{ opacity: 0, y: 24 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.95 }}
-      transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
-      whileHover={{ y: -6 }}
-      className={`group relative flex flex-col rounded-3xl overflow-hidden border border-[var(--border-primary)] bg-[var(--card-bg)] transition-all duration-300 hover:shadow-2xl hover:shadow-[var(--accent-primary)]/10 hover:border-[var(--accent-primary)]/25 ${isFeatured ? 'md:col-span-2 md:flex-row' : ''
-        }`}
+    <Tilt
+      tiltMaxAngleX={8}
+      tiltMaxAngleY={8}
+      perspective={1000}
+      scale={1}
+      transitionSpeed={1000}
+      glareEnable={true}
+      glareMaxOpacity={0.1}
+      glareColor="white"
+      glarePosition="all"
+      glareBorderRadius="1.5rem"
+      className={isFeatured ? 'md:col-span-2' : ''}
     >
-      {/* ── Visual Card Header ──────────────────────────── */}
-      <div
-        className={`relative overflow-hidden flex items-center justify-center ${isFeatured ? 'md:w-2/5' : ''}`}
-        style={{
-          height: isFeatured ? '100%' : '160px',
-          minHeight: isFeatured ? '220px' : '160px',
-          background: header.gradient,
-        }}
+      <motion.div
+        layout
+        initial={{ opacity: 0, y: 24 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95 }}
+        transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
+        className={`group relative flex flex-col h-full rounded-3xl overflow-hidden border border-[rgba(255,255,255,0.1)] dark:bg-[rgba(255,255,255,0.05)] bg-[rgba(0,0,0,0.03)] backdrop-blur-[10px] transition-all duration-300 hover:border-[var(--accent-primary)]/40 hover:shadow-2xl ${isFeatured ? 'md:flex-row' : ''
+          }`}
       >
-        {/* Accent top line */}
-        <div style={{
-          position: 'absolute', top: 0, left: 0, right: 0, height: '2px',
-          background: `linear-gradient(90deg, transparent, ${header.accent}, transparent)`,
-        }} />
+        {/* ── Visual Card Header ──────────────────────────── */}
+        <div
+          className={`relative overflow-hidden flex items-center justify-center ${isFeatured ? 'md:w-2/5' : ''}`}
+          style={{
+            height: isFeatured ? '100%' : '160px',
+            minHeight: isFeatured ? '220px' : '160px',
+            background: header.gradient,
+          }}
+        >
+          {/* Accent top line */}
+          <div style={{
+            position: 'absolute', top: 0, left: 0, right: 0, height: '2px',
+            background: `linear-gradient(90deg, transparent, ${header.accent}, transparent)`,
+          }} />
 
-        {/* Category label badge */}
-        <span style={{
-          position: 'absolute', top: '12px', right: '12px',
-          padding: '4px 10px', borderRadius: '9999px',
-          background: `rgba(255,255,255,0.08)`,
-          border: `1px solid ${header.accent}55`,
-          color: header.accent,
-          fontSize: '10px',
-          fontWeight: '700',
-          letterSpacing: '0.15em',
-          textTransform: 'uppercase',
-        }}>
-          {header.label}
-        </span>
-
-        {/* Large category icon, decorative */}
-        <div style={{ opacity: 0.1, color: 'white' }} className="group-hover:opacity-[0.15] transition-opacity duration-500">
-          <ProjectHeaderIcon category={project.category} />
-        </div>
-
-        {/* Bottom glow */}
-        <div style={{
-          position: 'absolute', bottom: 0, left: 0, right: 0, height: '40px',
-          background: `linear-gradient(to top, ${header.accent}12, transparent)`,
-        }} />
-      </div>
-
-      {/* ── Content Section ─────────────────────────────── */}
-      <div className={`flex-1 p-8 lg:p-10 flex flex-col ${isFeatured ? 'md:justify-center' : ''}`}>
-        <div className="flex items-center justify-between mb-4">
-          <span className="text-[0.6rem] font-bold uppercase tracking-[0.2em] text-[var(--text-muted)]">
-            {project.category}
+          {/* Category label badge */}
+          <span style={{
+            position: 'absolute', top: '12px', right: '12px',
+            padding: '4px 10px', borderRadius: '9999px',
+            background: `rgba(255,255,255,0.08)`,
+            border: `1px solid ${header.accent}55`,
+            color: header.accent,
+            fontSize: '10px',
+            fontWeight: '700',
+            letterSpacing: '0.15em',
+            textTransform: 'uppercase',
+          }}>
+            {header.label}
           </span>
-          <span className="text-[0.6rem] font-mono text-[var(--text-muted)]">
-            {project.completedAt?.split('-')[0] || '2024'}
-          </span>
-        </div>
 
-        <h3 className="text-xl lg:text-2xl font-bold text-[var(--text-primary)] mb-4 group-hover:text-[var(--accent-primary)] transition-colors duration-300">
-          {project.title}
-        </h3>
-
-        <p className="text-sm lg:text-base text-[var(--text-secondary)] leading-relaxed mb-8 line-clamp-3 opacity-80 group-hover:opacity-100 transition-opacity">
-          {project.shortDescription}
-        </p>
-
-        <div className="mt-auto space-y-6">
-          <div className="flex flex-wrap gap-1.5">
-            {project.techStack.slice(0, isFeatured ? 6 : 4).map(tech => (
-              <TechBadge key={tech} tech={tech} />
-            ))}
-            {project.techStack.length > (isFeatured ? 6 : 4) && (
-              <span className="text-[0.65rem] text-[var(--text-muted)] flex items-center px-1">
-                +{project.techStack.length - (isFeatured ? 6 : 4)}
-              </span>
-            )}
+          {/* Large category icon, decorative */}
+          <div style={{ opacity: 0.1, color: 'white' }} className="group-hover:opacity-[0.15] transition-opacity duration-500">
+            <ProjectHeaderIcon category={project.category} />
           </div>
 
-          <Link
-            href={`/projects/${project.slug}`}
-            className="inline-flex items-center gap-2 text-[0.7rem] font-bold uppercase tracking-widest text-[var(--text-primary)] group/link"
-          >
-            Explore System
-            <span className="w-5 h-5 rounded-full bg-[var(--bg-tertiary)] flex items-center justify-center group-hover/link:bg-[var(--accent-primary)] group-hover/link:text-white transition-all duration-300">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M5 12h14m-7-7 7 7-7 7" />
-              </svg>
-            </span>
-          </Link>
+          {/* Bottom glow */}
+          <div style={{
+            position: 'absolute', bottom: 0, left: 0, right: 0, height: '40px',
+            background: `linear-gradient(to top, ${header.accent}12, transparent)`,
+          }} />
         </div>
-      </div>
-    </motion.div>
+
+        {/* ── Content Section ─────────────────────────────── */}
+        <div className={`flex-1 p-8 lg:p-10 flex flex-col ${isFeatured ? 'md:justify-center' : ''}`}>
+          <div className="flex items-center justify-between mb-4">
+            <span className="text-[0.6rem] font-bold uppercase tracking-[0.2em] text-[var(--text-muted)]">
+              {project.category}
+            </span>
+            <span className="text-[0.6rem] font-mono text-[var(--text-muted)]">
+              {project.completedAt?.split('-')[0] || '2024'}
+            </span>
+          </div>
+
+          <h3 className="text-xl lg:text-2xl font-bold text-[var(--text-primary)] mb-4 group-hover:text-[var(--accent-primary)] transition-colors duration-300">
+            {project.title}
+          </h3>
+
+          <p className="text-sm lg:text-base text-[var(--text-secondary)] leading-relaxed mb-8 line-clamp-3 opacity-80 group-hover:opacity-100 transition-opacity">
+            {project.shortDescription}
+          </p>
+
+          <div className="mt-auto space-y-6">
+            <div className="flex flex-wrap gap-1.5">
+              {project.techStack.slice(0, isFeatured ? 6 : 4).map(tech => (
+                <TechBadge key={tech} tech={tech} />
+              ))}
+              {project.techStack.length > (isFeatured ? 6 : 4) && (
+                <span className="text-[0.65rem] text-[var(--text-muted)] flex items-center px-1">
+                  +{project.techStack.length - (isFeatured ? 6 : 4)}
+                </span>
+              )}
+            </div>
+
+            <Link
+              href={`/projects/${project.slug}`}
+              className="inline-flex items-center gap-2 text-[0.7rem] font-bold uppercase tracking-widest text-[var(--text-primary)] group/link"
+            >
+              Explore System
+              <span className="w-5 h-5 rounded-full bg-[var(--bg-tertiary)] flex items-center justify-center group-hover/link:bg-[var(--accent-primary)] group-hover/link:text-white transition-all duration-300">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M5 12h14m-7-7 7 7-7 7" />
+                </svg>
+              </span>
+            </Link>
+          </div>
+        </div>
+      </motion.div>
+    </Tilt>
   );
 });
 ProjectCard.displayName = 'ProjectCard';
@@ -404,33 +418,51 @@ export default function ProjectsClient({ projects, categories, totalTechs }: Pro
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: idx * 0.05 }}
-                  className="group bg-[var(--card-bg)] rounded-2xl p-8 border border-[var(--border-primary)] hover:border-[var(--accent-primary)]/30 transition-all shadow-sm hover:shadow-xl"
+                  className="h-full"
                 >
-                  <div className="flex items-center justify-between mb-6">
-                    <span className="text-[0.6rem] font-mono text-[var(--text-muted)] uppercase tracking-widest">{cert.date}</span>
-                  </div>
-                  <h4 className="text-lg font-bold text-[var(--text-primary)] mb-2 group-hover:text-[var(--accent-primary)] transition-colors">{cert.title}</h4>
-                  <p className="text-[0.7rem] font-bold uppercase tracking-widest text-[var(--accent-primary)] mb-6 opacity-80">{cert.issuer}</p>
+                  <Tilt
+                    tiltMaxAngleX={12}
+                    tiltMaxAngleY={12}
+                    perspective={1000}
+                    scale={1}
+                    transitionSpeed={1000}
+                    glareEnable={true}
+                    glareMaxOpacity={0.1}
+                    glareColor="white"
+                    glarePosition="all"
+                    glareBorderRadius="1.5rem"
+                    className="h-full"
+                  >
+                    <div className="group h-full bg-[rgba(255,255,255,0.03)] dark:bg-[rgba(255,255,255,0.05)] backdrop-blur-[10px] rounded-3xl p-8 border border-[rgba(255,255,255,0.1)] hover:border-[var(--accent-primary)]/40 transition-all duration-300 shadow-sm hover:shadow-2xl flex flex-col">
+                      <div className="flex items-center justify-between mb-6">
+                        <span className="text-[0.6rem] font-mono text-[var(--text-muted)] uppercase tracking-widest">{cert.date}</span>
+                      </div>
+                      <h4 className="text-lg font-bold text-[var(--text-primary)] mb-2 group-hover:text-[var(--accent-primary)] transition-colors">{cert.title}</h4>
+                      <p className="text-[0.7rem] font-bold uppercase tracking-widest text-[var(--accent-primary)] mb-6 opacity-80">{cert.issuer}</p>
 
-                  <div className="flex flex-wrap gap-2 mb-8">
-                    {cert.tags.map(tag => (
-                      <span key={tag} className="px-2 py-0.5 rounded bg-[var(--bg-tertiary)] text-[var(--text-muted)] text-[0.55rem] font-bold uppercase tracking-tighter">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
+                      <div className="flex flex-wrap gap-2 mb-8">
+                        {cert.tags.map(tag => (
+                          <span key={tag} className="px-2 py-0.5 rounded bg-[var(--bg-tertiary)] text-[var(--text-muted)] text-[0.55rem] font-bold uppercase tracking-tighter">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
 
-                  {cert.credentialUrl && (
-                    <a
-                      href={cert.credentialUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[0.65rem] font-black uppercase tracking-widest text-[var(--text-primary)] inline-flex items-center gap-2 group/link"
-                    >
-                      Verify Link
-                      <span className="group-hover/link:translate-x-1 transition-transform">→</span>
-                    </a>
-                  )}
+                      {cert.credentialUrl && (
+                        <div className="mt-auto">
+                          <a
+                            href={cert.credentialUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[0.65rem] font-black uppercase tracking-widest text-[var(--text-primary)] inline-flex items-center gap-2 group/link"
+                          >
+                            Verify Link
+                            <span className="group-hover/link:translate-x-1 transition-transform">→</span>
+                          </a>
+                        </div>
+                      )}
+                    </div>
+                  </Tilt>
                 </motion.div>
               ))}
             </motion.div>

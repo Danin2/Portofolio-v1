@@ -13,32 +13,40 @@ interface TimelineItem {
 
 const timeline: TimelineItem[] = [
   {
+    year: '2026',
+    title: 'Available Now',
+    description: 'Menerima project dan kolaborasi baru. Fokus pada high-scale system design dan optimasi backend.',
+    technologies: ['System Design', 'Consulting', 'Architecture'],
+  },
+  {
+    year: '2025',
+    title: 'Open Source Contribution',
+    description: 'Kontribusi ke project open source dan membangun library internal untuk optimasi performa backend.',
+    technologies: ['Open Source', 'Node.js', 'Go'],
+  },
+  {
     year: '2024',
-    title: 'Backend Engineer',
-    company: 'Fintech Solutions',
-    description: 'Architecting mission-critical microservices and robust API layers. Implemented advanced caching mechanisms and database optimizations that scaled system capacity by 300%.',
-    technologies: ['Node.js', 'PostgreSQL', 'Redis', 'Kubernetes'],
+    title: 'Systems Architecture',
+    description: 'Eksplorasi dan implementasi Docker, Redis, dan microservices untuk sistem yang lebih resilient.',
+    technologies: ['Docker', 'Redis', 'Microservices', 'K8s'],
   },
   {
     year: '2023',
-    title: 'Systems Developer',
-    company: 'CloudScale Inc',
-    description: 'Engineered high-throughput data processing pipelines and event-driven architectures. Led the migration of legacy monoliths to modern distributed systems.',
-    technologies: ['Go', 'TypeScript', 'PostgreSQL', 'Docker'],
+    title: 'Full-Stack Expansion',
+    description: 'Eksplorasi React dan TypeScript untuk membangun interface yang sebanding dengan kualitas backend.',
+    technologies: ['React', 'Next.js', 'TypeScript', 'Tailwind'],
+  },
+  {
+    year: '2023',
+    title: 'First API Project',
+    description: 'Membangun REST API pertama dengan PostgreSQL. Fokus pada skema database dan keamanan data.',
+    technologies: ['Node.js', 'PostgreSQL', 'Express'],
   },
   {
     year: '2022',
-    title: 'Backend Specialist',
-    company: 'Alpha Digital',
-    description: 'Developed scalable REST and GraphQL APIs for enterprise-grade applications. Focused on implementing secure authentication flows and complex business logic.',
-    technologies: ['Node.js', 'Express', 'MongoDB', 'AWS'],
-  },
-  {
-    year: '2021',
-    title: 'Associate Developer',
-    company: 'StartUp Hub',
-    description: 'Initiated technical foundations for early-stage ventures. Built foundational CRUD services and integrated third-party payment gateways.',
-    technologies: ['JavaScript', 'MySQL', 'Git', 'Linux'],
+    title: 'Started Backend Journey',
+    description: 'Mulai belajar Node.js dan Express.js. Memahami dasar-dasar server-side programming.',
+    technologies: ['JavaScript', 'Node.js', 'Express'],
   },
 ];
 

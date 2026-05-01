@@ -178,6 +178,24 @@ export default function AboutClient({ values }: AboutClientProps) {
                   ))}
                 </div>
 
+                {/* Download CV Button (Task 4) */}
+                <div className="pt-8">
+                  <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                    <a 
+                      href="/assets/cv/resume-placeholder.pdf" 
+                      target="_blank"
+                      className="inline-flex items-center gap-4 px-8 py-4 bg-[var(--bg-secondary)] border border-[var(--border-primary)] rounded-2xl text-[var(--text-primary)] hover:border-[var(--accent-primary)] hover:bg-[var(--accent-primary)]/5 transition-all group"
+                    >
+                      <LucideIcons.Download className="w-5 h-5 text-[var(--accent-primary)] group-hover:translate-y-1 transition-transform" />
+                      <div className="text-left">
+                        <span className="block text-[0.6rem] font-black uppercase tracking-widest text-[var(--text-muted)]">Download Dossier</span>
+                        <span className="block text-sm font-bold">Curriculum Vitae</span>
+                      </div>
+                    </a>
+                    <p className="mt-3 text-[10px] text-[var(--text-muted)] font-mono uppercase tracking-widest pl-2">Last updated: Jan 2026</p>
+                  </motion.div>
+                </div>
+
                 <div className="pt-8 grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-8">
                   {glanceDetails.map((item) => (
                     <div key={item.label} className="group border-b border-[var(--border-primary)] pb-4 hover:border-[var(--accent-primary)]/50 transition-colors">
@@ -209,14 +227,17 @@ export default function AboutClient({ values }: AboutClientProps) {
 
             <div className="lg:col-span-8 grid md:grid-cols-2 gap-8">
               {values.map((val, idx) => {
-                const accentBorders = [
-                  'border-l-[#6C8EBF]',
-                  'border-l-[#4A6D9C]',
-                  'border-l-[#334155]',
-                  'border-l-[#94A3B8]',
-                  'border-l-[#64748B]',
-                  'border-l-[#475569]',
-                ];
+                const config = [
+                  { icon: 'Code', accent: '#38BDF8', label: 'Clean Code' },
+                  { icon: 'ShieldCheck', accent: '#F87171', label: 'Security First' },
+                  { icon: 'Zap', accent: '#FACC15', label: 'Performance' },
+                  { icon: 'Beaker', accent: '#4ADE80', label: 'Testing' },
+                  { icon: 'FileText', accent: '#C084FC', label: 'Documentation' },
+                  { icon: 'RefreshCw', accent: '#22D3EE', label: 'Continuous Learning' },
+                ][idx] || { icon: 'Star', accent: 'var(--accent-primary)' };
+
+                const Icon = getLucideIcon(config.icon) as LucideIcons.LucideIcon;
+
                 return (
                   <motion.div
                     key={idx}
@@ -224,29 +245,40 @@ export default function AboutClient({ values }: AboutClientProps) {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: idx * 0.08, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                    whileHover={{ y: -4 }}
-                    className={`relative p-8 rounded-3xl bg-[var(--bg-primary)] border border-[var(--border-primary)] border-l-[3px] ${accentBorders[idx]} hover:border-l-[5px] transition-all duration-300 group overflow-hidden hover:shadow-xl`}
+                    whileHover={{ y: -8 }}
+                    className="relative p-10 rounded-[2.5rem] bg-[var(--bg-primary)] border border-[var(--border-primary)] group overflow-hidden hover:shadow-2xl transition-all duration-500"
                   >
+                    {/* Floating Glow */}
+                    <div 
+                      className="absolute -top-24 -right-24 w-48 h-48 rounded-full opacity-0 group-hover:opacity-10 transition-opacity duration-700 blur-[60px]"
+                      style={{ backgroundColor: config.accent }}
+                    />
+                    
+                    {/* Left Border Accent */}
+                    <div 
+                      className="absolute left-0 top-1/4 bottom-1/4 w-1 rounded-full transition-all duration-500 group-hover:top-8 group-hover:bottom-8 group-hover:w-1.5"
+                      style={{ backgroundColor: config.accent }}
+                    />
+
                     <span
-                      className="absolute top-2 left-3 font-black text-[var(--text-primary)] select-none pointer-events-none leading-none"
-                      style={{ fontSize: '5.5rem', opacity: 0.05, lineHeight: 1 }}
+                      className="absolute top-2 left-6 font-black text-[var(--text-primary)] select-none pointer-events-none leading-none"
+                      style={{ fontSize: '6rem', opacity: 0.03, lineHeight: 1 }}
                       aria-hidden="true"
                     >
                       {String(idx + 1).padStart(2, '0')}
                     </span>
 
-                    {(() => {
-                      const Icon = getLucideIcon(val.icon) as LucideIcons.LucideIcon;
-                      return Icon ? (
-                        <div className="w-12 h-12 rounded-2xl bg-[var(--bg-tertiary)] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform relative z-10" style={{ color: 'var(--accent-primary)' }}>
-                          <Icon size={22} />
-                        </div>
-                      ) : null;
-                    })()}
-                    <h3 className="font-bold text-lg mb-4 text-[var(--text-primary)] uppercase tracking-widest relative z-10">
+                    <div 
+                      className="w-16 h-16 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 relative z-10" 
+                      style={{ backgroundColor: `${config.accent}15`, color: config.accent }}
+                    >
+                      {Icon && <Icon size={28} />}
+                    </div>
+                    
+                    <h3 className="font-black text-xl mb-4 text-[var(--text-primary)] uppercase tracking-tight relative z-10 group-hover:text-[var(--accent-primary)] transition-colors">
                       {val.title}
                     </h3>
-                    <p className="text-sm text-[var(--text-secondary)] leading-relaxed opacity-80 group-hover:opacity-100 transition-opacity relative z-10">
+                    <p className="text-sm text-[var(--text-secondary)] leading-relaxed opacity-70 group-hover:opacity-100 transition-opacity relative z-10">
                       {val.description}
                     </p>
                   </motion.div>

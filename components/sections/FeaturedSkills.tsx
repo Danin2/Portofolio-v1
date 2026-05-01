@@ -25,7 +25,8 @@ const skills = [
   {
     title: "Project Architecture",
     description: "Scalable Systems & Infrastructure",
-    icon: <Box className="w-10 h-10" />,
+    techs: ["Microservices", "Docker", "K8s"],
+    icon: <Layers className="w-10 h-10" />,
     color: "from-[#8BA9D6] to-[#475569]", 
     src: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2000&auto=format&fit=crop",
     ctaText: "Full Specs",
@@ -61,6 +62,7 @@ const skills = [
   {
     title: "Database Engineering",
     description: "High-Performance Data Storage",
+    techs: ["PostgreSQL", "Redis", "MongoDB"],
     icon: <Database className="w-8 h-8" />,
     color: "from-[#475569] to-[#2D3748]",
     src: "https://images.unsplash.com/photo-1544383835-bda2bc66a55d?q=80&w=2000&auto=format&fit=crop",
@@ -82,7 +84,8 @@ const skills = [
   {
     title: "Modern Tooling",
     description: "Lightning Fast Workflow",
-    icon: <Zap className="w-8 h-8 text-[#8BA9D6]" />,
+    techs: ["Vite", "ESBuild", "Vitest"],
+    icon: <Terminal className="w-8 h-8 text-[#8BA9D6]" />,
     color: "from-[#8BA9D6] to-[#2D3748]",
     src: "https://images.unsplash.com/photo-1516116216624-53e697fedbea?q=80&w=2000&auto=format&fit=crop",
     content: () => (
@@ -108,6 +111,7 @@ const skills = [
   {
     title: "Backend API",
     description: "Type-Safe Robust Foundation",
+    techs: ["Node.js", "Express", "NestJS"],
     icon: <Server className="w-8 h-8" />,
     color: "from-[#2D3748] to-[#8BA9D6]",
     src: "https://images.unsplash.com/photo-1558494949-ef010cbdcc4b?q=80&w=2000&auto=format&fit=crop",
@@ -129,6 +133,7 @@ const skills = [
   {
     title: "Security & Auth",
     description: "Identity & Data Hardening",
+    techs: ["JWT", "OAuth2", "RBAC"],
     icon: <Shield className="w-8 h-8" />,
     color: "from-[#8BA9D6] to-[#1A202C]",
     src: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2000&auto=format&fit=crop",
@@ -150,7 +155,8 @@ const skills = [
   {
     title: "QA & Testing",
     description: "Stability & Zero-Regression",
-    icon: <CheckCircle className="w-8 h-8" />,
+    techs: ["Vitest", "Playwright", "CI/CD"],
+    icon: <Cpu className="w-8 h-8" />,
     color: "from-[#1A202C] to-[#8BA9D6]",
     src: "https://images.unsplash.com/photo-1551288049-bbbda536639a?q=80&w=2000&auto=format&fit=crop",
     content: () => (
@@ -369,6 +375,15 @@ const FeaturedSkills = () => {
                       >
                         {card.description}
                       </motion.p>
+                      
+                      {/* Concrete Technologies (Task 4) */}
+                      <div className="flex flex-wrap gap-2 mt-4">
+                        {card.techs?.map(tech => (
+                          <span key={tech} className="text-[0.55rem] font-black uppercase tracking-widest text-[var(--accent-purple)] bg-[var(--accent-purple)]/5 px-2 py-1 rounded-md border border-[var(--accent-purple)]/10 group-hover:border-[var(--accent-purple)]/30 transition-all">
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
                     </header>
 
                     <footer className="mt-10 flex items-center justify-between">

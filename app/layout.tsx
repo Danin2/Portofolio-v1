@@ -6,6 +6,8 @@ import Navigation from '@/components/layout/Navigation'
 import ClientProviders from '@/components/ui/ClientProviders'
 import ScrollProgress from '@/components/ui/ScrollProgress'
 import BackToTop from '@/components/ui/BackToTop'
+import CustomCursor from '@/components/ui/CustomCursor'
+import PageTransition from '@/components/ui/PageTransition'
 
 
 const inter = Inter({
@@ -22,71 +24,35 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: 'Backend Developer Portfolio | Node.js & TypeScript Expert',
-    template: '%s | Backend Developer Portfolio',
+    default: 'Muhammad Danindra I | Backend Systems Architect',
+    template: '%s | Muhammad Danindra I',
   },
-  description: 'Professional backend developer specializing in Node.js, TypeScript, PostgreSQL, REST APIs, and scalable system architecture. Building robust, maintainable backend solutions.',
+  description: 'Professional backend developer specializing in Node.js, TypeScript, PostgreSQL, and scalable system architecture.',
   keywords: [
     'Backend Developer',
     'Node.js',
     'TypeScript',
     'PostgreSQL',
-    'REST API',
     'System Architecture',
-    'Express.js',
-    'Database Design',
-    'Microservices',
-    'API Development',
+    'MasDani',
   ],
-  authors: [{ name: 'Your Name' }],
-  creator: 'Your Name',
-  publisher: 'Your Name',
-  formatDetection: {
-    email: false,
-    address: false,
-    telephone: false,
-  },
-  metadataBase: new URL('https://yourwebsite.com'), // ← Ganti dengan domain Anda
-  alternates: {
-    canonical: '/',
-  },
+  authors: [{ name: 'Muhammad Danindra I' }],
+  creator: 'Muhammad Danindra I',
+  publisher: 'Muhammad Danindra I',
+  metadataBase: new URL('https://danindra.dev'),
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://yourwebsite.com',
-    title: 'Backend Developer Portfolio | Node.js & TypeScript Expert',
+    url: 'https://danindra.dev',
+    title: 'Muhammad Danindra I | Backend Systems Architect',
     description: 'Professional backend developer specializing in Node.js, TypeScript, and scalable system architecture.',
-    siteName: 'Backend Developer Portfolio',
-    images: [
-      {
-        url: '/og-image.jpg', // Buat image ini nanti (1200x630px)
-        width: 1200,
-        height: 630,
-        alt: 'Backend Developer Portfolio',
-      },
-    ],
+    siteName: 'Muhammad Danindra I Portfolio',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Backend Developer Portfolio',
+    title: 'Muhammad Danindra I | Backend Systems Architect',
     description: 'Professional backend developer specializing in Node.js and TypeScript',
-    creator: '@yourusername', // ← Ganti dengan Twitter handle Anda
-    images: ['/og-image.jpg'],
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
-  verification: {
-    google: 'your-google-verification-code', // Akan dikasih Google Search Console
-    // yandex: 'your-yandex-verification-code',
+    creator: '@danindra',
   },
 }
 
@@ -118,10 +84,15 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-[var(--bg-primary)] text-[var(--text-primary)] font-sans antialiased">
+        <CustomCursor />
         <ScrollProgress />
         <ClientProviders>
           <Navigation />
-          <main>{children}</main>
+          <main className="relative z-10">
+            <PageTransition>
+              {children}
+            </PageTransition>
+          </main>
           <Footer />
           <BackToTop />
         </ClientProviders>

@@ -30,10 +30,16 @@ export default function TechMarquee() {
   const items = techStack.map((tech, i) => {
     const Icon = tech.icon;
     return (
-      <span key={i} className="inline-flex items-center gap-2 mx-4">
-        <Icon style={{ color: tech.color, opacity: 0.7 }} className="text-xl shrink-0" />
+      <span key={i} className="inline-flex items-center gap-3 mx-8 group cursor-default">
+        <div className="relative">
+          <Icon 
+            style={{ color: tech.color }} 
+            className="text-2xl shrink-0 opacity-70 group-hover:opacity-100 group-hover:scale-125 transition-all duration-500" 
+          />
+          <div className="absolute inset-0 blur-lg opacity-0 group-hover:opacity-40 transition-opacity duration-500" style={{ backgroundColor: tech.color }} />
+        </div>
         <span
-          className="font-mono font-bold uppercase tracking-widest text-[var(--text-secondary)] text-xs"
+          className="font-mono font-black uppercase tracking-[0.2em] text-[var(--text-muted)] text-[0.65rem] group-hover:text-[var(--text-primary)] transition-colors duration-300"
         >
           {tech.label}
         </span>

@@ -10,20 +10,14 @@ interface Skill {
 }
 
 const skillsData: Skill[] = [
-  { name: 'Node.js',      level: 95, category: 'Backend' },
-  { name: 'TypeScript',   level: 90, category: 'Backend' },
-  { name: 'PostgreSQL',   level: 88, category: 'Backend' },
-  { name: 'Redis',        level: 85, category: 'Backend' },
-  { name: 'NestJS',       level: 85, category: 'Frameworks' },
-  { name: 'Express.js',   level: 92, category: 'Frameworks' },
-  { name: 'Fastify',      level: 80, category: 'Frameworks' },
-  { name: 'Docker',       level: 85, category: 'DevOps' },
-  { name: 'Kubernetes',   level: 75, category: 'DevOps' },
-  { name: 'AWS',          level: 80, category: 'DevOps' },
-  { name: 'CI/CD',        level: 82, category: 'DevOps' },
-  { name: 'Unit Testing', level: 90, category: 'Testing' },
-  { name: 'Integration',  level: 85, category: 'Testing' },
-  { name: 'Load Testing', level: 78, category: 'Testing' },
+  { name: 'Node.js',      level: 90, category: 'Backend' },
+  { name: 'TypeScript',   level: 85, category: 'Backend' },
+  { name: 'PostgreSQL',   level: 80, category: 'Database' },
+  { name: 'Redis',        level: 70, category: 'Database' },
+  { name: 'NestJS',       level: 75, category: 'Frameworks' },
+  { name: 'GraphQL',      level: 65, category: 'API' },
+  { name: 'Docker',       level: 75, category: 'DevOps' },
+  { name: 'System Design', level: 80, category: 'Architecture' },
 ];
 
 const categories = Array.from(new Set(skillsData.map(s => s.category)));

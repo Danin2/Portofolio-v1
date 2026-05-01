@@ -37,78 +37,63 @@ const contactInfo = [
     value: 'danindra@danindra.dev',
     icon: <MailIcon />,
     href: 'mailto:danindra@danindra.dev',
+    helper: 'Direct transmission line'
   },
   {
     label: 'Connect',
     value: 'linkedin.com/in/danindra',
     icon: <LinkedInIcon />,
     href: 'https://linkedin.com/in/danindra',
+    helper: 'Professional network'
   },
   {
     label: 'Location',
-    value: 'Jakarta, Indonesia 🇮🇩',
+    value: 'Jakarta, Indonesia',
     icon: <MapPinIcon />,
     href: undefined,
+    helper: 'WIB (UTC+7)'
   },
 ];
 
 // ─── Availability Status Card ─────────────────────────────────────────────────
 function AvailabilityCard() {
   return (
-    <div className="rounded-2xl p-6 border border-[var(--accent-primary)]/20 bg-[var(--accent-primary)]/5 backdrop-blur-sm shadow-sm">
-      {/* Status Row */}
-      <div className="flex items-center gap-3 mb-4">
-        <span className="relative flex h-2.5 w-2.5">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--accent-primary)] opacity-75" />
-          <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[var(--accent-primary)]" />
-        </span>
-        <span className="text-sm font-bold text-[var(--text-primary)]">Available for projects</span>
-      </div>
-
-      {/* Type tags */}
-      <div className="flex flex-wrap gap-2 mb-5">
-        {['Backend · API', 'System Architecture', 'Consulting'].map(tag => (
-          <span
-            key={tag}
-            className="px-2.5 py-1 rounded-full text-[0.6rem] font-black uppercase tracking-widest border border-[var(--accent-primary)]/30 text-[var(--accent-primary)] bg-[var(--accent-primary)]/10"
-          >
-            {tag}
+    <div className="rounded-[2rem] p-8 border border-[var(--border-primary)] bg-[var(--bg-secondary)]/40 backdrop-blur-xl shadow-xl group hover:border-[var(--accent-primary)]/30 transition-all duration-500">
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-3">
+          <span className="relative flex h-3 w-3">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75" />
+            <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500" />
           </span>
-        ))}
+          <span className="text-[0.65rem] font-black uppercase tracking-[0.2em] text-[var(--text-primary)]">System Status</span>
+        </div>
+        <span className="text-[0.55rem] font-mono text-[var(--text-muted)] font-bold">ACT_01</span>
       </div>
-
-      {/* Response time */}
-      <p className="text-[0.7rem] text-[var(--text-muted)] flex items-center gap-2">
-        <span className="text-[var(--accent-primary)]">⚡</span>
-        Usually responds within <span className="font-bold text-[var(--text-secondary)]">24 hours</span>
+      
+      <h3 className="text-xl font-black text-[var(--text-primary)] mb-2">Available for Projects</h3>
+      <p className="text-sm text-[var(--text-secondary)] opacity-80 leading-relaxed mb-6">
+        Open to new projects and technical collaborations. Ready to architect resilient systems.
       </p>
 
-      {/* Availability Badges */}
-      <div className="flex gap-2 mt-4">
-        {['Open to Freelance', 'Open to Full-time'].map(badge => (
-          <span
-            key={badge}
-            className="px-2.5 py-1 rounded-full text-[0.55rem] font-black uppercase tracking-widest bg-[var(--bg-tertiary)]/50 text-[var(--text-muted)] border border-[var(--border-primary)]"
-          >
-            {badge}
-          </span>
-        ))}
+      <div className="space-y-3 border-t border-[var(--border-primary)] pt-6">
+        <div className="flex items-center justify-between text-[0.65rem]">
+          <span className="text-[var(--text-muted)] font-bold uppercase tracking-widest">Timezone</span>
+          <span className="text-[var(--text-primary)] font-mono">WIB (UTC+7)</span>
+        </div>
+        <div className="flex items-center justify-between text-[0.65rem]">
+          <span className="text-[var(--text-muted)] font-bold uppercase tracking-widest">Response</span>
+          <span className="text-[var(--accent-primary)] font-mono font-bold">&lt; 24H</span>
+        </div>
       </div>
     </div>
   );
 }
 
-// ─── What I Offer ─────────────────────────────────────────────────────────────
-const offerings = [
-  '🏗️  Scalable API & microservice architecture',
-  '🔒  Security-first backend engineering',
-  '⚡  Performance tuning & query optimization',
-];
-
 // ─── Main Component ───────────────────────────────────────────────────────────
 export default function ContactClient() {
   const spotlightRef = useRef<HTMLDivElement>(null);
   const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'success'>('idle');
+  const [focusedField, setFocusedField] = useState<string | null>(null);
 
   useEffect(() => {
     const onMouseMove = (e: MouseEvent) => {
@@ -128,54 +113,45 @@ export default function ContactClient() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setFormStatus('sending');
-    setTimeout(() => setFormStatus('success'), 2000);
+    setTimeout(() => {
+      setFormStatus('success');
+      // Toast notification would be triggered here
+    }, 2000);
   };
 
   return (
-    <div className="min-h-screen bg-[var(--bg-primary)] relative overflow-hidden flex flex-col items-center justify-center pt-32 pb-20">
+    <div className="min-h-screen bg-[var(--bg-primary)] relative overflow-hidden flex flex-col pt-32 pb-20">
       
+      {/* ── Ambient Background Blobs ── */}
+      <div className="absolute top-[10%] left-[-5%] w-[500px] h-[500px] rounded-full pointer-events-none opacity-[0.06] blur-[120px] bg-[var(--accent-primary)] animate-pulse" />
+      <div className="absolute bottom-[10%] right-[-5%] w-[400px] h-[400px] rounded-full pointer-events-none opacity-[0.04] blur-[100px] bg-[var(--accent-secondary)]" />
+
       {/* ── Cursor Spotlight ── */}
       <div
         ref={spotlightRef}
-        className="pointer-events-none fixed top-0 left-0 w-[1000px] h-[1000px] -translate-x-1/2 -translate-y-1/2 z-[2] opacity-[0.12] blur-[140px]"
+        className="pointer-events-none fixed top-0 left-0 w-[800px] h-[800px] -translate-x-1/2 -translate-y-1/2 z-[2] opacity-[0.1] blur-[120px]"
         style={{
           background: 'radial-gradient(circle, var(--accent-primary) 0%, transparent 70%)',
         }}
       />
 
-      {/* ── Orb decorations ── */}
-      <div className="absolute bottom-[-10%] left-[-5%] w-[600px] h-[600px] rounded-full pointer-events-none opacity-[0.05] blur-[120px]"
-        style={{ background: 'radial-gradient(circle, var(--accent-primary) 0%, transparent 70%)' }} />
-      <div className="absolute top-[-5%] right-[-5%] w-[500px] h-[500px] rounded-full pointer-events-none opacity-[0.05] blur-[100px]"
-        style={{ background: 'radial-gradient(circle, var(--accent-secondary) 0%, transparent 70%)' }} />
-
-      {/* ── Background Effects ── */}
-      <div className="absolute inset-0 z-0">
-        <LightRays
-          raysOrigin="bottom-right"
-          raysColor="rgba(108, 142, 191, 0.4)"
-          raysSpeed={0.5}
-          lightSpread={1.5}
-        />
-      </div>
-
       <div className="container-custom relative z-10 w-full max-w-6xl px-6">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-16 lg:gap-24 items-start">
           
           {/* ──────────────────── LEFT COLUMN (40%) ──────────────────── */}
-          <div className="lg:col-span-2 space-y-12">
-            <div>
+          <div className="lg:col-span-2 space-y-16">
+            <div className="space-y-8">
               <ScrollReveal>
                 <div className="flex items-center gap-2 mb-6">
                   <span className="w-8 h-px bg-[var(--accent-primary)]" />
-                  <p className="text-[0.7rem] font-black uppercase tracking-[0.4em] text-[var(--accent-primary)]">Direct Channel</p>
+                  <p className="text-[0.7rem] font-black uppercase tracking-[0.4em] text-[var(--accent-primary)]">Secure Communication</p>
                 </div>
               </ScrollReveal>
               <RevealText
                 as="h1"
                 delay={0.1}
                 className="font-black tracking-[-0.05em] leading-[0.9] text-[var(--text-primary)] mb-8"
-                style={{ fontSize: 'clamp(3rem, 7vw, 5.5rem)' } as React.CSSProperties}
+                style={{ fontSize: 'clamp(3rem, 6vw, 5rem)' } as React.CSSProperties}
               >
                 Let's architect <br />
                 <span className="gradient-text italic font-medium">the future.</span>
@@ -194,16 +170,20 @@ export default function ContactClient() {
             </ScrollReveal>
 
             {/* Contact Info */}
-            <div className="space-y-6">
+            <div className="space-y-8">
               {contactInfo.map((item, idx) => {
                 const content = (
-                  <div className="flex items-center gap-5 group cursor-pointer">
-                    <div className="w-12 h-12 rounded-2xl border border-[var(--border-primary)] flex items-center justify-center bg-[var(--bg-secondary)] text-[var(--accent-primary)] group-hover:border-[var(--accent-primary)]/50 group-hover:bg-[var(--accent-primary)]/10 transition-all duration-500 shrink-0 shadow-sm">
+                  <div className="flex items-center gap-6 group cursor-pointer">
+                    <div className="w-14 h-14 rounded-2xl border border-[var(--border-primary)] flex items-center justify-center bg-[var(--bg-secondary)] text-[var(--accent-primary)] group-hover:border-[var(--accent-primary)]/50 group-hover:bg-[var(--accent-primary)]/10 group-hover:scale-110 transition-all duration-500 shrink-0 shadow-sm">
                       {item.icon}
                     </div>
                     <div>
-                      <p className="text-[0.6rem] uppercase tracking-[0.25em] text-[var(--text-muted)] font-black mb-1">{item.label}</p>
-                      <p className="text-[var(--text-primary)] font-bold text-base group-hover:text-[var(--accent-primary)] transition-colors duration-300">{item.value}</p>
+                      <p className="text-[0.6rem] uppercase tracking-[0.25em] text-[var(--text-muted)] font-black mb-1 flex items-center gap-2">
+                        {item.label}
+                        <span className="h-px w-4 bg-[var(--border-primary)] group-hover:w-8 group-hover:bg-[var(--accent-primary)]/50 transition-all duration-500" />
+                      </p>
+                      <p className="text-[var(--text-primary)] font-bold text-lg group-hover:text-[var(--accent-primary)] transition-colors duration-300">{item.value}</p>
+                      <p className="text-[0.55rem] font-mono text-[var(--text-muted)] mt-1 opacity-0 group-hover:opacity-100 transition-opacity">{item.helper}</p>
                     </div>
                   </div>
                 );
@@ -220,16 +200,28 @@ export default function ContactClient() {
               })}
             </div>
 
-            {/* What I Offer */}
-            <ScrollReveal delay={0.7}>
+            {/* Social Links Row */}
+            <ScrollReveal delay={0.8}>
               <div className="space-y-4 pt-4">
-                <p className="text-[0.65rem] font-black uppercase tracking-[0.3em] text-[var(--text-muted)]">Core Expertise</p>
-                <div className="space-y-3">
-                  {offerings.map((item, idx) => (
-                    <div key={idx} className="flex items-center gap-3 text-sm text-[var(--text-secondary)] font-medium">
-                      <span className="w-1 h-1 rounded-full bg-[var(--accent-primary)]" />
-                      {item}
-                    </div>
+                <p className="text-[0.65rem] font-black uppercase tracking-[0.3em] text-[var(--text-muted)]">Terminal Nodes</p>
+                <div className="flex gap-4">
+                  {[
+                    { icon: <LinkedInIcon />, href: 'https://linkedin.com/in/danindra', label: 'LinkedIn' },
+                    { icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>, href: 'https://github.com/danindra', label: 'GitHub' },
+                    { icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.91-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>, href: 'https://twitter.com/danindra', label: 'Twitter' }
+                  ].map((social, i) => (
+                    <motion.a
+                      key={i}
+                      whileHover={{ y: -4, scale: 1.1 }}
+                      whileTap={{ scale: 0.95 }}
+                      href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-12 h-12 rounded-xl border border-[var(--border-primary)] flex items-center justify-center bg-[var(--bg-secondary)] hover:border-[var(--accent-primary)]/50 hover:bg-[var(--accent-primary)]/10 transition-colors text-[var(--text-secondary)] hover:text-[var(--accent-primary)] shadow-sm"
+                      aria-label={social.label}
+                    >
+                      {social.icon}
+                    </motion.a>
                   ))}
                 </div>
               </div>
@@ -239,10 +231,10 @@ export default function ContactClient() {
           {/* ──────────────────── RIGHT COLUMN (60%) — Form ──────────────────── */}
           <ScrollReveal delay={0.6} xOffset={30} className="lg:col-span-3">
             <div className="relative">
-              <div className="absolute -inset-1 bg-gradient-to-r from-[var(--accent-primary)]/20 to-[var(--accent-secondary)]/10 rounded-3xl blur-2xl opacity-40 pointer-events-none" />
+              <div className="absolute -inset-1 bg-gradient-to-r from-[var(--accent-primary)]/20 to-[var(--accent-secondary)]/10 rounded-[3rem] blur-2xl opacity-40 pointer-events-none" />
               
               {/* Terminal window wrapper */}
-              <div className="relative rounded-[2.5rem] overflow-hidden border border-[var(--border-primary)] shadow-2xl bg-[var(--bg-secondary)]/60 backdrop-blur-3xl">
+              <div className="relative rounded-[2.5rem] overflow-hidden border border-[var(--border-primary)] shadow-2xl bg-[var(--bg-secondary)]/60 backdrop-blur-3xl group hover:border-[var(--accent-primary)]/20 transition-colors duration-500">
                 
                 {/* Terminal window title bar */}
                 <div className="flex items-center gap-2 px-6 py-4 bg-[var(--bg-secondary)]/80 backdrop-blur-sm border-b border-[var(--border-primary)]">
@@ -251,8 +243,9 @@ export default function ContactClient() {
                     <span className="w-3 h-3 rounded-full bg-[#FFBD2E]/80" />
                     <span className="w-3 h-3 rounded-full bg-[#27C93F]/80" />
                   </div>
-                  <span className="mx-auto text-[0.65rem] font-mono text-[var(--text-muted)] font-bold tracking-widest uppercase">
-                    danindra@system ~ secure-channel
+                  <span className="mx-auto text-[0.6rem] font-mono text-[var(--text-muted)] font-bold tracking-widest uppercase flex items-center gap-2">
+                    <span className="w-1 h-1 rounded-full bg-green-500 animate-pulse" />
+                    secure-transmission-channel
                   </span>
                 </div>
 
@@ -267,11 +260,11 @@ export default function ContactClient() {
                         exit={{ opacity: 0, scale: 0.95 }}
                         className="text-center py-16"
                       >
-                        <div className="w-20 h-20 bg-[var(--accent-primary)]/10 rounded-3xl flex items-center justify-center text-3xl mx-auto mb-8 border border-[var(--accent-primary)]/30 shadow-inner">
+                        <div className="w-20 h-20 bg-[var(--accent-primary)]/10 rounded-3xl flex items-center justify-center text-3xl mx-auto mb-8 border border-[var(--accent-primary)]/30 shadow-inner text-[var(--accent-primary)]">
                           ✓
                         </div>
                         <h3 className="text-3xl font-black text-[var(--text-primary)] mb-4 tracking-tight">Packet Delivered</h3>
-                        <p className="text-[var(--text-secondary)] mb-10 font-medium">System received your transmission. I will respond via secure channel shortly.</p>
+                        <p className="text-[var(--text-secondary)] mb-10 font-medium max-w-sm mx-auto">System received your transmission. I will respond via secure channel shortly.</p>
                         <button 
                           onClick={() => setFormStatus('idle')}
                           className="px-8 py-3 rounded-full border border-[var(--border-primary)] text-[var(--accent-primary)] font-black uppercase tracking-[0.2em] text-[0.6rem] hover:bg-[var(--accent-primary)]/10 transition-all"
@@ -285,46 +278,61 @@ export default function ContactClient() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         onSubmit={handleSubmit} 
-                        className="space-y-8"
+                        className="space-y-10"
                       >
                         {[
-                          { label: 'Identification', type: 'text', placeholder: 'Your Name', field: 'name' },
-                          { label: 'Return Path', type: 'email', placeholder: 'Email Address', field: 'email' },
-                        ].map(({ label, type, placeholder, field }) => (
+                          { label: 'Identification', type: 'text', placeholder: 'Your Name', field: 'name', helper: '(Your full name)' },
+                          { label: 'Return Path', type: 'email', placeholder: 'Email Address', field: 'email', helper: '(Your email address)' },
+                        ].map(({ label, type, placeholder, field, helper }) => (
                           <div key={field} className="space-y-3">
-                            <label className="flex items-center gap-2 text-[0.65rem] uppercase tracking-[0.3em] text-[var(--text-muted)] font-black pl-1">
-                              <span className="text-[var(--accent-primary)] font-mono">&gt;</span>
-                              {label}
-                            </label>
+                            <div className="flex items-center justify-between">
+                              <label className="flex items-center gap-2 text-[0.65rem] uppercase tracking-[0.3em] text-[var(--text-muted)] font-black pl-1">
+                                <span className={`font-mono transition-colors duration-300 ${focusedField === field ? 'text-[var(--accent-primary)]' : 'text-[var(--text-muted)]'}`}>&gt;</span>
+                                {label}
+                              </label>
+                              <span className="text-[10px] text-[var(--text-muted)] italic opacity-60 font-medium">{helper}</span>
+                            </div>
                             <input 
                               required
                               type={type} 
                               placeholder={placeholder}
-                              className="w-full bg-[var(--bg-primary)]/50 border border-[var(--border-primary)] rounded-2xl px-6 py-5 text-[var(--text-primary)] font-medium focus:outline-none focus:border-[var(--accent-primary)]/60 focus:shadow-[0_0_0_4px_var(--accent-primary)]/5 transition-all placeholder:text-[var(--text-muted)]/50 text-sm"
+                              onFocus={() => setFocusedField(field)}
+                              onBlur={() => setFocusedField(null)}
+                              className="w-full bg-[var(--bg-primary)]/40 border border-[var(--border-primary)] rounded-2xl px-6 py-5 text-[var(--text-primary)] font-medium focus:outline-none focus:border-[var(--accent-primary)]/60 focus:shadow-[0_0_0_4px_var(--accent-primary)]/5 transition-all placeholder:text-[var(--text-muted)]/40 text-sm"
                             />
                           </div>
                         ))}
 
                         <div className="space-y-3">
-                          <label className="flex items-center gap-2 text-[0.65rem] uppercase tracking-[0.3em] text-[var(--text-muted)] font-black pl-1">
-                            <span className="text-[var(--accent-primary)] font-mono">&gt;</span>
-                            System Requirements
-                          </label>
+                          <div className="flex items-center justify-between">
+                            <label className="flex items-center gap-2 text-[0.65rem] uppercase tracking-[0.3em] text-[var(--text-muted)] font-black pl-1">
+                              <span className={`font-mono transition-colors duration-300 ${focusedField === 'requirements' ? 'text-[var(--accent-primary)]' : 'text-[var(--text-muted)]'}`}>&gt;</span>
+                              System Requirements
+                            </label>
+                            <span className="text-[10px] text-[var(--text-muted)] italic opacity-60 font-medium">(Describe your project or inquiry)</span>
+                          </div>
                           <textarea 
                             required
                             rows={5}
                             placeholder="Describe your architectural needs..."
-                            className="w-full bg-[var(--bg-primary)]/50 border border-[var(--border-primary)] rounded-2xl px-6 py-5 text-[var(--text-primary)] font-medium focus:outline-none focus:border-[var(--accent-primary)]/60 focus:shadow-[0_0_0_4px_var(--accent-primary)]/5 transition-all placeholder:text-[var(--text-muted)]/50 resize-none text-sm"
+                            onFocus={() => setFocusedField('requirements')}
+                            onBlur={() => setFocusedField(null)}
+                            className="w-full bg-[var(--bg-primary)]/40 border border-[var(--border-primary)] rounded-2xl px-6 py-5 text-[var(--text-primary)] font-medium focus:outline-none focus:border-[var(--accent-primary)]/60 focus:shadow-[0_0_0_4px_var(--accent-primary)]/5 transition-all placeholder:text-[var(--text-muted)]/40 resize-none text-sm"
                           />
                         </div>
 
                         <button 
                           disabled={formStatus === 'sending'}
                           type="submit"
-                          className="w-full py-6 bg-[var(--text-primary)] text-[var(--bg-primary)] font-black uppercase tracking-[0.3em] text-[0.7rem] rounded-2xl hover:bg-[var(--accent-primary)] hover:text-white transition-all duration-300 shadow-2xl disabled:opacity-50 group overflow-hidden relative"
+                          className="w-full py-6 bg-[var(--text-primary)] text-[var(--bg-primary)] font-black uppercase tracking-[0.3em] text-[0.7rem] rounded-2xl hover:bg-[var(--accent-primary)] hover:text-white transition-all duration-500 shadow-2xl disabled:opacity-50 group overflow-hidden relative"
                         >
-                          <span className="relative z-10">
-                            {formStatus === 'sending' ? 'Transmitting Data...' : 'Execute Transmission'}
+                          <span className="relative z-10 flex items-center justify-center gap-3">
+                            {formStatus === 'sending' ? 'Transmitting Data...' : (
+                              <>
+                                Execute Transmission
+                                <span className="group-hover:translate-x-2 transition-transform duration-300">→</span>
+                              </>
+                            )}
                           </span>
                           {formStatus === 'sending' && (
                             <span className="absolute right-8 top-1/2 -translate-y-1/2 flex gap-1.5">
