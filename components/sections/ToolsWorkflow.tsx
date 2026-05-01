@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import Tilt from "react-parallax-tilt";
 import RevealText from '@/components/ui/RevealText';
 import { getFeaturedProjects } from '@/lib/data/projects';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
@@ -99,8 +100,8 @@ const ProjectPreview = () => {
     >
       {/* Background decoration */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 right-0 w-[40%] h-[40%] bg-[var(--accent-purple)]/5 blur-[120px] rounded-full" />
-        <div className="absolute bottom-0 left-0 w-[30%] h-[30%] bg-[rgba(0,212,170,0.05)] blur-[100px] rounded-full" />
+        <div className="absolute top-0 right-0 w-[40%] h-[40%] bg-[var(--accent-primary)]/5 blur-[120px] rounded-full" />
+        <div className="absolute bottom-0 left-0 w-[30%] h-[30%] bg-[var(--accent-primary)]/5 blur-[100px] rounded-full" />
       </div>
 
       <div className="container-custom relative z-10">
@@ -136,69 +137,82 @@ const ProjectPreview = () => {
                 viewport={{ once: true }}
                 transition={{ delay: idx * 0.1, duration: 0.6 }}
               >
-                <Link
-                  href={`/projects/${project.slug}`}
-                  className="group flex flex-col h-full rounded-[2rem] border border-[var(--border-primary)] overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-[rgba(0,212,170,0.1)] hover:border-[rgba(0,212,170,0.3)] relative bg-[var(--card-bg)]"
+                <Tilt
+                  tiltMaxAngleX={15}
+                  tiltMaxAngleY={15}
+                  perspective={1000}
+                  scale={1}
+                  transitionSpeed={1000}
+                  glareEnable={true}
+                  glareMaxOpacity={0.15}
+                  glareColor="white"
+                  glarePosition="all"
+                  glareBorderRadius="2rem"
                 >
-                  {/* Terminal header */}
-                  <TerminalCardHeader
-                    projectId={project.id}
-                    lines={termData.lines}
-                    title={termData.title}
-                  />
+                  <Link
+                    href={`/projects/${project.slug}`}
+                    className="group flex flex-col h-full rounded-[2rem] border border-[rgba(255,255,255,0.1)] dark:bg-[rgba(255,255,255,0.05)] bg-[rgba(0,0,0,0.03)] backdrop-blur-[10px] overflow-hidden transition-all duration-500 hover:border-[var(--accent-primary)]/50 hover:shadow-2xl relative"
+                  >
+                    {/* Terminal header */}
+                    <TerminalCardHeader
+                      projectId={project.id}
+                      lines={termData.lines}
+                      title={termData.title}
+                    />
 
-                  {/* Card content */}
-                  <div className="p-8 flex flex-col flex-1 relative z-10">
-                    <div className="flex items-center justify-between mb-6">
-                      <span className="text-[0.6rem] font-black uppercase tracking-[0.2em] text-[var(--text-muted)] group-hover:text-[rgba(0,212,170,0.8)] transition-colors">
-                        {project.category}
-                      </span>
-                      <div className="w-9 h-9 rounded-full bg-[var(--bg-tertiary)] flex items-center justify-center text-[var(--text-muted)] group-hover:bg-[rgba(0,212,170,0.15)] group-hover:text-[#00D4AA] transition-all duration-300">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M5 12h14m-7-7 7 7-7 7" />
-                        </svg>
+                    {/* Card content */}
+                    <div className="p-8 flex flex-col flex-1 relative z-10">
+                      <div className="flex items-center justify-between mb-6">
+                        <span className="text-[0.6rem] font-black uppercase tracking-[0.2em] text-[var(--text-muted)] group-hover:text-[var(--accent-primary)] transition-colors">
+                          {project.category}
+                        </span>
+                        <div className="w-9 h-9 rounded-full bg-[var(--bg-tertiary)] flex items-center justify-center text-[var(--text-muted)] group-hover:bg-[var(--accent-primary)]/15 group-hover:text-[var(--accent-primary)] transition-all duration-300">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M5 12h14m-7-7 7 7-7 7" />
+                          </svg>
+                        </div>
+                      </div>
+
+                      <h3 className="text-xl font-bold text-[var(--text-primary)] mb-4 group-hover:text-[var(--accent-primary)] transition-colors leading-tight">
+                        {project.title}
+                      </h3>
+
+                      <p className="text-sm text-[var(--text-secondary)] leading-relaxed mb-6 line-clamp-3 opacity-80 group-hover:opacity-100 transition-opacity">
+                        {project.shortDescription}
+                      </p>
+
+                      {/* Metric chips */}
+                      <div className="flex flex-wrap gap-2 mb-6">
+                        {['⚡ <10ms', '🔒 JWT', '📦 Docker'].map((chip) => (
+                          <span
+                            key={chip}
+                            className="text-[0.55rem] font-bold px-2.5 py-1 rounded-full bg-[var(--accent-primary)]/10 border border-[var(--accent-primary)]/20 text-[var(--accent-primary)]"
+                          >
+                            {chip}
+                          </span>
+                        ))}
+                      </div>
+
+                      <div className="mt-auto flex flex-wrap gap-2">
+                        {project.techStack.slice(0, 3).map((tech, i) => (
+                          <motion.span
+                            key={tech}
+                            initial={{ opacity: 0, y: 10 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: 0.2 + i * 0.1, duration: 0.4 }}
+                            className="text-[0.6rem] font-bold px-3 py-1 bg-[var(--bg-tertiary)] rounded-md uppercase tracking-tight text-[var(--text-muted)]"
+                          >
+                            {tech}
+                          </motion.span>
+                        ))}
+                        {project.techStack.length > 3 && (
+                          <span className="text-[0.6rem] text-[var(--text-muted)] self-center px-1">+{project.techStack.length - 3}</span>
+                        )}
                       </div>
                     </div>
-
-                    <h3 className="text-xl font-bold text-[var(--text-primary)] mb-4 group-hover:text-[rgba(0,212,170,0.9)] transition-colors leading-tight">
-                      {project.title}
-                    </h3>
-
-                    <p className="text-sm text-[var(--text-secondary)] leading-relaxed mb-6 line-clamp-3 opacity-80 group-hover:opacity-100 transition-opacity">
-                      {project.shortDescription}
-                    </p>
-
-                    {/* Metric chips */}
-                    <div className="flex flex-wrap gap-2 mb-6">
-                      {['⚡ <10ms', '🔒 JWT', '📦 Docker'].map((chip) => (
-                        <span
-                          key={chip}
-                          className="text-[0.55rem] font-bold px-2.5 py-1 rounded-full bg-[rgba(0,212,170,0.06)] border border-[rgba(0,212,170,0.15)] text-[rgba(0,212,170,0.8)]"
-                        >
-                          {chip}
-                        </span>
-                      ))}
-                    </div>
-
-                    <div className="mt-auto flex flex-wrap gap-2">
-                      {project.techStack.slice(0, 3).map((tech, i) => (
-                        <motion.span
-                          key={tech}
-                          initial={{ opacity: 0, y: 10 }}
-                          whileInView={{ opacity: 1, y: 0 }}
-                          viewport={{ once: true }}
-                          transition={{ delay: 0.2 + i * 0.1, duration: 0.4 }}
-                          className="text-[0.6rem] font-bold px-3 py-1 bg-[var(--bg-tertiary)] rounded-md uppercase tracking-tight text-[var(--text-muted)]"
-                        >
-                          {tech}
-                        </motion.span>
-                      ))}
-                      {project.techStack.length > 3 && (
-                        <span className="text-[0.6rem] text-[var(--text-muted)] self-center px-1">+{project.techStack.length - 3}</span>
-                      )}
-                    </div>
-                  </div>
-                </Link>
+                  </Link>
+                </Tilt>
               </motion.div>
             );
           })}

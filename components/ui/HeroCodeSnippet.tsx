@@ -3,13 +3,9 @@
 import { useEffect, useState } from 'react';
 
 const codeLines = [
-  { text: "const server = express()", color: "text-[#79b8ff]" },
-  { text: "server.use(helmet())", color: "text-[#b392f0]" },
-  { text: "server.use(rateLimit({", color: "text-[#b392f0]" },
-  { text: "  windowMs: 15 * 60 * 1000", color: "text-[#85e89d]" },
-  { text: "}))", color: "text-[#b392f0]" },
-  { text: "server.listen(PORT, () => {", color: "text-[#E8C547]" },
-  { text: `  console.log(\`✓ Running\`)`, color: "text-[#79b8ff]" },
+  { text: "const app = express()", color: "text-[#79b8ff]" },
+  { text: "app.listen(8080, () => {", color: "text-[#E8C547]" },
+  { text: "  console.log('✓ Ready')", color: "text-[#79b8ff]" },
   { text: "})", color: "text-[#E8C547]" },
 ];
 
@@ -17,7 +13,13 @@ const codeLines = [
  * HeroCodeSnippet — Floating terminal-style code block for hero section.
  * Desktop only (hidden on mobile). Uses a separate z-index layer.
  */
-export default function HeroCodeSnippet() {
+export default function HeroCodeSnippet({ 
+  className = "", 
+  style = {} 
+}: { 
+  className?: string; 
+  style?: React.CSSProperties;
+}) {
   const [highlightedLine, setHighlightedLine] = useState(0);
   const [mounted, setMounted] = useState(false);
 
@@ -34,14 +36,11 @@ export default function HeroCodeSnippet() {
   return (
     <div
       aria-hidden="true"
-      className="hidden xl:block pointer-events-none"
+      className={`${className} pointer-events-none`.trim()}
       style={{
-        position: 'absolute',
-        right: '4%',
-        top: '50%',
-        transform: 'translateY(-50%) perspective(800px) rotateY(-5deg) rotateX(2deg)',
-        zIndex: 10,
+        zIndex: 20,
         animation: 'float 6s ease-in-out infinite',
+        ...style
       }}
     >
       {/* Subtle glow behind card */}
@@ -52,7 +51,7 @@ export default function HeroCodeSnippet() {
           borderRadius: '0.75rem',
           filter: 'blur(40px)',
           opacity: 0.25,
-          background: 'radial-gradient(circle, #00D4AA 0%, transparent 70%)',
+          background: 'radial-gradient(circle, var(--accent-primary) 0%, transparent 70%)',
         }}
       />
 
@@ -62,8 +61,8 @@ export default function HeroCodeSnippet() {
           border: '1px solid rgba(255,255,255,0.1)',
           borderRadius: '0.75rem',
           overflow: 'hidden',
-          minWidth: '340px',
-          maxWidth: '380px',
+          minWidth: '240px',
+          maxWidth: '300px',
           boxShadow: '0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.06)',
           position: 'relative',
         }}
@@ -118,7 +117,7 @@ export default function HeroCodeSnippet() {
             </span>
             <span
               className="animate-cursor-blink"
-              style={{ display: 'inline-block', width: '7px', height: '14px', background: '#00D4AA' }}
+              style={{ display: 'inline-block', width: '7px', height: '14px', background: 'var(--accent-primary)' }}
             />
           </div>
         </div>

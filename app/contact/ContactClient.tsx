@@ -55,10 +55,13 @@ const contactInfo = [
 // ─── Availability Status Card ─────────────────────────────────────────────────
 function AvailabilityCard() {
   return (
-    <div className="rounded-2xl p-6 border border-[rgba(0,212,170,0.2)] bg-[rgba(0,212,170,0.04)] shadow-sm">
+    <div className="rounded-2xl p-6 border border-[var(--accent-primary)]/20 bg-[var(--accent-primary)]/5 backdrop-blur-sm shadow-sm">
       {/* Status Row */}
       <div className="flex items-center gap-3 mb-4">
-        <span className="availability-dot" />
+        <span className="relative flex h-2.5 w-2.5">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--accent-primary)] opacity-75" />
+          <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[var(--accent-primary)]" />
+        </span>
         <span className="text-sm font-bold text-[var(--text-primary)]">Available for projects</span>
       </div>
 
@@ -67,7 +70,7 @@ function AvailabilityCard() {
         {['Backend · API', 'System Architecture', 'Consulting'].map(tag => (
           <span
             key={tag}
-            className="px-2.5 py-1 rounded-full text-[0.6rem] font-bold uppercase tracking-widest border border-[rgba(0,212,170,0.3)] text-[var(--accent-teal,#00D4AA)] bg-[rgba(0,212,170,0.06)]"
+            className="px-2.5 py-1 rounded-full text-[0.6rem] font-black uppercase tracking-widest border border-[var(--accent-primary)]/30 text-[var(--accent-primary)] bg-[var(--accent-primary)]/10"
           >
             {tag}
           </span>
@@ -76,7 +79,7 @@ function AvailabilityCard() {
 
       {/* Response time */}
       <p className="text-[0.7rem] text-[var(--text-muted)] flex items-center gap-2">
-        <span className="text-[var(--accent-amber,#E8C547)]">⚡</span>
+        <span className="text-[var(--accent-primary)]">⚡</span>
         Usually responds within <span className="font-bold text-[var(--text-secondary)]">24 hours</span>
       </p>
 
@@ -85,7 +88,7 @@ function AvailabilityCard() {
         {['Open to Freelance', 'Open to Full-time'].map(badge => (
           <span
             key={badge}
-            className="px-2.5 py-1 rounded-full text-[0.55rem] font-black uppercase tracking-widest bg-[var(--bg-tertiary)] text-[var(--text-muted)] border border-[var(--border-primary)]"
+            className="px-2.5 py-1 rounded-full text-[0.55rem] font-black uppercase tracking-widest bg-[var(--bg-tertiary)]/50 text-[var(--text-muted)] border border-[var(--border-primary)]"
           >
             {badge}
           </span>
@@ -113,8 +116,8 @@ export default function ContactClient() {
         gsap.to(spotlightRef.current, {
           x: e.clientX,
           y: e.clientY,
-          duration: 0.8,
-          ease: 'power3.out',
+          duration: 1.2,
+          ease: 'power2.out',
         });
       }
     };
@@ -134,51 +137,53 @@ export default function ContactClient() {
       {/* ── Cursor Spotlight ── */}
       <div
         ref={spotlightRef}
-        className="pointer-events-none fixed top-0 left-0 w-[800px] h-[800px] -translate-x-1/2 -translate-y-1/2 z-[2] opacity-20 blur-[120px]"
+        className="pointer-events-none fixed top-0 left-0 w-[1000px] h-[1000px] -translate-x-1/2 -translate-y-1/2 z-[2] opacity-[0.12] blur-[140px]"
         style={{
-          background: 'radial-gradient(circle, var(--accent-teal,#00D4AA) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, var(--accent-primary) 0%, transparent 70%)',
         }}
       />
 
       {/* ── Orb decorations ── */}
-      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full pointer-events-none opacity-[0.08] blur-[100px]"
-        style={{ background: 'radial-gradient(circle, #00D4AA 0%, transparent 70%)' }} />
-      <div className="absolute top-0 right-0 w-[300px] h-[300px] rounded-full pointer-events-none opacity-[0.06] blur-[80px]"
-        style={{ background: 'radial-gradient(circle, #E8C547 0%, transparent 70%)' }} />
+      <div className="absolute bottom-[-10%] left-[-5%] w-[600px] h-[600px] rounded-full pointer-events-none opacity-[0.05] blur-[120px]"
+        style={{ background: 'radial-gradient(circle, var(--accent-primary) 0%, transparent 70%)' }} />
+      <div className="absolute top-[-5%] right-[-5%] w-[500px] h-[500px] rounded-full pointer-events-none opacity-[0.05] blur-[100px]"
+        style={{ background: 'radial-gradient(circle, var(--accent-secondary) 0%, transparent 70%)' }} />
 
       {/* ── Background Effects ── */}
       <div className="absolute inset-0 z-0">
         <LightRays
           raysOrigin="bottom-right"
-          raysColor="#00D4AA"
-          raysSpeed={0.4}
-          lightSpread={1.3}
+          raysColor="rgba(108, 142, 191, 0.4)"
+          raysSpeed={0.5}
+          lightSpread={1.5}
         />
       </div>
 
-      <div className="container-custom relative z-10 w-full max-w-6xl">
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-16 lg:gap-20 items-start">
+      <div className="container-custom relative z-10 w-full max-w-6xl px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-16 lg:gap-24 items-start">
           
           {/* ──────────────────── LEFT COLUMN (40%) ──────────────────── */}
-          <div className="lg:col-span-2 space-y-10">
-            {/* Page heading */}
+          <div className="lg:col-span-2 space-y-12">
             <div>
               <ScrollReveal>
-                <p className="label-uppercase mb-6">Contact</p>
+                <div className="flex items-center gap-2 mb-6">
+                  <span className="w-8 h-px bg-[var(--accent-primary)]" />
+                  <p className="text-[0.7rem] font-black uppercase tracking-[0.4em] text-[var(--accent-primary)]">Direct Channel</p>
+                </div>
               </ScrollReveal>
               <RevealText
                 as="h1"
                 delay={0.1}
-                className="font-bold tracking-[-0.04em] leading-none text-[var(--text-primary)] mb-8"
-                style={{ fontSize: 'clamp(2.5rem, 6vw, 4.5rem)' } as React.CSSProperties}
+                className="font-black tracking-[-0.05em] leading-[0.9] text-[var(--text-primary)] mb-8"
+                style={{ fontSize: 'clamp(3rem, 7vw, 5.5rem)' } as React.CSSProperties}
               >
-                Let's build <br />
-                <span className="gradient-text">the future.</span>
+                Let's architect <br />
+                <span className="gradient-text italic font-medium">the future.</span>
               </RevealText>
               <ScrollReveal delay={0.4}>
-                <p className="text-[var(--text-secondary)] text-base md:text-lg leading-relaxed opacity-70">
+                <p className="text-[var(--text-secondary)] text-lg leading-relaxed opacity-80 font-medium">
                   Have a complex backend challenge or a high-scale system in mind? 
-                  I'm ready to help you architect it.
+                  I'm ready to help you build resilient foundations.
                 </p>
               </ScrollReveal>
             </div>
@@ -188,17 +193,17 @@ export default function ContactClient() {
               <AvailabilityCard />
             </ScrollReveal>
 
-            {/* Contact Info — Redesigned with SVG icons */}
-            <div className="space-y-4">
+            {/* Contact Info */}
+            <div className="space-y-6">
               {contactInfo.map((item, idx) => {
                 const content = (
-                  <div className="flex items-center gap-4 group cursor-pointer">
-                    <div className="w-11 h-11 rounded-xl border border-[var(--border-primary)] flex items-center justify-center bg-[rgba(0,212,170,0.06)] text-[var(--accent-teal,#00D4AA)] group-hover:border-[rgba(0,212,170,0.4)] group-hover:bg-[rgba(0,212,170,0.12)] transition-all duration-300 shrink-0">
+                  <div className="flex items-center gap-5 group cursor-pointer">
+                    <div className="w-12 h-12 rounded-2xl border border-[var(--border-primary)] flex items-center justify-center bg-[var(--bg-secondary)] text-[var(--accent-primary)] group-hover:border-[var(--accent-primary)]/50 group-hover:bg-[var(--accent-primary)]/10 transition-all duration-500 shrink-0 shadow-sm">
                       {item.icon}
                     </div>
                     <div>
-                      <p className="text-[0.6rem] uppercase tracking-[0.2em] text-[var(--text-muted)] font-bold mb-0.5">{item.label}</p>
-                      <p className="text-[var(--text-primary)] font-medium text-sm group-hover:text-[var(--accent-teal,#00D4AA)] transition-colors">{item.value}</p>
+                      <p className="text-[0.6rem] uppercase tracking-[0.25em] text-[var(--text-muted)] font-black mb-1">{item.label}</p>
+                      <p className="text-[var(--text-primary)] font-bold text-base group-hover:text-[var(--accent-primary)] transition-colors duration-300">{item.value}</p>
                     </div>
                   </div>
                 );
@@ -217,11 +222,16 @@ export default function ContactClient() {
 
             {/* What I Offer */}
             <ScrollReveal delay={0.7}>
-              <div className="space-y-3">
-                <p className="text-[0.6rem] font-bold uppercase tracking-[0.2em] text-[var(--text-muted)] mb-4">What I Offer</p>
-                {offerings.map((item, idx) => (
-                  <p key={idx} className="text-sm text-[var(--text-secondary)] leading-relaxed">{item}</p>
-                ))}
+              <div className="space-y-4 pt-4">
+                <p className="text-[0.65rem] font-black uppercase tracking-[0.3em] text-[var(--text-muted)]">Core Expertise</p>
+                <div className="space-y-3">
+                  {offerings.map((item, idx) => (
+                    <div key={idx} className="flex items-center gap-3 text-sm text-[var(--text-secondary)] font-medium">
+                      <span className="w-1 h-1 rounded-full bg-[var(--accent-primary)]" />
+                      {item}
+                    </div>
+                  ))}
+                </div>
               </div>
             </ScrollReveal>
           </div>
@@ -229,42 +239,44 @@ export default function ContactClient() {
           {/* ──────────────────── RIGHT COLUMN (60%) — Form ──────────────────── */}
           <ScrollReveal delay={0.6} xOffset={30} className="lg:col-span-3">
             <div className="relative">
-              <div className="absolute -inset-1 bg-gradient-to-r from-[rgba(0,212,170,0.15)] to-[rgba(232,197,71,0.10)] rounded-3xl blur opacity-60 pointer-events-none" />
+              <div className="absolute -inset-1 bg-gradient-to-r from-[var(--accent-primary)]/20 to-[var(--accent-secondary)]/10 rounded-3xl blur-2xl opacity-40 pointer-events-none" />
               
               {/* Terminal window wrapper */}
-              <div className="relative rounded-3xl overflow-hidden border border-[var(--border-primary)] shadow-2xl bg-[var(--bg-secondary)]/80 backdrop-blur-2xl">
+              <div className="relative rounded-[2.5rem] overflow-hidden border border-[var(--border-primary)] shadow-2xl bg-[var(--bg-secondary)]/60 backdrop-blur-3xl">
                 
                 {/* Terminal window title bar */}
-                <div className="flex items-center gap-2 px-5 py-3 bg-[#1C1C1E]/80 backdrop-blur-sm border-b border-[rgba(255,255,255,0.08)]">
-                  <span className="terminal-dot" style={{ background: '#FF5F56' }} />
-                  <span className="terminal-dot" style={{ background: '#FFBD2E' }} />
-                  <span className="terminal-dot" style={{ background: '#27C93F' }} />
-                  <span className="mx-auto text-[0.6rem] font-mono text-[#6b7280] tracking-wider">
-                    contact@danindra.dev ~ -zsh
+                <div className="flex items-center gap-2 px-6 py-4 bg-[var(--bg-secondary)]/80 backdrop-blur-sm border-b border-[var(--border-primary)]">
+                  <div className="flex gap-1.5">
+                    <span className="w-3 h-3 rounded-full bg-[#FF5F56]/80" />
+                    <span className="w-3 h-3 rounded-full bg-[#FFBD2E]/80" />
+                    <span className="w-3 h-3 rounded-full bg-[#27C93F]/80" />
+                  </div>
+                  <span className="mx-auto text-[0.65rem] font-mono text-[var(--text-muted)] font-bold tracking-widest uppercase">
+                    danindra@system ~ secure-channel
                   </span>
                 </div>
 
                 {/* Form content */}
-                <div className="p-8 lg:p-12">
+                <div className="p-10 lg:p-14">
                   <AnimatePresence mode="wait">
                     {formStatus === 'success' ? (
                       <motion.div 
                         key="success"
-                        initial={{ opacity: 0, scale: 0.9 }}
+                        initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.9 }}
-                        className="text-center py-20"
+                        exit={{ opacity: 0, scale: 0.95 }}
+                        className="text-center py-16"
                       >
-                        <div className="w-20 h-20 bg-[rgba(0,212,170,0.15)] rounded-full flex items-center justify-center text-3xl mx-auto mb-6 border border-[rgba(0,212,170,0.3)]">
-                          ✅
+                        <div className="w-20 h-20 bg-[var(--accent-primary)]/10 rounded-3xl flex items-center justify-center text-3xl mx-auto mb-8 border border-[var(--accent-primary)]/30 shadow-inner">
+                          ✓
                         </div>
-                        <h3 className="text-2xl font-bold text-[var(--text-primary)] mb-4">Transmission Successful ✓</h3>
-                        <p className="text-[var(--text-secondary)] mb-8">System received your request. I will respond via secure channel shortly.</p>
+                        <h3 className="text-3xl font-black text-[var(--text-primary)] mb-4 tracking-tight">Packet Delivered</h3>
+                        <p className="text-[var(--text-secondary)] mb-10 font-medium">System received your transmission. I will respond via secure channel shortly.</p>
                         <button 
                           onClick={() => setFormStatus('idle')}
-                          className="text-[var(--accent-teal,#00D4AA)] font-bold uppercase tracking-widest text-xs hover:text-[var(--accent-violet)] transition-colors"
+                          className="px-8 py-3 rounded-full border border-[var(--border-primary)] text-[var(--accent-primary)] font-black uppercase tracking-[0.2em] text-[0.6rem] hover:bg-[var(--accent-primary)]/10 transition-all"
                         >
-                          Send another message
+                          Send another packet
                         </button>
                       </motion.div>
                     ) : (
@@ -273,55 +285,55 @@ export default function ContactClient() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         onSubmit={handleSubmit} 
-                        className="space-y-6"
+                        className="space-y-8"
                       >
                         {[
                           { label: 'Identification', type: 'text', placeholder: 'Your Name', field: 'name' },
                           { label: 'Return Path', type: 'email', placeholder: 'Email Address', field: 'email' },
                         ].map(({ label, type, placeholder, field }) => (
-                          <div key={field} className="space-y-2">
-                            <label className="flex items-center gap-2 text-[0.65rem] uppercase tracking-[0.2em] text-[var(--text-muted)] font-black pl-1">
-                              <span className="text-[var(--accent-teal,#00D4AA)] font-mono">&gt;</span>
+                          <div key={field} className="space-y-3">
+                            <label className="flex items-center gap-2 text-[0.65rem] uppercase tracking-[0.3em] text-[var(--text-muted)] font-black pl-1">
+                              <span className="text-[var(--accent-primary)] font-mono">&gt;</span>
                               {label}
                             </label>
                             <input 
                               required
                               type={type} 
                               placeholder={placeholder}
-                              className="w-full bg-[var(--bg-primary)] border border-[var(--border-primary)] rounded-xl px-6 py-4 text-[var(--text-primary)] focus:outline-none focus:border-[rgba(0,212,170,0.6)] focus:shadow-[0_0_0_3px_rgba(0,212,170,0.08)] transition-all placeholder:text-[var(--text-muted)] text-sm"
+                              className="w-full bg-[var(--bg-primary)]/50 border border-[var(--border-primary)] rounded-2xl px-6 py-5 text-[var(--text-primary)] font-medium focus:outline-none focus:border-[var(--accent-primary)]/60 focus:shadow-[0_0_0_4px_var(--accent-primary)]/5 transition-all placeholder:text-[var(--text-muted)]/50 text-sm"
                             />
                           </div>
                         ))}
 
-                        <div className="space-y-2">
-                          <label className="flex items-center gap-2 text-[0.65rem] uppercase tracking-[0.2em] text-[var(--text-muted)] font-black pl-1">
-                            <span className="text-[var(--accent-teal,#00D4AA)] font-mono">&gt;</span>
+                        <div className="space-y-3">
+                          <label className="flex items-center gap-2 text-[0.65rem] uppercase tracking-[0.3em] text-[var(--text-muted)] font-black pl-1">
+                            <span className="text-[var(--accent-primary)] font-mono">&gt;</span>
                             System Requirements
                           </label>
                           <textarea 
                             required
                             rows={5}
-                            placeholder="Tell me about your project..."
-                            className="w-full bg-[var(--bg-primary)] border border-[var(--border-primary)] rounded-xl px-6 py-4 text-[var(--text-primary)] focus:outline-none focus:border-[rgba(0,212,170,0.6)] focus:shadow-[0_0_0_3px_rgba(0,212,170,0.08)] transition-all placeholder:text-[var(--text-muted)] resize-none text-sm"
+                            placeholder="Describe your architectural needs..."
+                            className="w-full bg-[var(--bg-primary)]/50 border border-[var(--border-primary)] rounded-2xl px-6 py-5 text-[var(--text-primary)] font-medium focus:outline-none focus:border-[var(--accent-primary)]/60 focus:shadow-[0_0_0_4px_var(--accent-primary)]/5 transition-all placeholder:text-[var(--text-muted)]/50 resize-none text-sm"
                           />
                         </div>
 
                         <button 
                           disabled={formStatus === 'sending'}
                           type="submit"
-                          className="w-full py-5 bg-gradient-to-r from-[#00D4AA] to-[#07a9a6] text-white font-black uppercase tracking-[0.2em] text-[0.7rem] rounded-xl hover:from-[#00C4A0] hover:to-[#06999F] transition-all shadow-xl shadow-[rgba(0,212,170,0.2)] hover:shadow-[rgba(0,212,170,0.35)] disabled:opacity-50 group overflow-hidden relative"
+                          className="w-full py-6 bg-[var(--text-primary)] text-[var(--bg-primary)] font-black uppercase tracking-[0.3em] text-[0.7rem] rounded-2xl hover:bg-[var(--accent-primary)] hover:text-white transition-all duration-300 shadow-2xl disabled:opacity-50 group overflow-hidden relative"
                         >
                           <span className="relative z-10">
-                            {formStatus === 'sending' ? 'Transmitting...' : 'Execute Transmission →'}
+                            {formStatus === 'sending' ? 'Transmitting Data...' : 'Execute Transmission'}
                           </span>
                           {formStatus === 'sending' && (
-                            <span className="absolute right-6 top-1/2 -translate-y-1/2 flex gap-1">
+                            <span className="absolute right-8 top-1/2 -translate-y-1/2 flex gap-1.5">
                               {[0, 0.15, 0.3].map((d, i) => (
                                 <span key={i} className="w-1.5 h-1.5 bg-white/60 rounded-full animate-bounce" style={{ animationDelay: `${d}s` }} />
                               ))}
                             </span>
                           )}
-                          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 pointer-events-none" />
+                          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 pointer-events-none" />
                         </button>
                       </motion.form>
                     )}
@@ -335,3 +347,4 @@ export default function ContactClient() {
     </div>
   );
 }
+

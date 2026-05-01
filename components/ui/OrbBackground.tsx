@@ -7,57 +7,43 @@
  */
 const OrbBackground = () => (
   <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none" aria-hidden="true">
-    {/* Orb 1: Teal — large, bottom-left */}
+    {/* Orb 1: Slate Blue — large, bottom-left */}
     <div
-      className="absolute rounded-full animate-orb-1"
+      className="absolute rounded-full animate-orb-1 will-change-transform"
       style={{
         width: '600px',
         height: '600px',
-        background: 'radial-gradient(circle, #00D4AA 0%, transparent 70%)',
+        background: 'radial-gradient(circle, var(--accent-primary) 0%, transparent 70%)',
         left: '-120px',
         bottom: '-80px',
-        opacity: 0.13,
-        filter: 'blur(100px)',
-      }}
-    />
-    {/* Orb 2: Amber — medium, top-right */}
-    <div
-      className="absolute rounded-full animate-orb-2"
-      style={{
-        width: '420px',
-        height: '420px',
-        background: 'radial-gradient(circle, #E8C547 0%, transparent 70%)',
-        right: '-60px',
-        top: '8%',
-        opacity: 0.10,
-        filter: 'blur(90px)',
-      }}
-    />
-    {/* Orb 3: Indigo — small, center */}
-    <div
-      className="absolute rounded-full animate-orb-3"
-      style={{
-        width: '320px',
-        height: '320px',
-        background: 'radial-gradient(circle, #4F46E5 0%, transparent 70%)',
-        left: '42%',
-        top: '28%',
         opacity: 0.08,
         filter: 'blur(80px)',
       }}
     />
-    {/* Orb 4: Teal subtle — top-left corner */}
+    {/* Orb 2: Secondary Slate — medium, top-right */}
     <div
-      className="absolute rounded-full animate-orb-2"
+      className="absolute rounded-full animate-orb-2 will-change-transform"
       style={{
-        width: '280px',
-        height: '280px',
-        background: 'radial-gradient(circle, #00D4AA 0%, transparent 70%)',
-        left: '10%',
-        top: '-40px',
-        opacity: 0.07,
+        width: '420px',
+        height: '420px',
+        background: 'radial-gradient(circle, var(--accent-secondary) 0%, transparent 70%)',
+        right: '-60px',
+        top: '8%',
+        opacity: 0.06,
         filter: 'blur(70px)',
-        animationDelay: '9s',
+      }}
+    />
+    {/* Orb 3: Primary subtle — center */}
+    <div
+      className="absolute rounded-full animate-orb-3 will-change-transform"
+      style={{
+        width: '320px',
+        height: '320px',
+        background: 'radial-gradient(circle, var(--accent-primary) 0%, transparent 70%)',
+        left: '42%',
+        top: '28%',
+        opacity: 0.05,
+        filter: 'blur(60px)',
       }}
     />
   </div>

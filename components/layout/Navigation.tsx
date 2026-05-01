@@ -56,19 +56,11 @@ const Navigation = () => {
 
   const { scrollY } = useScroll();
   const navHeight = useTransform(scrollY, [0, 100], [90, 70]);
-  const navPadding = useTransform(scrollY, [0, 100], ['2.5rem', '1.25rem']);
-  const navScale = useTransform(scrollY, [0, 200], [1, 0.99]);
+  const navPadding = useTransform(scrollY, [0, 100], ['2rem', '1.25rem']);
 
   useEffect(() => {
-    let ticking = false;
     const onScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          setIsScrolled(window.scrollY > 20);
-          ticking = false;
-        });
-        ticking = true;
-      }
+      setIsScrolled(window.scrollY > 20);
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
@@ -86,41 +78,40 @@ const Navigation = () => {
           height: navHeight,
           paddingTop: navPadding,
           paddingBottom: navPadding,
-          scale: navScale
         }}
         className="fixed top-0 left-0 right-0 z-50 flex items-center justify-center pointer-events-none"
       >
         <div className={`
-          relative transition-all duration-700 ease-[0.22,1,0.36,1] pointer-events-auto
+          relative transition-all duration-700 ease-[0.23,1,0.32,1] pointer-events-auto
           ${isScrolled
-            ? 'w-[95%] md:w-[85%] max-w-[1200px] h-14 bg-[var(--bg-primary)]/40 backdrop-blur-2xl border border-white/10 dark:border-white/5 rounded-full px-8 flex items-center justify-between shadow-[0_8px_32px_rgba(0,0,0,0.12)]'
+            ? 'w-[92%] md:w-[85%] max-w-[1200px] h-14 bg-[var(--bg-primary)]/60 backdrop-blur-2xl border border-[var(--border-primary)] rounded-full px-8 flex items-center justify-between shadow-[0_12px_40px_rgba(0,0,0,0.12)]'
             : 'container-custom flex items-center justify-between h-full pt-4 bg-transparent'
           }
         `}>
-          {/* Fluid Glass Inner Glow */}
+          {/* Subtle Inner Glow */}
           {isScrolled && (
-            <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/5 to-transparent pointer-events-none" />
+            <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/[0.08] to-transparent pointer-events-none" />
           )}
 
           {/* ── Logo Area ───────────────────────────────── */}
-          <div className="w-[200px] flex items-center">
-            <Link href="/" className="flex items-center gap-3 group" aria-label="Home">
+          <div className="w-[180px] flex items-center">
+            <Link href="/" className="flex items-center gap-2.5 group" aria-label="Home">
               <motion.div
                 whileHover={{ rotate: 180, scale: 1.1 }}
                 transition={{ type: 'spring', stiffness: 200, damping: 10 }}
-                className="w-8 h-8 rounded-lg bg-gradient-to-br from-[var(--accent-purple)] to-[var(--accent-violet)] flex items-center justify-center shadow-lg shrink-0"
+                className="w-8 h-8 rounded-lg bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] flex items-center justify-center shadow-md shrink-0"
               >
                 <span className="text-white font-black text-[10px] font-mono">MD</span>
               </motion.div>
               <span className="font-bold text-base font-mono tracking-tighter text-[var(--text-primary)] hidden sm:block">
-                Mas<span className="text-[var(--accent-violet)]">Dani</span>
+                Mas<span className="text-[var(--accent-primary)]">Dani</span>
               </span>
             </Link>
           </div>
 
           {/* ── Desktop Nav ─────────────────────────────── */}
           <div className="hidden md:flex flex-1 items-center justify-center" onMouseLeave={() => setHoveredIdx(null)}>
-            <div className="flex items-center gap-1 p-1 rounded-full bg-black/5 dark:bg-white/5 backdrop-blur-sm border border-white/5">
+            <div className="flex items-center gap-1 p-1 rounded-full bg-[var(--bg-tertiary)]/30 backdrop-blur-sm border border-[var(--border-primary)]">
               {navItems.map((item, idx) => {
                 const isActive = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href));
                 return (
@@ -140,14 +131,14 @@ const Navigation = () => {
                             animate={{ opacity: 1, scale: 1 }}
                             exit={{ opacity: 0, scale: 0.9 }}
                             transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
-                            className="absolute inset-0 bg-white/10 dark:bg-white/10 rounded-full border border-white/10 -z-10 shadow-sm"
+                            className="absolute inset-0 bg-white/10 dark:bg-white/5 rounded-full border border-white/10 dark:border-white/5 -z-10 shadow-sm"
                           />
                         )}
                       </AnimatePresence>
                       {isActive && (
                         <motion.div
                           layoutId="active-dot"
-                          className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[var(--accent-purple)] shadow-[0_0_10px_var(--accent-purple)]"
+                          className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[var(--accent-primary)] shadow-[0_0_8px_var(--accent-primary)]"
                         />
                       )}
                     </Link>
@@ -158,16 +149,16 @@ const Navigation = () => {
           </div>
 
           {/* ── Actions Area ────────────────────────────── */}
-          <div className="w-[200px] flex items-center justify-end gap-3">
+          <div className="w-[180px] flex items-center justify-end gap-3">
             <div className="flex items-center justify-center w-10 h-10">
               <motion.div whileHover={{ scale: 1.15 }} whileTap={{ scale: 0.85 }}>
-                <AnimatedThemeToggler className="w-5 h-5 text-[var(--text-secondary)] hover:text-[var(--accent-violet)] transition-colors cursor-pointer" />
+                <AnimatedThemeToggler className="w-5 h-5 text-[var(--text-secondary)] hover:text-[var(--accent-primary)] transition-colors cursor-pointer" />
               </motion.div>
             </div>
 
             <Link
               href="/contact"
-              className={`hidden sm:flex items-center group bg-[var(--text-primary)] text-[var(--bg-primary)] px-5 py-2 rounded-full text-[0.6rem] font-black uppercase tracking-widest hover:bg-[var(--accent-purple)] hover:text-white transition-all shadow-lg ${isScrolled ? 'px-4 py-1.5' : ''}`}
+              className={`hidden sm:flex items-center group bg-[var(--text-primary)] text-[var(--bg-primary)] px-5 py-2 rounded-full text-[0.6rem] font-black uppercase tracking-widest hover:bg-[var(--accent-primary)] hover:text-white transition-all shadow-md ${isScrolled ? 'px-4 py-1.5' : ''}`}
             >
               Build ↗
             </Link>
@@ -192,10 +183,10 @@ const Navigation = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[45] bg-[var(--bg-primary)]/95 backdrop-blur-2xl flex flex-col p-10 justify-center"
+            className="fixed inset-0 z-[45] bg-[var(--bg-primary)]/98 backdrop-blur-3xl flex flex-col p-10 justify-center"
           >
-            {/* Background Grid for techy look */}
-            <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(var(--text-primary) 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+            {/* Background Grid */}
+            <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{ backgroundImage: 'radial-gradient(var(--text-primary) 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
 
             <div className="relative z-10 space-y-8">
               {navItems.map((item, idx) => (
@@ -210,10 +201,10 @@ const Navigation = () => {
                     onClick={() => setMobileOpen(false)}
                     className="group flex items-baseline gap-6"
                   >
-                    <span className="font-mono text-[var(--accent-purple)] text-sm">{String(idx + 1).padStart(2, '0')}</span>
+                    <span className="font-mono text-[var(--accent-primary)] text-sm">{String(idx + 1).padStart(2, '0')}</span>
                     <FallingLetters
                       text={item.label}
-                      className="text-5xl md:text-7xl font-bold uppercase tracking-tighter text-[var(--text-primary)] group-hover:text-[var(--accent-purple)] transition-colors"
+                      className="text-5xl md:text-7xl font-bold uppercase tracking-tighter text-[var(--text-primary)] group-hover:text-[var(--accent-primary)] transition-colors"
                       trigger={mobileOpen}
                     />
                   </Link>
@@ -229,7 +220,7 @@ const Navigation = () => {
             >
               <div className="flex gap-4">
                 {['GH', 'LI', 'TW'].map(s => (
-                  <span key={s} className="text-[0.6rem] font-mono text-[var(--text-muted)] hover:text-[var(--accent-purple)] cursor-pointer">{s}</span>
+                  <span key={s} className="text-[0.6rem] font-mono text-[var(--text-muted)] hover:text-[var(--accent-primary)] cursor-pointer">{s}</span>
                 ))}
               </div>
               <span className="text-[0.6rem] font-mono text-[var(--text-muted)] uppercase tracking-widest">System Status: Active</span>

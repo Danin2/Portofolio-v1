@@ -39,8 +39,8 @@ const SkillsBreakdown = () => {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-10 mb-20">
           <div className="max-w-2xl">
             <div className="flex items-center gap-3 mb-6">
-              <span className="h-[1px] w-8 bg-[var(--accent-purple)]" />
-              <span className="text-[0.7rem] font-bold uppercase tracking-[0.3em] text-[var(--accent-purple)]">
+              <span className="h-[1px] w-8 bg-[var(--accent-primary)]" />
+              <span className="text-[0.7rem] font-bold uppercase tracking-[0.3em] text-[var(--accent-primary)]">
                 Proficiency
               </span>
             </div>
@@ -74,16 +74,16 @@ const SkillsBreakdown = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.4 }}
-              className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-10"
+              className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12"
             >
               {filtered.map((skill, idx) => (
                 <div key={skill.name} className="group">
                   <div className="flex justify-between items-end mb-4">
                     <div className="space-y-1">
-                      <span className="text-[0.6rem] font-bold text-[var(--accent-purple)] uppercase tracking-widest block opacity-50">
-                        {String(idx + 1).padStart(2, '0')} / {skill.category}
+                      <span className="text-[0.6rem] font-black text-[var(--accent-primary)] uppercase tracking-widest block opacity-60">
+                        {String(idx + 1).padStart(2, '0')} · {skill.category}
                       </span>
-                      <h3 className="text-lg font-bold text-[var(--text-primary)] uppercase tracking-tight group-hover:text-[var(--accent-purple)] transition-colors">
+                      <h3 className="text-xl font-bold text-[var(--text-primary)] uppercase tracking-tight group-hover:text-[var(--accent-primary)] transition-colors duration-300">
                         {skill.name}
                       </h3>
                     </div>
@@ -92,17 +92,17 @@ const SkillsBreakdown = () => {
                     </span>
                   </div>
 
-                  <div className="h-[1px] w-full bg-[var(--border-primary)] relative overflow-hidden">
+                  <div className="h-[2px] w-full bg-[var(--border-primary)] relative overflow-hidden rounded-full">
                     <motion.div
                       initial={{ scaleX: 0 }}
                       whileInView={{ scaleX: 1 }}
                       viewport={{ once: true }}
-                      transition={{ duration: 1, ease: [0.65, 0, 0.35, 1], delay: idx * 0.05 }}
+                      transition={{ duration: 1.2, ease: [0.23, 1, 0.32, 1], delay: idx * 0.05 }}
                       style={{ 
                         width: `${skill.level}%`,
                         transformOrigin: 'left'
                       }}
-                      className="absolute inset-y-0 left-0 bg-[var(--accent-purple)]"
+                      className="absolute inset-y-0 left-0 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)]"
                     />
                   </div>
                 </div>

@@ -55,7 +55,7 @@ function StatItem({ stat, start }: { stat: typeof stats[0], start: boolean }) {
     <div className="flex flex-col items-center justify-center text-center px-4">
       <div className="text-4xl md:text-6xl font-bold text-[var(--text-primary)] mb-2">
         {count}
-        <span className="text-[var(--accent-purple)]">{stat.suffix}</span>
+        <span className="text-[var(--accent-primary)]">{stat.suffix}</span>
       </div>
       <div className="text-sm text-[var(--text-secondary)] opacity-80 uppercase tracking-widest font-medium">
         {stat.label}

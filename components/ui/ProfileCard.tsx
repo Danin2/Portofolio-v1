@@ -484,9 +484,12 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
                         className="absolute inset-0"
                         style={{
                             backgroundImage: 'var(--inner-gradient)',
-                            backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                            backgroundColor: '#0a0a0c',
                             borderRadius: cardRadius,
-                            display: 'grid',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            padding: '24px',
+                            gap: '16px',
                             gridArea: '1 / -1'
                         }}
                     >
@@ -496,128 +499,75 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
                         {/* Glare layer */}
                         <div style={glareStyle} />
 
-                        {/* Avatar content */}
-                        <div
-                            className="overflow-visible"
-                            style={{
-                                mixBlendMode: 'luminosity',
-                                transform: 'translateZ(2px)',
-                                gridArea: '1 / -1',
-                                borderRadius: cardRadius,
-                                pointerEvents: 'none',
-                                backfaceVisibility: 'hidden'
+                        {/* 1. TOP INFO SECTION */}
+                        <div 
+                            className="flex items-center gap-3 relative z-[5]"
+                            style={{ 
+                                transform: 'translateZ(10px)',
+                                background: 'rgba(255, 255, 255, 0.03)',
+                                padding: '6px 10px',
+                                borderRadius: '12px',
+                                border: '1px solid rgba(255, 255, 255, 0.05)',
+                                width: 'fit-content'
+                            }}
+                        >
+                            <div className="w-8 h-8 rounded-full overflow-hidden border border-white/10 flex-shrink-0">
+                                <img
+                                    className="w-full h-full object-cover"
+                                    src={miniAvatarUrl || avatarUrl}
+                                    alt="mini avatar"
+                                />
+                            </div>
+                            <div className="flex flex-col">
+                                <span className="text-white font-bold text-xs leading-tight">@{handle}</span>
+                                <span className="text-white/50 text-[9px] uppercase tracking-wider font-semibold">{status}</span>
+                            </div>
+                        </div>
+
+                        {/* 2. CENTER TITLES SECTION */}
+                        <div 
+                            className="flex flex-col items-center text-center relative z-[5]"
+                            style={{ transform: 'translateZ(15px)', marginTop: '12px' }}
+                        >
+                            <h3
+                                className="font-black m-0 text-white leading-tight"
+                                style={{
+                                    fontSize: '2.1rem',
+                                    letterSpacing: '-0.02em',
+                                    filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.5))'
+                                }}
+                            >
+                                {name}
+                            </h3>
+                            <p
+                                className="font-bold text-white/60 m-0 uppercase tracking-[0.2em]"
+                                style={{ fontSize: '10px' }}
+                            >
+                                {title}
+                            </p>
+                        </div>
+
+                        {/* 3. BOTTOM IMAGE SECTION */}
+                        <div 
+                            className="relative w-full aspect-square overflow-hidden relative z-[5]"
+                            style={{ 
+                                borderRadius: '16px',
+                                transform: 'translateZ(5px)',
+                                border: '1px solid rgba(255, 255, 255, 0.08)',
+                                boxShadow: '0 10px 30px rgba(0,0,0,0.5)',
+                                marginTop: '12px'
                             }}
                         >
                             <img
-                                className="w-full absolute left-1/2 bottom-[5px] will-change-transform transition-transform duration-[120ms] ease-out"
+                                className="w-full h-full object-cover will-change-transform"
                                 src={avatarUrl}
-                                alt={`${name || 'User'} avatar`}
-                                loading="lazy"
+                                alt={`${name} avatar`}
                                 style={{
-                                    transformOrigin: '50% 100%',
-                                    transform:
-                                        'translateX(calc(-50% + (var(--pointer-from-left) - 0.5) * 6px)) translateZ(0) scaleY(calc(1 + (var(--pointer-from-top) - 0.5) * 0.02)) scaleX(calc(1 + (var(--pointer-from-left) - 0.5) * 0.01))',
-                                    borderRadius: cardRadius,
-                                    backfaceVisibility: 'hidden'
-                                }}
-                                onError={e => {
-                                    const t = e.target as HTMLImageElement;
-                                    t.style.display = 'none';
+                                    transform: 'scale(1.0)',
+                                    filter: 'contrast(1.1) brightness(0.9)',
+                                    objectPosition: 'center center'
                                 }}
                             />
-                            {showUserInfo && (
-                                <div
-                                    className="absolute z-[2] flex items-center justify-between backdrop-blur-[30px] border border-white/10 pointer-events-auto"
-                                    style={
-                                        {
-                                            '--ui-inset': '12px sm:20px',
-                                            bottom: 'var(--ui-inset, 12px)',
-                                            left: 'var(--ui-inset, 12px)',
-                                            right: 'var(--ui-inset, 12px)',
-                                            background: 'rgba(255, 255, 255, 0.1)',
-                                            borderRadius: '16px',
-                                            padding: '10px 12px sm:12px 14px'
-                                        } as React.CSSProperties
-                                    }
-                                >
-                                    <div className="flex items-center gap-3">
-                                        <div
-                                            className="rounded-full overflow-hidden border border-white/10 flex-shrink-0"
-                                            style={{ width: '48px', height: '48px' }}
-                                        >
-                                            <img
-                                                className="w-full h-full object-cover rounded-full"
-                                                src={miniAvatarUrl || avatarUrl}
-                                                alt={`${name || 'User'} mini avatar`}
-                                                loading="lazy"
-                                                style={{ display: 'block', gridArea: 'auto', borderRadius: '50%', pointerEvents: 'auto' }}
-                                                onError={e => {
-                                                    const t = e.target as HTMLImageElement;
-                                                    t.style.opacity = '0.5';
-                                                    t.src = avatarUrl;
-                                                }}
-                                            />
-                                        </div>
-                                        <div className="flex flex-col items-start gap-1.5">
-                                            <div className="text-sm font-medium text-white/90 leading-none">@{handle}</div>
-                                            <div className="text-sm text-white/70 leading-none">{status}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-
-                        {/* Details content */}
-                        <div
-                            className="max-h-full overflow-hidden text-center relative z-[5]"
-                            style={{
-                                transform:
-                                    'translate3d(calc(var(--pointer-from-left) * -6px + 3px), calc(var(--pointer-from-top) * -6px + 3px), 0.1px)',
-                                mixBlendMode: 'luminosity',
-                                gridArea: '1 / -1',
-                                borderRadius: cardRadius,
-                                pointerEvents: 'none'
-                            }}
-                        >
-                            <div className="w-full absolute flex flex-col" style={{ top: '2em', display: 'flex', gridArea: 'auto' }}>
-                                <h3
-                                    className="font-semibold m-0"
-                                    style={{
-                                        fontSize: 'min(5svh, 2.5em)', // Reduced slightly
-                                        backgroundImage: 'linear-gradient(to bottom, #fff, #6f6fbe)',
-                                        backgroundSize: '1em 1.5em',
-                                        WebkitTextFillColor: 'transparent',
-                                        backgroundClip: 'text',
-                                        WebkitBackgroundClip: 'text',
-                                        display: 'block',
-                                        gridArea: 'auto',
-                                        borderRadius: '0',
-                                        pointerEvents: 'auto'
-                                    }}
-                                >
-                                    {name}
-                                </h3>
-                                <p
-                                    className="font-semibold whitespace-nowrap mx-auto w-min"
-                                    style={{
-                                        position: 'relative',
-                                        top: '-12px',
-                                        fontSize: '14px', // Reduced slightly
-                                        margin: '0 auto',
-                                        backgroundImage: 'linear-gradient(to bottom, #fff, #4a4ac0)',
-                                        backgroundSize: '1em 1.5em',
-                                        WebkitTextFillColor: 'transparent',
-                                        backgroundClip: 'text',
-                                        WebkitBackgroundClip: 'text',
-                                        display: 'block',
-                                        gridArea: 'auto',
-                                        borderRadius: '0',
-                                        pointerEvents: 'auto'
-                                    }}
-                                >
-                                    {title}
-                                </p>
-                            </div>
                         </div>
                     </div>
                 </section>

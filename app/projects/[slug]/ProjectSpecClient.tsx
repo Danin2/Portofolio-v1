@@ -17,16 +17,16 @@ const TechBadge = memo(({ tech }: { tech: string }) => {
   const meta = TECH_META[tech];
   return (
     <span
-      className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-[0.7rem] font-bold border transition-all bg-[var(--bg-secondary)] border-[var(--border-primary)] text-[var(--text-secondary)] hover:border-[var(--accent-purple)]/50 hover:text-[var(--text-primary)] hover:-translate-y-1 hover:shadow-lg hover:shadow-[var(--accent-purple)]/5"
+      className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-[0.7rem] font-bold border transition-all bg-[var(--bg-secondary)] border-[var(--border-primary)] text-[var(--text-secondary)] hover:border-[var(--accent-primary)]/50 hover:text-[var(--text-primary)] hover:-translate-y-1 hover:shadow-lg hover:shadow-[var(--accent-primary)]/5"
     >
-      {meta && <span style={{ color: meta.color }} className="text-lg">{meta.icon}</span>}
+      {meta && <span style={{ backgroundColor: meta.color }} className="w-1.5 h-1.5 rounded-full" />}
       <span className="uppercase tracking-widest">{tech}</span>
     </span>
   );
 });
 TechBadge.displayName = 'TechBadge';
 
-const DetailSection = memo(({ title, children, colorClass = 'text-[var(--accent-purple)]' }: { title: string; children: React.ReactNode; colorClass?: string }) => (
+const DetailSection = memo(({ title, children, colorClass = 'text-[var(--accent-primary)]' }: { title: string; children: React.ReactNode; colorClass?: string }) => (
   <div className="space-y-6">
     <h3 className={`text-[0.65rem] font-black uppercase tracking-[0.3em] ${colorClass}`}>
       {title}
@@ -40,7 +40,7 @@ DetailSection.displayName = 'DetailSection';
 
 const ItemCard = memo(({ children, icon, color }: { children: React.ReactNode; icon?: string; color?: string }) => (
   <div
-    className="p-5 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border-primary)] flex gap-4 items-start group hover:border-[var(--accent-purple)]/20 transition-all duration-300"
+    className="p-5 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border-primary)] flex gap-4 items-start group hover:border-[var(--accent-primary)]/20 transition-all duration-300"
   >
     {icon && <span className="shrink-0 mt-1" style={{ color }}>{icon}</span>}
     <div className="text-sm leading-relaxed text-[var(--text-secondary)] group-hover:text-[var(--text-primary)] transition-colors">
@@ -69,7 +69,7 @@ export default function ProjectSpecClient({ project }: ProjectSpecClientProps) {
       <section className="relative pt-32 pb-20 overflow-hidden">
         {/* Subtle background decoration */}
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-0 right-0 w-[50%] h-[50%] bg-[var(--accent-purple)]/5 blur-[120px] rounded-full" />
+          <div className="absolute top-0 right-0 w-[50%] h-[50%] bg-[var(--accent-primary)]/5 blur-[120px] rounded-full" />
         </div>
 
         <div className="container-custom relative z-10">
@@ -87,7 +87,7 @@ export default function ProjectSpecClient({ project }: ProjectSpecClientProps) {
               transition={{ duration: 0.6 }}
             >
               <div className="flex items-center gap-3 mb-6">
-                <span className="px-3 py-1 rounded-full bg-[var(--accent-purple)]/10 text-[var(--accent-purple)] text-[0.6rem] font-bold uppercase tracking-widest">
+                <span className="px-3 py-1 rounded-full bg-[var(--accent-primary)]/10 text-[var(--accent-primary)] text-[0.6rem] font-bold uppercase tracking-widest">
                   Case Study
                 </span>
                 <span className="text-[var(--text-muted)] text-[0.6rem] font-mono">ID_{project.id.padStart(3, '0')}</span>
@@ -109,13 +109,13 @@ export default function ProjectSpecClient({ project }: ProjectSpecClientProps) {
               className="flex flex-wrap gap-4 mt-12"
             >
               {project.githubUrl && (
-                <a href={project.githubUrl} target="_blank" rel="noopener" className="px-8 py-4 bg-[var(--text-primary)] text-[var(--bg-primary)] font-bold uppercase tracking-widest text-[0.65rem] rounded-full hover:bg-[var(--accent-purple)] transition-all shadow-xl">
-                  Source Code ↗
+                <a href={project.githubUrl} target="_blank" rel="noopener" className="px-8 py-4 bg-[var(--text-primary)] text-[var(--bg-primary)] font-bold uppercase tracking-widest text-[0.65rem] rounded-full hover:bg-[var(--accent-primary)] transition-all shadow-xl">
+                  Source Code &gt;
                 </a>
               )}
               {project.liveUrl && (
                 <a href={project.liveUrl} target="_blank" rel="noopener" className="px-8 py-4 bg-[var(--bg-secondary)] border border-[var(--border-primary)] text-[var(--text-primary)] font-bold uppercase tracking-widest text-[0.65rem] rounded-full hover:border-[var(--text-primary)] transition-all">
-                  Live System ↗
+                  Live System &gt;
                 </a>
               )}
             </motion.div>
@@ -161,10 +161,10 @@ export default function ProjectSpecClient({ project }: ProjectSpecClientProps) {
             </DetailSection>
           </div>
 
-          <DetailSection title="Key Features & Capabilities" colorClass="text-[var(--accent-purple)]">
+          <DetailSection title="Key Features & Capabilities" colorClass="text-[var(--accent-primary)]">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {project.features.map((feat, idx) => (
-                <ItemCard key={idx} icon="✦" color="var(--accent-purple)">
+                <ItemCard key={idx} icon="✦" color="var(--accent-primary)">
                   {feat}
                 </ItemCard>
               ))}
@@ -244,8 +244,8 @@ export default function ProjectSpecClient({ project }: ProjectSpecClientProps) {
               transition={{ delay: 0.6, duration: 0.8 }}
               className="flex flex-wrap items-center justify-center gap-6"
             >
-              <Link href="/contact" className="px-12 py-5 bg-[var(--accent-purple)] text-white font-bold uppercase tracking-widest text-[0.7rem] rounded-full hover:bg-[var(--accent-violet)] transition-all shadow-xl shadow-[var(--accent-purple)]/20 hover:scale-105">
-                Get in touch →
+              <Link href="/contact" className="px-12 py-5 bg-[var(--accent-primary)] text-white font-bold uppercase tracking-widest text-[0.7rem] rounded-full hover:bg-[var(--accent-primary)]/80 transition-all shadow-xl shadow-[var(--accent-primary)]/20 hover:scale-105">
+                Get in touch &gt;
               </Link>
               <Link href="/projects" className="px-12 py-5 bg-transparent text-[var(--text-primary)] border border-[var(--border-primary)] font-bold uppercase tracking-widest text-[0.7rem] rounded-full hover:border-[var(--text-primary)] transition-all">
                 More Projects

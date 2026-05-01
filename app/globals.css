@@ -26,6 +26,22 @@
   }
 }
 
+@keyframes orbFloat1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%       { transform: translate(30px, -20px) scale(1.05); }
+  66%       { transform: translate(-20px, 30px) scale(0.97); }
+}
+
+@keyframes orbFloat2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%       { transform: translate(-40px, -30px) scale(1.08); }
+}
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
+  50%       { box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
+}
+
 @keyframes orbFloat {
 
   0%,
@@ -133,115 +149,97 @@
   }
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
 /* ─── Base CSS Variables ─────────────────────────────────── */
 :root {
-  /* Default: Light Mode - Premium Slate/Teal Palette */
-  --bg-primary: #FAFAF7;
-  --bg-secondary: #F3F3EE;
-  --bg-tertiary: #E8E8E0;
+  /* Default: Light Mode - Premium Slate System */
+  --bg-primary: #FFFFFF;
+  --bg-secondary: #F8FAFC;
+  --bg-tertiary: #F1F5F9;
 
   /* Text */
-  --text-primary: #0f172a;
-  --text-secondary: #475569;
-  --text-muted: #94a3b8;
+  --text-primary: #0F172A;
+  --text-secondary: #334155;
+  --text-muted: #64748B;
 
-  /* Accents — Teal primary, Amber secondary */
-  --accent-teal: #00C9A7;
-  --accent-teal-rgb: 0, 201, 167;
-  --accent-amber: #E8C547;
-  --accent-amber-rgb: 232, 197, 71;
-  --accent-indigo: #4F46E5;
-  --accent-indigo-rgb: 79, 70, 229;
-
-  /* Legacy compat aliases */
-  --accent-purple: #0ca8e2;
-  --accent-purple-rgb: 12, 168, 226;
-  --accent-violet: #07a9a6;
-  --accent-violet-rgb: 7, 169, 166;
-  --accent-blue: #2563eb;
-  --accent-green: #10b981;
-  --accent-orange: #f59e0b;
+  /* Accents — Slate Blue primary, Deep Slate secondary */
+  --accent-primary: #6C8EBF;
+  --accent-primary-rgb: 108, 142, 191;
+  --accent-secondary: #475569;
+  --accent-secondary-rgb: 71, 85, 105;
+  
+  /* Compat Aliases for older components */
+  --accent-purple: #6C8EBF;
+  --accent-purple-rgb: 108, 142, 191;
+  --accent-teal: #6C8EBF;
+  --accent-teal-rgb: 108, 142, 191;
+  --accent-violet: #475569;
+  --accent-violet-rgb: 71, 85, 105;
 
   /* Borders & Overlays */
   --border-primary: rgba(15, 23, 42, 0.08);
   --border-secondary: rgba(15, 23, 42, 0.04);
   --glass-bg: rgba(255, 255, 255, 0.7);
-  --card-bg: #ffffff;
-  --gradient-text-start: #00C9A7;
-  --gradient-text-mid: #07a9a6;
-  --gradient-text-end: #0ca8e2;
+  --card-bg: #FFFFFF;
+  --gradient-text-start: #6C8EBF;
+  --gradient-text-mid: #4A6D9C;
+  --gradient-text-end: #334155;
 
   /* Section Backgrounds */
-  --section-bg: #FAFAF7;
-  --section-bg-alt: #F3F3EE;
-
-  /* Fonts */
-  --font-syne: 'Syne', system-ui, sans-serif;
-  --font-dm-sans: 'DM Sans', system-ui, sans-serif;
+  --section-bg: #FFFFFF;
+  --section-bg-alt: #F8FAFC;
 
   /* Spotlight */
-  --spotlight-opacity: 0.15;
-  --spotlight-blur: 80px;
-  --spotlight-color: #00C9A7;
-  --spotlight-blend: darken;
+  --spotlight-opacity: 0.12;
+  --spotlight-blur: 100px;
+  --spotlight-color: #6C8EBF;
 }
 
-.dark {
-  /* Dark Mode Overrides - Deep Midnight / Dark Tech Artisan */
-  --bg-primary: #080C10;
-  --bg-secondary: #0A0E14;
-  --bg-tertiary: #0D1117;
+.dark,
+[data-theme='dark'] {
+  /* Dark Mode Overrides - Refined Dark Professional */
+  --bg-primary: #020204;
+  --bg-secondary: #070709;
+  --bg-tertiary: #0D0D10;
+
+  color-scheme: dark;
 
   /* Text */
-  --text-primary: #E8E6E0;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
+  --text-primary: #F8FAFC;
+  --text-secondary: #94A3B8;
+  --text-muted: #64748B;
 
-  /* Accents — Teal primary, Amber secondary */
-  --accent-teal: #00D4AA;
-  --accent-teal-rgb: 0, 212, 170;
-  --accent-amber: #E8C547;
-  --accent-amber-rgb: 232, 197, 71;
-  --accent-indigo: #4F46E5;
-  --accent-indigo-rgb: 79, 70, 229;
+  /* Accents — Slate Blue primary */
+  --accent-primary: #8BA9D6;
+  --accent-primary-rgb: 139, 169, 214;
+  --accent-secondary: #64748B;
+  --accent-secondary-rgb: 100, 116, 139;
 
-  /* Legacy compat aliases */
-  --accent-purple: #0ca8e2;
-  --accent-purple-rgb: 12, 168, 226;
-  --accent-violet: #07a9a6;
-  --accent-violet-rgb: 7, 169, 166;
-  --accent-blue: #3b82f6;
-  --accent-green: #34d399;
-  --accent-orange: #fbbf24;
+  /* Compat Aliases */
+  --accent-purple: #8BA9D6;
+  --accent-purple-rgb: 139, 169, 214;
+  --accent-teal: #8BA9D6;
+  --accent-teal-rgb: 139, 169, 214;
+  --accent-violet: #64748B;
+  --accent-violet-rgb: 100, 116, 139;
 
   /* Borders & Overlays */
-  --border-primary: rgba(255, 255, 255, 0.06);
-  --border-secondary: rgba(255, 255, 255, 0.03);
-  --glass-bg: rgba(8, 12, 16, 0.7);
-  --card-bg: #0A0E14;
-  --gradient-text-start: #00D4AA;
-  --gradient-text-mid: #07a9a6;
-  --gradient-text-end: #0ca8e2;
+  --border-primary: rgba(255, 255, 255, 0.05);
+  --border-secondary: rgba(255, 255, 255, 0.02);
+  --glass-bg: rgba(2, 2, 4, 0.85);
+  --card-bg: #070709;
+  --gradient-text-start: #D1DBEA;
+  --gradient-text-mid: #8BA9D6;
+  --gradient-text-end: #475569;
 
   /* Section Backgrounds */
-  --section-bg: #080C10;
-  --section-bg-alt: #0A0E14;
+  --section-bg: var(--bg-primary);
+  --section-bg-alt: var(--bg-secondary);
 
   /* Spotlight */
-  --spotlight-opacity: 0.25;
-  --spotlight-blur: 120px;
-  --spotlight-color: var(--accent-teal);
-  --spotlight-blend: normal;
+  --spotlight-opacity: 0.3;
+  --spotlight-blur: 140px;
+  --spotlight-color: var(--accent-primary);
+  --spotlight-blend: screen;
 }
 
 
@@ -252,7 +250,8 @@
 
 html {
   scroll-behavior: auto;
-  /* Lenis handles smooth scroll — native smooth conflicts with it */
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
 }
 
 body {
@@ -278,12 +277,12 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, var(--accent-teal, #00D4AA), var(--accent-amber, #E8C547));
+  background: linear-gradient(180deg, var(--accent-primary), var(--accent-secondary));
   border-radius: 2px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #00D4AA, #E8C547);
+  background: var(--accent-primary);
 }
 
 /* ─── Utility Classes ────────────────────────────────────── */
@@ -442,6 +441,21 @@ body {
 .animate-line-highlight {
   animation: lineHighlight 2s ease-in-out infinite;
 }
+
+.animate-orb-float-1 {
+  animation: orbFloat1 20s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-orb-float-2 {
+  animation: orbFloat2 25s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-availability-pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
 
 /* ─── Shimmer Gradient ───────────────────────────────────── */
 .shimmer-text {

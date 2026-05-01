@@ -11,17 +11,16 @@ import StaggeredText from '@/components/ui/StaggeredText';
 import TypewriterText from '@/components/ui/TypewriterText';
 import OrbBackground from '@/components/ui/OrbBackground';
 import HeroCodeSnippet from '@/components/ui/HeroCodeSnippet';
+import ProfileCard from '@/components/ui/ProfileCard';
 
 const Hero = () => {
   const ctaRef = useRef<HTMLDivElement>(null);
 
-  // GSAP magnetic effect on CTA buttons
   useEffect(() => {
     const buttons = ctaRef.current?.querySelectorAll('a, button');
     if (!buttons) return;
 
     const cleanups: (() => void)[] = [];
-
     buttons.forEach(btn => {
       const el = btn as HTMLElement;
       const onMove = (e: MouseEvent) => {
@@ -48,123 +47,133 @@ const Hero = () => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center bg-[var(--bg-primary)]">
+    <section className="relative min-h-screen flex flex-col items-center justify-center bg-[var(--bg-primary)] overflow-hidden">
 
-      {/* ── Light Rays background ──────────────────────────────── */}
-      <div className="absolute inset-0 z-0 text-center">
+      {/* ── Background Elements ────────────────────────────────── */}
+      <div className="absolute inset-0 z-0">
         <LightRays
-          raysOrigin="top-center"
-          raysColor="#4f46e5"
-          raysSpeed={0.8}
-          lightSpread={1.8}
-          rayLength={2.5}
+          raysOrigin="top-right"
+          raysColor="rgba(108, 142, 191, 0.4)"
+          raysSpeed={0.5}
+          lightSpread={2}
+          rayLength={3}
           followMouse={true}
-          mouseInfluence={0.04}
-          noiseAmount={0.02}
+          mouseInfluence={0.03}
         />
       </div>
 
-      {/* ── Overlays for text contrast ─────────────────────────── */}
-      <div className="absolute inset-0 z-[1] bg-[radial-gradient(circle_at_center,transparent_0%,var(--bg-primary)_100%)] opacity-50 pointer-events-none" />
-      <div className="absolute inset-0 z-[1] bg-[var(--bg-primary)] opacity-10 pointer-events-none" />
-
-      {/* ── Subtle grid ────────────────────────────────────────── */}
+      <div className="absolute inset-0 z-[1] bg-[radial-gradient(circle_at_center,transparent_0%,var(--bg-primary)_100%)] opacity-40 pointer-events-none" />
+      
       <div
-        className="pointer-events-none absolute inset-0 z-[1] opacity-[0.05] dark:opacity-[0.03]"
-        aria-hidden="true"
-        style={{
-          backgroundImage: `
-            linear-gradient(var(--accent-violet) 1px, transparent 1px),
-            linear-gradient(90deg, var(--accent-violet) 1px, transparent 1px)
-          `,
-          backgroundSize: '100px 100px',
-        }}
+        className="pointer-events-none absolute inset-0 z-[1] opacity-[0.03]"
+        style={{ backgroundImage: 'radial-gradient(var(--accent-primary) 1px, transparent 1px)', backgroundSize: '40px 40px' }}
       />
 
-      {/* ── Animated orb blurs ─────────────────────────────────── */}
       <OrbBackground />
 
-      {/* ── Floating Code Snippet (desktop only) ────────────────────── */}
-      <HeroCodeSnippet />
+      {/* ── Content Container ───────────────────────────────────── */}
+      <div className="container-custom relative z-10 pt-32 pb-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center">
+          
+          {/* ────────────────── LEFT CONTENT (Typography) ────────────────── */}
+          <div className="lg:col-span-8 flex flex-col items-start text-left order-2 lg:order-1">
+            
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.1, duration: 0.6 }}
+              className="inline-flex items-center gap-3 px-5 py-2.5 mb-10 rounded-full border border-[var(--accent-primary)]/20 bg-[var(--accent-primary)]/5 backdrop-blur-xl text-[var(--accent-primary)] text-[0.65rem] font-bold tracking-[0.2em] uppercase shadow-sm"
+            >
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--accent-primary)] opacity-75" />
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[var(--accent-primary)]" />
+              </span>
+              System Status: Active_Operational
+            </motion.div>
 
-      {/* ── Main Content ────────────────────────────────────────── */}
-      <div className="w-full px-6 md:px-12 lg:px-20 relative z-10 pt-20 pb-20">
-        <div className="max-w-[1400px] mx-auto text-center flex flex-col items-center justify-center">
-
-          {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1, duration: 0.6 }}
-            className="inline-flex items-center gap-2 px-4 py-2 mb-10 rounded-full border border-[var(--border-primary)] bg-[var(--bg-secondary)] text-[var(--accent-violet)] text-[0.65rem] font-bold tracking-[0.2em] uppercase shadow-sm"
-          >
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--accent-purple)] opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-[var(--accent-purple)]" />
-            </span>
-            Available for projects
-          </motion.div>
-
-          {/* Name Section — Centered and Bold */}
-          <div className="mb-14 lg:mb-20">
-            <div className="mb-4">
-              <StaggeredText
-                text="Muhammad"
-                delay={0.2}
-                className="font-black leading-[0.9] tracking-[-0.04em] text-[var(--text-primary)] select-none whitespace-nowrap"
-                style={{ fontSize: 'clamp(3.5rem, 11vw, 8.5rem)' } as React.CSSProperties}
-              />
-            </div>
-            <div>
+            <div className="mb-10 space-y-2">
+              <div className="overflow-hidden">
+                <StaggeredText
+                  text="Muhammad"
+                  delay={0.2}
+                  className="font-black leading-[0.85] tracking-tighter text-[var(--text-primary)] select-none"
+                  style={{ fontSize: 'clamp(3.5rem, 9vw, 8rem)' } as React.CSSProperties}
+                />
+              </div>
               <div
-                className="font-black leading-[0.9] tracking-[-0.04em] select-none whitespace-nowrap gradient-text"
-                style={{ fontSize: 'clamp(3.5rem, 11vw, 8.5rem)' } as React.CSSProperties}
+                className="font-black leading-[0.85] tracking-tighter select-none gradient-text overflow-hidden"
+                style={{ fontSize: 'clamp(3.5rem, 9vw, 8rem)' } as React.CSSProperties}
               >
                 <StaggeredText text="Danindra I" delay={0.6} />
               </div>
             </div>
-          </div>
 
-          {/* Details & CTA */}
-          <div className="flex flex-col items-center gap-10">
-            <ScrollReveal delay={0.5} yOffset={16}>
-              <div className="flex flex-col items-center max-w-2xl">
+            <div className="flex flex-col items-start max-w-2xl">
+              <div className="flex items-center gap-4 mb-8">
+                <div className="h-px w-12 bg-[var(--accent-primary)] opacity-50" />
                 <TypewriterText
-                  text="Backend Systems Engineer"
+                  text="Backend Systems Architect"
                   delay={1.2}
-                  className="font-mono font-bold tracking-[0.3em] text-[var(--accent-violet)] mb-8 uppercase"
-                  style={{ fontSize: 'clamp(0.75rem, 1.4vw, 0.9rem)' }}
+                  className="font-mono font-black tracking-[0.4em] text-[var(--accent-primary)] uppercase text-[0.7rem] md:text-[0.85rem]"
                 />
-                <p className="text-[var(--text-secondary)] leading-relaxed text-lg md:text-2xl opacity-90 text-center font-medium">
-                  I architect high-performance server-side foundations,
-                  focusing on scalability, security, and elegant system design.
-                </p>
               </div>
-            </ScrollReveal>
+              <p className="text-[var(--text-secondary)] leading-relaxed text-xl md:text-2xl opacity-90 font-medium mb-12 max-w-xl">
+                I engineer resilient, high-performance backends for the next generation of scalable digital systems.
+              </p>
+            </div>
 
             <motion.div
               ref={ctaRef}
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8, duration: 0.7 }}
-              className="flex flex-wrap items-center justify-center gap-6"
+              className="flex flex-wrap items-center gap-6"
             >
               <Link
                 href="/projects"
-                className="relative inline-flex items-center gap-3 px-10 py-5 bg-[var(--accent-purple)] text-white font-bold uppercase tracking-widest text-xs rounded-xl hover:bg-[var(--accent-violet)] transition-all duration-300 shadow-xl overflow-hidden group"
+                className="relative inline-flex items-center gap-4 px-10 py-5 bg-[var(--text-primary)] text-[var(--bg-primary)] font-bold uppercase tracking-[0.2em] text-[0.7rem] rounded-full hover:bg-[var(--accent-primary)] hover:text-white transition-all duration-500 shadow-2xl group overflow-hidden"
               >
-                <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12" />
-                View Projects ↗
+                Launch Dossier &gt;
               </Link>
               <button
                 onClick={() => scrollToSection('skills')}
-                className="inline-flex items-center gap-3 px-10 py-5 border border-[var(--border-primary)] bg-[var(--bg-secondary)] text-[var(--text-primary)] font-bold uppercase tracking-widest text-xs rounded-xl hover:border-[var(--accent-violet)] group transition-all duration-300 shadow-sm"
+                className="inline-flex items-center gap-4 px-10 py-5 border border-[var(--border-primary)] bg-[var(--bg-secondary)]/30 backdrop-blur-md text-[var(--text-primary)] font-bold uppercase tracking-[0.2em] text-[0.7rem] rounded-full hover:border-[var(--accent-primary)] hover:bg-[var(--accent-primary)]/5 group transition-all duration-500"
               >
-                <span className="text-[var(--accent-violet)] group-hover:translate-y-1 transition-transform">↓</span>
-                My Skills
+                <span className="text-[var(--accent-primary)] group-hover:translate-y-1 transition-transform duration-300">v</span>
+                Core Stack
               </button>
             </motion.div>
           </div>
+
+          {/* ────────────────── RIGHT CONTENT (3D Card) ────────────────── */}
+          <div className="lg:col-span-4 flex items-start justify-center order-1 lg:order-2 pt-2">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, rotate: 10 }}
+              animate={{ opacity: 1, scale: 1, rotate: 0 }}
+              transition={{ delay: 0.4, duration: 1.2, ease: [0.23, 1, 0.32, 1] }}
+              className="relative w-full max-w-[360px]"
+            >
+              <div className="absolute -inset-10 bg-[var(--accent-primary)]/5 blur-[100px] rounded-full animate-pulse" />
+              
+              <ProfileCard 
+                name="M. Danindra"
+                handle="masdani"
+                title="Systems Engineer"
+                status="Active_Operational"
+                avatarUrl="/assets/foto/Kucing.jpg"
+                innerGradient="linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0) 100%)"
+                behindGlowColor="rgba(139, 169, 214, 0.15)"
+                className="shadow-2xl"
+              />
+
+              {/* Repositioned slightly more to the left for better alignment */}
+              <HeroCodeSnippet 
+                className="absolute -bottom-32 -right-12 xl:block hidden z-20 scale-100 origin-top-left" 
+                style={{ transform: 'perspective(1000px) rotateX(10deg) rotateY(-15deg) rotateZ(5deg)' }}
+              />
+            </motion.div>
+          </div>
+
         </div>
       </div>
     </section>

@@ -225,7 +225,7 @@ export default function KeyboardTechStack() {
       <div className="mb-12 flex flex-col lg:flex-row lg:items-end justify-between gap-8">
         <div className="space-y-4">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-[var(--bg-tertiary)] border border-[var(--border-primary)] text-[var(--accent-purple)] shadow-sm">
+            <div className="p-2.5 rounded-xl bg-[var(--bg-tertiary)] border border-[var(--border-primary)] text-[var(--accent-primary)] shadow-sm">
               <KeyboardIcon className="w-6 h-6" />
             </div>
             <h2 className="text-3xl md:text-5xl font-black text-[var(--text-primary)] tracking-tight">
@@ -386,12 +386,12 @@ export default function KeyboardTechStack() {
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
               className="relative w-full max-w-lg bg-[var(--card-bg)] border border-[var(--border-primary)] rounded-[2.5rem] p-10 shadow-2xl overflow-hidden"
             >
-              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[var(--accent-purple)] to-transparent opacity-50" />
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[var(--accent-primary)] to-transparent opacity-50" />
 
               <div className="flex items-center justify-between mb-10">
                 <h3 className="text-2xl font-black text-[var(--text-primary)] flex items-center gap-4">
                   <div className="w-10 h-10 rounded-xl bg-[var(--bg-tertiary)] border border-[var(--border-primary)] flex items-center justify-center">
-                    <Plus className="w-5 h-5 text-[var(--accent-purple)]" />
+                    <Plus className="w-5 h-5 text-[var(--accent-primary)]" />
                   </div>
                   New_Unit_Entry
                 </h3>
@@ -411,7 +411,7 @@ export default function KeyboardTechStack() {
                         value={newKeyName}
                         onChange={(e) => setNewKeyName(e.target.value)}
                         placeholder="e.g. Bun"
-                        className="w-full bg-[var(--bg-secondary)] border border-[var(--border-primary)] rounded-xl px-5 py-4 text-[var(--text-primary)] font-mono placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--accent-purple)] transition-all"
+                        className="w-full bg-[var(--bg-secondary)] border border-[var(--border-primary)] rounded-xl px-5 py-4 text-[var(--text-primary)] font-mono placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--accent-primary)] transition-all"
                       />
                     </div>
                     <div>
@@ -422,7 +422,7 @@ export default function KeyboardTechStack() {
                         value={newKeyIcon}
                         onChange={(e) => setNewKeyIcon(e.target.value)}
                         placeholder="BU"
-                        className="w-full bg-[var(--bg-secondary)] border border-[var(--border-primary)] rounded-xl px-5 py-4 text-[var(--text-primary)] font-mono focus:outline-none focus:border-[var(--accent-purple)] transition-all uppercase"
+                        className="w-full bg-[var(--bg-secondary)] border border-[var(--border-primary)] rounded-xl px-5 py-4 text-[var(--text-primary)] font-mono focus:outline-none focus:border-[var(--accent-primary)] transition-all uppercase"
                       />
                     </div>
                   </div>
@@ -436,7 +436,7 @@ export default function KeyboardTechStack() {
                           type="button"
                           onClick={() => setNewKeyCategory(cat.id as Exclude<CategoryId, 'all'>)}
                           className={`group flex items-center justify-between px-5 py-3.5 rounded-xl border transition-all duration-300 ${newKeyCategory === cat.id
-                            ? 'border-[var(--accent-purple)] bg-[var(--bg-tertiary)] text-[var(--text-primary)] shadow-sm'
+                            ? 'border-[var(--accent-primary)] bg-[var(--bg-tertiary)] text-[var(--text-primary)] shadow-sm'
                             : 'border-[var(--border-primary)] bg-transparent text-[var(--text-muted)] hover:border-[var(--text-muted)]'
                             }`}
                         >

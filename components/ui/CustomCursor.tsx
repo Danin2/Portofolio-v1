@@ -77,33 +77,31 @@ export default function CustomCursor() {
 
   return (
     <div className="pointer-events-none fixed inset-0 z-[9999] hidden md:block overflow-hidden">
-      {/* 32px Ring (follows with delay) */}
+      {/* 40px Ring (follows with delay) */}
       <motion.div
-        className="fixed top-0 left-0 rounded-full border border-[var(--accent-purple)] mix-blend-difference"
+        className="fixed top-0 left-0 rounded-full border border-[var(--accent-primary)] opacity-40 shadow-[0_0_15px_rgba(var(--accent-primary-rgb),0.2)]"
         style={{
           x: ringX,
           y: ringY,
           translateX: '-50%',
           translateY: '-50%',
-          width: isHovered ? 48 : 32,
-          height: isHovered ? 48 : 32,
-          backgroundColor: isHovered ? 'rgba(12, 168, 226, 0.15)' : 'transparent',
-          boxShadow: isHovered ? '0 0 20px rgba(12, 168, 226, 0.3)' : 'none',
+          width: isHovered ? 56 : 40,
+          height: isHovered ? 56 : 40,
+          backgroundColor: isHovered ? 'rgba(var(--accent-primary-rgb), 0.1)' : 'transparent',
         }}
         animate={{
-          scale: isClicked ? 0.7 : isHovered ? 1.1 : 1,
+          scale: isClicked ? 0.8 : isHovered ? 1.2 : 1,
         }}
         transition={{
-          scale: { duration: 0.2, ease: [0.25, 0.1, 0.25, 1] },
-          width: { duration: 0.3 },
-          height: { duration: 0.3 },
-          backgroundColor: { duration: 0.3 },
+          scale: { duration: 0.2, ease: [0.16, 1, 0.3, 1] },
+          width: { duration: 0.4 },
+          height: { duration: 0.4 },
         }}
       />
 
-      {/* 8px Filled Circle (follows instantly) */}
+      {/* 6px Filled Circle (follows instantly) */}
       <motion.div
-        className="fixed top-0 left-0 w-2 h-2 bg-[var(--accent-purple)] rounded-full mix-blend-difference"
+        className="fixed top-0 left-0 w-1.5 h-1.5 bg-[var(--accent-primary)] rounded-full shadow-[0_0_8px_rgba(var(--accent-primary-rgb),0.5)]"
         style={{
           x: mouseX,
           y: mouseY,

@@ -5,6 +5,7 @@ import Footer from '@/components/layout/Footer'
 import Navigation from '@/components/layout/Navigation'
 import ClientProviders from '@/components/ui/ClientProviders'
 import ScrollProgress from '@/components/ui/ScrollProgress'
+import BackToTop from '@/components/ui/BackToTop'
 
 
 const inter = Inter({
@@ -122,6 +123,7 @@ export default function RootLayout({
           <Navigation />
           <main>{children}</main>
           <Footer />
+          <BackToTop />
         </ClientProviders>
       </body>
     </html>

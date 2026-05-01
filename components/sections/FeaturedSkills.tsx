@@ -26,7 +26,7 @@ const skills = [
     title: "Project Architecture",
     description: "Scalable Systems & Infrastructure",
     icon: <Box className="w-10 h-10" />,
-    color: "from-[#bd34fe] to-[#41d1ff]", // Vite Purple to Blue
+    color: "from-[#8BA9D6] to-[#475569]", 
     src: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2000&auto=format&fit=crop",
     ctaText: "Full Specs",
     ctaLink: "#",
@@ -39,7 +39,7 @@ const skills = [
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="p-4 rounded-xl bg-[var(--bg-tertiary)] border border-[var(--border-primary)]">
-            <h4 className="font-bold mb-2 text-[var(--accent-purple)]">Infrastructure</h4>
+            <h4 className="font-bold mb-2 text-[var(--accent-primary)]">Infrastructure</h4>
             <ul className="text-sm space-y-1 opacity-80">
               <li>• Docker & K8s Orchestration</li>
               <li>• Message Brokers (RabbitMQ/Kafka)</li>
@@ -47,7 +47,7 @@ const skills = [
             </ul>
           </div>
           <div className="p-4 rounded-xl bg-[var(--bg-tertiary)] border border-[var(--border-primary)]">
-            <h4 className="font-bold mb-2 text-[var(--accent-violet)]">Patterns</h4>
+            <h4 className="font-bold mb-2 text-[var(--text-muted)]">Patterns</h4>
             <ul className="text-sm space-y-1 opacity-80">
               <li>• Domain-Driven Design (DDD)</li>
               <li>• Event Sourcing / CQRS</li>
@@ -62,7 +62,7 @@ const skills = [
     title: "Database Engineering",
     description: "High-Performance Data Storage",
     icon: <Database className="w-8 h-8" />,
-    color: "from-[#41d1ff] to-[#bd34fe]", // Blue to Purple
+    color: "from-[#475569] to-[#2D3748]",
     src: "https://images.unsplash.com/photo-1544383835-bda2bc66a55d?q=80&w=2000&auto=format&fit=crop",
     content: () => (
       <div className="space-y-4">
@@ -81,9 +81,9 @@ const skills = [
   },
   {
     title: "Modern Tooling",
-    description: "Lightning Fast Workflow with Vite",
-    icon: <Zap className="w-8 h-8 text-[#ffea83]" />,
-    color: "from-[#ffea83] to-[#bd34fe]", // Vite Yellow to Purple
+    description: "Lightning Fast Workflow",
+    icon: <Zap className="w-8 h-8 text-[#8BA9D6]" />,
+    color: "from-[#8BA9D6] to-[#2D3748]",
     src: "https://images.unsplash.com/photo-1516116216624-53e697fedbea?q=80&w=2000&auto=format&fit=crop",
     content: () => (
       <div className="space-y-4">
@@ -91,9 +91,9 @@ const skills = [
           I leverage the latest ecosystem improvements to ensure "Lightning Fast"
           development cycles and optimized production bundles.
         </p>
-        <div className="p-4 rounded-xl border border-[#ffea83]/20 bg-[#ffea83]/5">
-          <h4 className="flex items-center gap-2 font-bold text-[#ffea83] mb-3">
-            <Zap className="w-4 h-4" /> The Vite Ecosystem
+        <div className="p-4 rounded-xl border border-[var(--accent-primary)]/20 bg-[var(--accent-primary)]/5">
+          <h4 className="flex items-center gap-2 font-bold text-[var(--accent-primary)] mb-3">
+            <Zap className="w-4 h-4" /> The Modern Ecosystem
           </h4>
           <ul className="grid grid-cols-2 gap-2 text-sm opacity-90">
             <li>• Vite-powered dev server</li>
@@ -109,7 +109,7 @@ const skills = [
     title: "Backend API",
     description: "Type-Safe Robust Foundation",
     icon: <Server className="w-8 h-8" />,
-    color: "from-[#bd34fe] to-[#ffea83]",
+    color: "from-[#2D3748] to-[#8BA9D6]",
     src: "https://images.unsplash.com/photo-1558494949-ef010cbdcc4b?q=80&w=2000&auto=format&fit=crop",
     content: () => (
       <div className="space-y-4">
@@ -130,7 +130,7 @@ const skills = [
     title: "Security & Auth",
     description: "Identity & Data Hardening",
     icon: <Shield className="w-8 h-8" />,
-    color: "from-[#ffea83] to-[#41d1ff]",
+    color: "from-[#8BA9D6] to-[#1A202C]",
     src: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2000&auto=format&fit=crop",
     content: () => (
       <div className="space-y-4">
@@ -151,7 +151,7 @@ const skills = [
     title: "QA & Testing",
     description: "Stability & Zero-Regression",
     icon: <CheckCircle className="w-8 h-8" />,
-    color: "from-[#41d1ff] to-[#ffea83]",
+    color: "from-[#1A202C] to-[#8BA9D6]",
     src: "https://images.unsplash.com/photo-1551288049-bbbda536639a?q=80&w=2000&auto=format&fit=crop",
     content: () => (
       <div className="space-y-4">

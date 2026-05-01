@@ -10,9 +10,9 @@ interface ParticleFieldProps {
 }
 
 export default function ParticleField({ 
-  particleCount = 1800, 
-  particleColor = '#5227FF',
-  speed = 0.3 
+  particleCount = 1200, 
+  particleColor = '#6C8EBF',
+  speed = 0.2 
 }: ParticleFieldProps) {
     const mountRef = useRef<HTMLDivElement>(null);
     const [isVisible, setIsVisible] = useState(false);

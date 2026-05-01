@@ -49,8 +49,8 @@ const ExperienceTimeline = () => {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-10 mb-20">
           <div className="max-w-2xl">
             <div className="flex items-center gap-3 mb-6">
-              <span className="h-[1px] w-8 bg-[var(--accent-purple)]" />
-              <span className="text-[0.7rem] font-bold uppercase tracking-[0.3em] text-[var(--accent-purple)]">
+              <span className="h-[1px] w-8 bg-[var(--accent-primary)]" />
+              <span className="text-[0.7rem] font-bold uppercase tracking-[0.3em] text-[var(--accent-primary)]">
                 Career Path
               </span>
             </div>
@@ -71,25 +71,25 @@ const ExperienceTimeline = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.1, duration: 0.6 }}
-              className="group relative grid md:grid-cols-12 gap-8 py-12 border-b border-[var(--border-primary)] last:border-0 hover:bg-[var(--bg-secondary)]/30 transition-all duration-500 px-4 -mx-4 rounded-3xl"
+              className="group relative grid md:grid-cols-12 gap-8 py-14 border-b border-[var(--border-primary)] last:border-0 hover:bg-[var(--bg-secondary)]/50 transition-all duration-500 px-6 -mx-6 rounded-[2rem]"
             >
               {/* Year & Index */}
               <div className="md:col-span-2 flex md:flex-col justify-between items-start">
-                <span className="text-2xl font-black text-[var(--text-primary)] font-mono">
+                <span className="text-2xl font-black text-[var(--text-primary)] font-mono tracking-tighter">
                   {item.year}
                 </span>
-                <span className="text-[0.6rem] font-bold text-[var(--text-muted)] opacity-50 uppercase tracking-widest mt-auto">
-                  Exp_{String(idx + 1).padStart(2, '0')}
+                <span className="text-[0.6rem] font-black text-[var(--accent-primary)] uppercase tracking-[0.3em] mt-auto">
+                  EXP_{String(idx + 1).padStart(2, '0')}
                 </span>
               </div>
 
               {/* Title & Company */}
-              <div className="md:col-span-4 space-y-2">
-                <h3 className="text-xl font-bold text-[var(--text-primary)] group-hover:text-[var(--accent-purple)] transition-colors duration-300 uppercase tracking-tight">
+              <div className="md:col-span-4 space-y-3">
+                <h3 className="text-xl font-bold text-[var(--text-primary)] group-hover:text-[var(--accent-primary)] transition-colors duration-300 uppercase tracking-tight leading-tight">
                   {item.title}
                 </h3>
                 {item.company && (
-                  <p className="text-[var(--accent-purple)] text-xs font-black uppercase tracking-widest">
+                  <p className="inline-flex px-3 py-1 bg-[var(--accent-primary)]/10 text-[var(--accent-primary)] text-[0.6rem] font-black uppercase tracking-widest rounded-md">
                     @ {item.company}
                   </p>
                 )}
@@ -97,14 +97,14 @@ const ExperienceTimeline = () => {
 
               {/* Description & Tech */}
               <div className="md:col-span-6 space-y-6">
-                <p className="text-[var(--text-secondary)] leading-relaxed text-sm opacity-80 group-hover:opacity-100 transition-opacity">
+                <p className="text-[var(--text-secondary)] leading-relaxed text-sm font-medium opacity-80 group-hover:opacity-100 transition-opacity">
                   {item.description}
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {item.technologies.map(tech => (
                     <span
                       key={tech}
-                      className="px-2.5 py-1 bg-[var(--bg-tertiary)] text-[var(--text-muted)] text-[0.6rem] font-bold tracking-widest uppercase rounded-lg border border-[var(--border-primary)] group-hover:border-[var(--accent-purple)]/30 transition-all"
+                      className="px-3 py-1.5 bg-[var(--bg-tertiary)] text-[var(--text-muted)] text-[0.55rem] font-black tracking-widest uppercase rounded-lg border border-[var(--border-primary)] group-hover:border-[var(--accent-primary)]/40 group-hover:text-[var(--accent-primary)] transition-all duration-300"
                     >
                       {tech}
                     </span>
