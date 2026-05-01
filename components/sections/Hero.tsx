@@ -9,6 +9,8 @@ import LightRays from '@/components/ui/LightRays';
 import ScrollReveal from '@/components/ui/ScrollReveal';
 import StaggeredText from '@/components/ui/StaggeredText';
 import TypewriterText from '@/components/ui/TypewriterText';
+import OrbBackground from '@/components/ui/OrbBackground';
+import HeroCodeSnippet from '@/components/ui/HeroCodeSnippet';
 
 const Hero = () => {
   const ctaRef = useRef<HTMLDivElement>(null);
@@ -46,7 +48,7 @@ const Hero = () => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-[var(--bg-primary)]">
+    <section className="relative min-h-screen flex flex-col items-center justify-center bg-[var(--bg-primary)]">
 
       {/* ── Light Rays background ──────────────────────────────── */}
       <div className="absolute inset-0 z-0 text-center">
@@ -79,11 +81,11 @@ const Hero = () => {
         }}
       />
 
-      {/* ── Purple blob blurs ───────────────────────────────────── */}
-      <div className="pointer-events-none absolute inset-0 z-[1]" aria-hidden="true">
-        <div className="absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full bg-[var(--accent-purple)] opacity-[0.06] blur-[120px]" />
-        <div className="absolute -bottom-32 -right-32 w-[500px] h-[500px] rounded-full bg-[var(--accent-violet)] opacity-[0.05] blur-[100px]" />
-      </div>
+      {/* ── Animated orb blurs ─────────────────────────────────── */}
+      <OrbBackground />
+
+      {/* ── Floating Code Snippet (desktop only) ────────────────────── */}
+      <HeroCodeSnippet />
 
       {/* ── Main Content ────────────────────────────────────────── */}
       <div className="w-full px-6 md:px-12 lg:px-20 relative z-10 pt-20 pb-20">

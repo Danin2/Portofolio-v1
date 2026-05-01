@@ -187,29 +187,48 @@ export default function AboutClient({ values }: AboutClientProps) {
               </div>
             </div>
 
-            <div className="lg:col-span-8 grid md:grid-cols-2 gap-12">
-              {values.map((val, idx) => (
-                <motion.div
-                  key={idx}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: idx * 0.1 }}
-                  className="p-8 rounded-3xl bg-[var(--bg-primary)] border border-[var(--border-primary)] hover:border-[var(--accent-purple)]/30 transition-all group"
-                >
-                  {val.icon && (
-                    <div className="w-12 h-12 rounded-2xl bg-[var(--bg-tertiary)] flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition-transform">
-                      {val.icon}
-                    </div>
-                  )}
-                  <h3 className="font-bold text-lg mb-4 text-[var(--text-primary)] uppercase tracking-widest">
-                    {val.title}
-                  </h3>
-                  <p className="text-sm text-[var(--text-secondary)] leading-relaxed opacity-80">
-                    {val.description}
-                  </p>
-                </motion.div>
-              ))}
+            <div className="lg:col-span-8 grid md:grid-cols-2 gap-8">
+              {values.map((val, idx) => {
+                const accentBorders = [
+                  'border-l-[#00D4AA]',
+                  'border-l-[#E8C547]',
+                  'border-l-[#4F46E5]',
+                  'border-l-[#22c55e]',
+                  'border-l-[#a855f7]',
+                  'border-l-[#f97316]',
+                ];
+                return (
+                  <motion.div
+                    key={idx}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: idx * 0.08 }}
+                    className={`relative p-8 rounded-3xl bg-[var(--bg-primary)] border border-[var(--border-primary)] border-l-[3px] ${accentBorders[idx]} hover:border-l-[5px] transition-all duration-300 group overflow-hidden hover:shadow-xl`}
+                  >
+                    {/* Large decorative number background */}
+                    <span
+                      className="absolute top-2 left-3 font-black text-[var(--text-primary)] select-none pointer-events-none leading-none"
+                      style={{ fontSize: '5.5rem', opacity: 0.05, lineHeight: 1 }}
+                      aria-hidden="true"
+                    >
+                      {String(idx + 1).padStart(2, '0')}
+                    </span>
+
+                    {val.icon && (
+                      <div className="w-12 h-12 rounded-2xl bg-[var(--bg-tertiary)] flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition-transform relative z-10">
+                        {val.icon}
+                      </div>
+                    )}
+                    <h3 className="font-bold text-lg mb-4 text-[var(--text-primary)] uppercase tracking-widest relative z-10">
+                      {val.title}
+                    </h3>
+                    <p className="text-sm text-[var(--text-secondary)] leading-relaxed opacity-80 group-hover:opacity-100 transition-opacity relative z-10">
+                      {val.description}
+                    </p>
+                  </motion.div>
+                );
+              })}
             </div>
           </div>
         </div>

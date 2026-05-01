@@ -1,11 +1,90 @@
 'use client';
 
-import React, { useRef } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import RevealText from '@/components/ui/RevealText';
 import { getFeaturedProjects } from '@/lib/data/projects';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
+import TerminalCardHeader from '@/components/ui/TerminalCardHeader';
+
+// Terminal output lines per project
+const terminalData: Record<string, { lines: { text: string; type: 'command' | 'success' | 'info' | 'warning' }[]; title: string }> = {
+  default: {
+    title: 'api.ts',
+    lines: [
+      { text: 'GET /api/v1/health → 200 OK (4ms)', type: 'success' },
+      { text: 'POST /api/v1/auth → JWT issued', type: 'info' },
+      { text: 'Server running on :3000 ✓', type: 'success' },
+    ],
+  },
+};
+
+// Map project slug/title keywords to terminal lines
+function getTerminalData(project: { slug: string; title: string }) {
+  const slug = project.slug.toLowerCase();
+  const title = project.title.toLowerCase();
+
+  if (slug.includes('ecommerce') || title.includes('commerce') || title.includes('shop')) {
+    return {
+      title: 'ecommerce.ts',
+      lines: [
+        { text: 'GET /api/products → 200 OK (8ms)', type: 'success' as const },
+        { text: 'POST /api/orders → 201 Created', type: 'success' as const },
+        { text: 'Redis cache: 94% hit rate ✓', type: 'info' as const },
+      ],
+    };
+  }
+  if (slug.includes('chat') || title.includes('chat') || title.includes('message')) {
+    return {
+      title: 'websocket.ts',
+      lines: [
+        { text: 'WS connected · 1,247 active sessions', type: 'success' as const },
+        { text: 'MSG delivered in <5ms avg', type: 'info' as const },
+        { text: '[BROKER] Kafka lag: 0ms ✓', type: 'success' as const },
+      ],
+    };
+  }
+  if (slug.includes('task') || title.includes('task') || title.includes('todo')) {
+    return {
+      title: 'tasks.ts',
+      lines: [
+        { text: 'POST /tasks · RBAC verified · logged', type: 'success' as const },
+        { text: '[AUTH] role: admin · access granted', type: 'info' as const },
+        { text: 'Queue processed: 120 jobs/s ✓', type: 'success' as const },
+      ],
+    };
+  }
+  if (slug.includes('micro') || title.includes('micro')) {
+    return {
+      title: 'services.ts',
+      lines: [
+        { text: '[BROKER] 3 services healthy · lag: 0ms', type: 'success' as const },
+        { text: 'gRPC: auth → order · 2ms', type: 'info' as const },
+        { text: 'K8s: all pods running ✓', type: 'success' as const },
+      ],
+    };
+  }
+  if (slug.includes('db') || title.includes('database') || title.includes('migration')) {
+    return {
+      title: 'migrate.ts',
+      lines: [
+        { text: 'migrating... v1.0 → v2.0 [████████] 100%', type: 'success' as const },
+        { text: 'schema verified · indexes OK', type: 'info' as const },
+        { text: 'Rollback point saved ✓', type: 'success' as const },
+      ],
+    };
+  }
+
+  return {
+    title: `${project.slug.split('-')[0]}.ts`,
+    lines: [
+      { text: `GET /api/health → 200 OK (4ms)`, type: 'success' as const },
+      { text: `POST /api/v1/auth → JWT issued`, type: 'info' as const },
+      { text: `Server running · uptime 99.9% ✓`, type: 'success' as const },
+    ],
+  };
+}
 
 const ProjectPreview = () => {
   const featuredProjects = getFeaturedProjects().slice(0, 3);
@@ -18,10 +97,10 @@ const ProjectPreview = () => {
         isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
       }`}
     >
-      {/* Sophisticated background decoration */}
+      {/* Background decoration */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 right-0 w-[40%] h-[40%] bg-[var(--accent-purple)]/5 blur-[120px] rounded-full" />
-        <div className="absolute bottom-0 left-0 w-[30%] h-[30%] bg-[var(--accent-violet)]/5 blur-[100px] rounded-full" />
+        <div className="absolute bottom-0 left-0 w-[30%] h-[30%] bg-[rgba(0,212,170,0.05)] blur-[100px] rounded-full" />
       </div>
 
       <div className="container-custom relative z-10">
@@ -47,71 +126,82 @@ const ProjectPreview = () => {
 
         {/* Project Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
-          {featuredProjects.map((project, idx) => (
-            <motion.div
-              key={project.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.1, duration: 0.6 }}
-            >
-              <Link
-                href={`/projects/${project.slug}`}
-                className="group flex flex-col h-full bg-[var(--card-bg)] rounded-[2.5rem] border border-[var(--border-primary)] overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-[var(--accent-purple)]/20 relative"
+          {featuredProjects.map((project, idx) => {
+            const termData = getTerminalData(project);
+            return (
+              <motion.div
+                key={project.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.1, duration: 0.6 }}
               >
-                {/* Animated Border using conic-gradient on hover */}
-                <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-[2.5rem] p-[1px] bg-gradient-to-r from-[var(--accent-purple)] to-[var(--accent-violet)]" style={{ backgroundClip: 'padding-box, border-box', backgroundOrigin: 'border-box' }} />
+                <Link
+                  href={`/projects/${project.slug}`}
+                  className="group flex flex-col h-full rounded-[2rem] border border-[var(--border-primary)] overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-[rgba(0,212,170,0.1)] hover:border-[rgba(0,212,170,0.3)] relative bg-[var(--card-bg)]"
+                >
+                  {/* Terminal header */}
+                  <TerminalCardHeader
+                    projectId={project.id}
+                    lines={termData.lines}
+                    title={termData.title}
+                  />
 
-                <div className="p-10 flex flex-col h-full relative z-10 bg-[var(--card-bg)] rounded-[2.5rem] overflow-hidden">
-                  <div className="flex items-center justify-between mb-12">
-                    <span className="text-[0.6rem] font-black uppercase tracking-[0.2em] text-[var(--text-muted)] group-hover:text-[var(--accent-purple)] transition-colors">
-                      {project.category}
-                    </span>
-                    <div className="w-10 h-10 rounded-full bg-[var(--bg-tertiary)] flex items-center justify-center text-[var(--text-muted)] group-hover:bg-[var(--accent-purple)] group-hover:text-white transition-all duration-300">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M5 12h14m-7-7 7 7-7 7" />
-                      </svg>
+                  {/* Card content */}
+                  <div className="p-8 flex flex-col flex-1 relative z-10">
+                    <div className="flex items-center justify-between mb-6">
+                      <span className="text-[0.6rem] font-black uppercase tracking-[0.2em] text-[var(--text-muted)] group-hover:text-[rgba(0,212,170,0.8)] transition-colors">
+                        {project.category}
+                      </span>
+                      <div className="w-9 h-9 rounded-full bg-[var(--bg-tertiary)] flex items-center justify-center text-[var(--text-muted)] group-hover:bg-[rgba(0,212,170,0.15)] group-hover:text-[#00D4AA] transition-all duration-300">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M5 12h14m-7-7 7 7-7 7" />
+                        </svg>
+                      </div>
+                    </div>
+
+                    <h3 className="text-xl font-bold text-[var(--text-primary)] mb-4 group-hover:text-[rgba(0,212,170,0.9)] transition-colors leading-tight">
+                      {project.title}
+                    </h3>
+
+                    <p className="text-sm text-[var(--text-secondary)] leading-relaxed mb-6 line-clamp-3 opacity-80 group-hover:opacity-100 transition-opacity">
+                      {project.shortDescription}
+                    </p>
+
+                    {/* Metric chips */}
+                    <div className="flex flex-wrap gap-2 mb-6">
+                      {['⚡ <10ms', '🔒 JWT', '📦 Docker'].map((chip) => (
+                        <span
+                          key={chip}
+                          className="text-[0.55rem] font-bold px-2.5 py-1 rounded-full bg-[rgba(0,212,170,0.06)] border border-[rgba(0,212,170,0.15)] text-[rgba(0,212,170,0.8)]"
+                        >
+                          {chip}
+                        </span>
+                      ))}
+                    </div>
+
+                    <div className="mt-auto flex flex-wrap gap-2">
+                      {project.techStack.slice(0, 3).map((tech, i) => (
+                        <motion.span
+                          key={tech}
+                          initial={{ opacity: 0, y: 10 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          viewport={{ once: true }}
+                          transition={{ delay: 0.2 + i * 0.1, duration: 0.4 }}
+                          className="text-[0.6rem] font-bold px-3 py-1 bg-[var(--bg-tertiary)] rounded-md uppercase tracking-tight text-[var(--text-muted)]"
+                        >
+                          {tech}
+                        </motion.span>
+                      ))}
+                      {project.techStack.length > 3 && (
+                        <span className="text-[0.6rem] text-[var(--text-muted)] self-center px-1">+{project.techStack.length - 3}</span>
+                      )}
                     </div>
                   </div>
-
-                  <h3 className="text-2xl font-bold text-[var(--text-primary)] mb-6 group-hover:text-[var(--accent-purple)] transition-colors leading-tight">
-                    {project.title}
-                  </h3>
-
-                  <p className="text-sm text-[var(--text-secondary)] leading-relaxed mb-10 line-clamp-3 opacity-80 group-hover:opacity-100 transition-opacity">
-                    {project.shortDescription}
-                  </p>
-
-                  <div className="mt-auto flex flex-wrap gap-2">
-                    {project.techStack.slice(0, 3).map((tech, i) => (
-                      <motion.span
-                        key={tech}
-                        initial={{ opacity: 0, y: 10 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.2 + i * 0.1, duration: 0.4 }}
-                        className="text-[0.6rem] font-bold px-3 py-1 bg-[var(--bg-tertiary)] rounded-md uppercase tracking-tight text-[var(--text-muted)]"
-                      >
-                        {tech}
-                      </motion.span>
-                    ))}
-                    {project.techStack.length > 3 && (
-                      <span className="text-[0.6rem] text-[var(--text-muted)] self-center px-1">+{project.techStack.length - 3}</span>
-                    )}
-                  </div>
-
-                  {/* Hover Reveal Layer */}
-                  <div className="absolute inset-0 bg-[var(--bg-primary)]/95 backdrop-blur-sm z-20 translate-y-full group-hover:translate-y-0 transition-transform duration-500 flex flex-col justify-center p-10 ease-[cubic-bezier(0.23,1,0.32,1)]">
-                    <h4 className="text-xl font-bold text-[var(--accent-purple)] mb-4">{project.title}</h4>
-                    <p className="text-sm text-[var(--text-secondary)] leading-relaxed mb-8">{project.shortDescription}</p>
-                    <div className="inline-flex items-center gap-3 px-6 py-3 bg-[var(--accent-purple)] text-white font-bold uppercase tracking-widest text-xs rounded-xl hover:bg-[var(--accent-violet)] transition-all duration-300 w-max">
-                      View Details →
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            </motion.div>
-          ))}
+                </Link>
+              </motion.div>
+            );
+          })}
         </div>
 
         {/* CTA Section */}
