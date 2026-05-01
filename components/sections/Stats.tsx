@@ -6,25 +6,36 @@ import { useScrollReveal } from '@/hooks/useScrollReveal';
 function useCountUp(end: number, duration = 2000, start = false) {
   const [count, setCount] = useState(0);
   useEffect(() => {
-    if (!start) return;
+    if (!start) {
+      setCount(0);
+      return;
+    }
     let startTime: number;
+    let animationFrame: number;
+    
     const animate = (timestamp: number) => {
       if (!startTime) startTime = timestamp;
       const progress = Math.min((timestamp - startTime) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 5); // easeOutQuint for smoother finish
+      // easeOutExpo for smoother finish
+      const eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
       setCount(Math.floor(eased * end));
-      if (progress < 1) requestAnimationFrame(animate);
+      
+      if (progress < 1) {
+        animationFrame = requestAnimationFrame(animate);
+      }
     };
-    requestAnimationFrame(animate);
+    
+    animationFrame = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(animationFrame);
   }, [end, duration, start]);
   return count;
 }
 
 const stats = [
-  { value: 5, label: 'Projects Completed', suffix: '+' },
-  { value: 3, label: 'Years of Learning', suffix: '+' },
-  { value: 15, label: 'Technologies Mastered', suffix: '+' },
-  { value: 80, label: 'Open Source Enthusiast', suffix: '%' },
+  { value: 3, label: 'Years Experience', suffix: '+' },
+  { value: 20, label: 'Systems Architected', suffix: '+' },
+  { value: 50, label: 'APIs Optimized', suffix: '+' },
+  { value: 99, label: 'Uptime Reliability', suffix: '%' },
 ];
 
 export default function Stats() {
@@ -33,14 +44,14 @@ export default function Stats() {
   return (
     <section
       ref={ref}
-      className={`py-24 border-y border-[var(--border-primary)] bg-[var(--bg-secondary)]/30 backdrop-blur-sm transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+      className={`py-16 md:py-24 border-y border-[var(--border-primary)] bg-[var(--bg-secondary)]/30 backdrop-blur-sm transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] ${
         isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
       }`}
     >
       <div className="container-custom">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-12">
           {stats.map((stat, idx) => (
-            <StatItem key={idx} stat={stat} start={isVisible} delay={idx * 150} />
+            <StatItem key={idx} stat={stat} start={isVisible} />
           ))}
         </div>
       </div>
@@ -48,17 +59,8 @@ export default function Stats() {
   );
 }
 
-function StatItem({ stat, start, delay }: { stat: typeof stats[0], start: boolean, delay: number }) {
-  const [shouldStart, setShouldStart] = useState(false);
-  
-  useEffect(() => {
-    if (start) {
-      const timer = setTimeout(() => setShouldStart(true), delay);
-      return () => clearTimeout(timer);
-    }
-  }, [start, delay]);
-
-  const count = useCountUp(stat.value, 2000, shouldStart);
+function StatItem({ stat, start }: { stat: typeof stats[0], start: boolean }) {
+  const count = useCountUp(stat.value, 2000, start);
 
   return (
     <div className="flex flex-col items-center justify-center text-center group">

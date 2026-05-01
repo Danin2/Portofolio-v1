@@ -63,7 +63,7 @@ interface TiltEngine {
 }
 
 const ProfileCardComponent: React.FC<ProfileCardProps> = ({
-    avatarUrl = '/assets/foto/Kucing.jpg',
+    avatarUrl = '/assets/foto/profile.png',
     iconUrl,
     grainUrl,
     innerGradient,
@@ -75,10 +75,10 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
     enableMobileTilt = false,
     mobileTiltSensitivity = 5,
     miniAvatarUrl,
-    name = 'Danindra Iswardhana',
-    title = 'Junior Web Development',
-    handle = 'danindra.dev',
-    status = 'Available for work',
+    name = 'MasDani',
+    title = 'Systems Engineer',
+    handle = 'danindra',
+    status = 'Active_Operational',
     contactText = 'Contact Me',
     showUserInfo = true,
     onContactClick

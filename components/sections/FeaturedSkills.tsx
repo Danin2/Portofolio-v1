@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useId, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import Tilt from "react-parallax-tilt";
 import { useOutsideClick } from "@/hooks/use-outside-click";
@@ -178,9 +179,14 @@ const skills = [
 
 const FeaturedSkills = () => {
   const [active, setActive] = useState<(typeof skills)[number] | boolean | null>(null);
+  const [mounted, setMounted] = useState(false);
   const id = useId();
   const modalRef = useRef<HTMLDivElement>(null);
   const { ref: sectionRef, isVisible } = useScrollReveal();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
@@ -213,7 +219,7 @@ const FeaturedSkills = () => {
     <section
       id="skills"
       ref={sectionRef}
-      className={`relative bg-[var(--section-bg)] py-24 px-6 md:px-12 lg:px-20 overflow-hidden border-t border-[var(--border-primary)] transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+      className={`relative bg-[var(--section-bg)] py-20 md:py-32 px-6 md:px-12 lg:px-20 overflow-hidden border-t border-[var(--border-primary)] transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}
     >
       {/* Decorative Blur */}
@@ -260,64 +266,76 @@ const FeaturedSkills = () => {
           )}
         </AnimatePresence>
 
-        {/* Modal Content */}
-        <AnimatePresence>
-          {active && typeof active === "object" ? (
-            <div className="fixed inset-0 flex items-center justify-center z-[60] p-4 md:p-10">
-              <motion.div
-                layoutId={`card-${active.title}-${id}`}
-                ref={modalRef}
-                transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
-                className="w-full max-w-[700px] h-auto max-h-[90%] flex flex-col bg-[var(--card-bg)] border border-[var(--border-primary)] rounded-[2.5rem] overflow-hidden shadow-2xl relative"
-              >
-                <div className="absolute top-6 right-6 z-20">
-                  <motion.button
-                    className="flex items-center justify-center bg-[var(--bg-tertiary)]/80 backdrop-blur-md rounded-full h-10 w-10 border border-[var(--border-primary)] hover:scale-110 transition-transform"
-                    onClick={() => setActive(null)}
-                  >
-                    <CloseIcon />
-                  </motion.button>
-                </div>
+        {/* Modal Content - Rendered via Portal to escape parent transforms */}
+        {mounted && createPortal(
+          <AnimatePresence>
+            {active && typeof active === "object" ? (
+              <div className="fixed inset-0 flex items-center justify-center z-[100] p-4 md:p-10 pointer-events-none">
+                {/* Backdrop overlay inside portal */}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  onClick={() => setActive(null)}
+                  className="absolute inset-0 bg-black/60 backdrop-blur-md cursor-pointer pointer-events-auto"
+                />
 
-                <div
-                  className="flex-1 overflow-y-auto custom-scrollbar p-10 md:p-14"
-                  data-lenis-prevent
+                <motion.div
+                  layoutId={`card-${active.title}-${id}`}
+                  ref={modalRef}
+                  transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
+                  className="w-full max-w-[700px] h-full max-h-[85vh] md:max-h-[90vh] flex flex-col bg-[var(--card-bg)] border border-[var(--border-primary)] rounded-[2.5rem] overflow-hidden shadow-2xl relative pointer-events-auto"
                 >
-                  <header className="mb-10">
-                    <motion.div
-                      layoutId={`icon-${active.title}-${id}`}
-                      className={`inline-flex p-4 rounded-2xl bg-gradient-to-br ${active.color} text-white mb-6 shadow-lg`}
+                  <div className="absolute top-6 right-6 z-20">
+                    <motion.button
+                      className="flex items-center justify-center bg-[var(--bg-tertiary)]/80 backdrop-blur-md rounded-full h-10 w-10 border border-[var(--border-primary)] hover:scale-110 transition-transform"
+                      onClick={() => setActive(null)}
                     >
-                      {active.icon}
-                    </motion.div>
-                    <motion.h3
-                      layoutId={`title-${active.title}-${id}`}
-                      className="font-bold text-[var(--text-primary)] text-3xl md:text-4xl mb-3"
-                    >
-                      {active.title}
-                    </motion.h3>
-                    <motion.p
-                      layoutId={`description-${active.title}-${id}`}
-                      className="text-[var(--text-secondary)] text-lg opacity-70"
-                    >
-                      {active.description}
-                    </motion.p>
-                  </header>
+                      <CloseIcon />
+                    </motion.button>
+                  </div>
 
-                  <motion.div
-                    layout
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0 }}
-                    className="text-[var(--text-secondary)]"
+                  <div
+                    className="flex-1 min-h-0 h-full overflow-y-auto custom-scrollbar p-10 md:p-14 overscroll-contain touch-pan-y"
+                    data-lenis-prevent
                   >
-                    {typeof active.content === "function" ? active.content() : active.content}
-                  </motion.div>
-                </div>
-              </motion.div>
-            </div>
-          ) : null}
-        </AnimatePresence>
+                    <header className="mb-10">
+                      <motion.div
+                        layoutId={`icon-${active.title}-${id}`}
+                        className={`inline-flex p-4 rounded-2xl bg-gradient-to-br ${active.color} text-white mb-6 shadow-lg`}
+                      >
+                        {active.icon}
+                      </motion.div>
+                      <motion.h3
+                        layoutId={`title-${active.title}-${id}`}
+                        className="font-bold text-[var(--text-primary)] text-3xl md:text-4xl mb-3"
+                      >
+                        {active.title}
+                      </motion.h3>
+                      <motion.p
+                        layoutId={`description-${active.title}-${id}`}
+                        className="text-[var(--text-secondary)] text-lg opacity-70"
+                      >
+                        {active.description}
+                      </motion.p>
+                    </header>
+
+                    <motion.div
+                      layout
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0 }}
+                      className="text-[var(--text-secondary)]"
+                    >
+                      {typeof active.content === "function" ? active.content() : active.content}
+                    </motion.div>
+                  </div>
+                </motion.div>
+              </div>
+            ) : null}
+          </AnimatePresence>,
+          document.body
+        )}
 
         {/* Bento-Inspired Grid */}
         <div className="grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-6">
@@ -343,6 +361,7 @@ const FeaturedSkills = () => {
                 glareColor="white"
                 glarePosition="all"
                 glareBorderRadius="2rem"
+                tiltEnable={typeof window !== 'undefined' && window.innerWidth > 768} // Disable on mobile
               >
                 <motion.div
                   layoutId={`card-${card.title}-${id}`}
@@ -351,17 +370,17 @@ const FeaturedSkills = () => {
                   style={{ transformStyle: 'preserve-3d' }}
                 >
                   {/* Visual Accent */}
-                  <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity transform-gpu" style={{ transform: 'translateZ(20px)' }}>
-                    {React.cloneElement(card.icon as React.ReactElement<WithClassName>, { className: 'w-6 h-6' })}
+                  <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity transform-gpu" style={{ transform: 'translateZ(20px)' }}>
+                    {React.cloneElement(card.icon as React.ReactElement<WithClassName>, { className: 'w-12 h-12' })}
                   </div>
 
                   <div className="relative z-10 flex flex-col h-full transform-gpu" style={{ transform: 'translateZ(30px)' }}>
                     <header className="mb-auto">
                       <motion.div
                         layoutId={`icon-${card.title}-${id}`}
-                        className={`inline-flex p-3 rounded-xl bg-gradient-to-br ${card.color} text-white mb-8 group-hover:scale-110 transition-transform duration-500 shadow-md`}
+                        className={`inline-flex p-4 rounded-2xl bg-gradient-to-br ${card.color} text-white mb-8 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 shadow-xl`}
                       >
-                        {React.cloneElement(card.icon as React.ReactElement<WithClassName>, { className: 'w-6 h-6' })}
+                        {React.cloneElement(card.icon as React.ReactElement<WithClassName>, { className: 'w-8 h-8' })}
                       </motion.div>
                       <motion.h3
                         layoutId={`title-${card.title}-${id}`}

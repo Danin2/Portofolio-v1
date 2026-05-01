@@ -120,7 +120,7 @@ export default function ContactClient() {
   };
 
   return (
-    <div className="min-h-screen bg-[var(--bg-primary)] relative overflow-hidden flex flex-col pt-32 pb-20">
+    <div className="min-h-screen bg-[var(--bg-primary)] relative overflow-hidden flex flex-col pt-24 md:pt-32 pb-20">
       
       {/* ── Ambient Background Blobs ── */}
       <div className="absolute top-[10%] left-[-5%] w-[500px] h-[500px] rounded-full pointer-events-none opacity-[0.06] blur-[120px] bg-[var(--accent-primary)] animate-pulse" />
@@ -136,7 +136,7 @@ export default function ContactClient() {
       />
 
       <div className="container-custom relative z-10 w-full max-w-6xl px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-16 lg:gap-24 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 md:gap-24 items-start">
           
           {/* ──────────────────── LEFT COLUMN (40%) ──────────────────── */}
           <div className="lg:col-span-2 space-y-16">
@@ -172,8 +172,8 @@ export default function ContactClient() {
             {/* Contact Info */}
             <div className="space-y-8">
               {contactInfo.map((item, idx) => {
-                const content = (
-                  <div className="flex items-center gap-6 group cursor-pointer">
+                const contentInner = (
+                  <div className="flex items-center gap-6 shrink-0">
                     <div className="w-14 h-14 rounded-2xl border border-[var(--border-primary)] flex items-center justify-center bg-[var(--bg-secondary)] text-[var(--accent-primary)] group-hover:border-[var(--accent-primary)]/50 group-hover:bg-[var(--accent-primary)]/10 group-hover:scale-110 transition-all duration-500 shrink-0 shadow-sm">
                       {item.icon}
                     </div>
@@ -191,10 +191,17 @@ export default function ContactClient() {
                 return (
                   <ScrollReveal key={idx} delay={0.5 + idx * 0.1} xOffset={-20}>
                     {item.href ? (
-                      <a href={item.href} target={item.href.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer">
-                        {content}
+                      <a 
+                        href={item.href} 
+                        target={item.href.startsWith('http') ? '_blank' : undefined} 
+                        rel="noopener noreferrer"
+                        className="block group"
+                      >
+                        {contentInner}
                       </a>
-                    ) : content}
+                    ) : (
+                      <div className="group">{contentInner}</div>
+                    )}
                   </ScrollReveal>
                 );
               })}

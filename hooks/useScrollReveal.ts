@@ -10,7 +10,7 @@ export function useScrollReveal(options?: IntersectionObserverInit) {
         setIsVisible(true);
         observer.disconnect();
       }
-    }, { threshold: 0.1, ...options });
+    }, { threshold: 0.05, ...options });
 
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();

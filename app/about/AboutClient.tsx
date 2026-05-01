@@ -59,7 +59,7 @@ export default function AboutClient({ values }: AboutClientProps) {
   ], []);
 
   return (
-    <div className="min-h-screen bg-[var(--bg-primary)] pb-32">
+    <div className="min-h-screen bg-[var(--bg-primary)] pb-20 md:pb-32">
 
       {/* ── HERO SECTION ───────────────────────────────────── */}
       <section className="relative pt-32 pb-20 overflow-hidden">
@@ -123,7 +123,7 @@ export default function AboutClient({ values }: AboutClientProps) {
       </section>
 
       {/* ── MY PROFILE & DETAILS ────────────────────────────── */}
-      <section className="py-32">
+      <section className="py-20 md:py-32">
         <div className="container-custom">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
             
@@ -132,7 +132,7 @@ export default function AboutClient({ values }: AboutClientProps) {
               <div className="relative group">
                 <div className="absolute -inset-4 bg-gradient-to-b from-[var(--accent-primary)]/20 to-transparent blur-3xl rounded-full opacity-50 group-hover:opacity-80 transition-opacity duration-700" />
                 
-                <div className="relative h-[600px] w-full rounded-[3rem] overflow-hidden border border-[var(--border-primary)] bg-[var(--bg-secondary)]/30 backdrop-blur-sm group-hover:border-[var(--accent-primary)]/50 transition-colors duration-500">
+                <div className="relative h-[450px] md:h-[600px] w-full rounded-[3rem] overflow-hidden border border-[var(--border-primary)] bg-[var(--bg-secondary)]/30 backdrop-blur-sm group-hover:border-[var(--accent-primary)]/50 transition-colors duration-500">
                   <Lanyard position={[0, 0, 20]} gravity={[0, -40, 0]} />
                   
                   <div className="absolute bottom-8 left-8 right-8 p-6 rounded-2xl bg-[var(--bg-primary)]/80 backdrop-blur-md border border-[var(--border-primary)] shadow-2xl transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-out pointer-events-none">
@@ -182,7 +182,7 @@ export default function AboutClient({ values }: AboutClientProps) {
                 <div className="pt-8">
                   <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                     <a 
-                      href="/assets/cv/resume-placeholder.pdf" 
+                      href="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf" 
                       target="_blank"
                       className="inline-flex items-center gap-4 px-8 py-4 bg-[var(--bg-secondary)] border border-[var(--border-primary)] rounded-2xl text-[var(--text-primary)] hover:border-[var(--accent-primary)] hover:bg-[var(--accent-primary)]/5 transition-all group"
                     >
@@ -212,7 +212,7 @@ export default function AboutClient({ values }: AboutClientProps) {
       </section>
 
       {/* ── CORE VALUES ────────────────────────────────────── */}
-      <section className="py-40 bg-[var(--bg-secondary)]/30 border-y border-[var(--border-primary)]">
+      <section className="py-24 md:py-40 bg-[var(--bg-secondary)]/30 border-y border-[var(--border-primary)]">
         <div className="container-custom">
           <div className="grid lg:grid-cols-12 gap-16 lg:gap-24">
             <div className="lg:col-span-4">
@@ -228,13 +228,13 @@ export default function AboutClient({ values }: AboutClientProps) {
             <div className="lg:col-span-8 grid md:grid-cols-2 gap-8">
               {values.map((val, idx) => {
                 const config = [
-                  { icon: 'Code', accent: '#38BDF8', label: 'Clean Code' },
-                  { icon: 'ShieldCheck', accent: '#F87171', label: 'Security First' },
-                  { icon: 'Zap', accent: '#FACC15', label: 'Performance' },
-                  { icon: 'Beaker', accent: '#4ADE80', label: 'Testing' },
-                  { icon: 'FileText', accent: '#C084FC', label: 'Documentation' },
-                  { icon: 'RefreshCw', accent: '#22D3EE', label: 'Continuous Learning' },
-                ][idx] || { icon: 'Star', accent: 'var(--accent-primary)' };
+                  { icon: 'Code2', accent: '#38BDF8', label: 'Clean Code', bg: 'rgba(56, 189, 248, 0.05)' },
+                  { icon: 'ShieldCheck', accent: '#F87171', label: 'Security First', bg: 'rgba(248, 113, 113, 0.05)' },
+                  { icon: 'Zap', accent: '#FACC15', label: 'Performance', bg: 'rgba(250, 204, 21, 0.05)' },
+                  { icon: 'Beaker', accent: '#4ADE80', label: 'Testing', bg: 'rgba(74, 222, 128, 0.05)' },
+                  { icon: 'FileCode2', accent: '#C084FC', label: 'Documentation', bg: 'rgba(192, 132, 252, 0.05)' },
+                  { icon: 'RefreshCw', accent: '#22D3EE', label: 'Continuous Learning', bg: 'rgba(34, 211, 238, 0.05)' },
+                ][idx] || { icon: 'Star', accent: 'var(--accent-primary)', bg: 'transparent' };
 
                 const Icon = getLucideIcon(config.icon) as LucideIcons.LucideIcon;
 
@@ -245,23 +245,22 @@ export default function AboutClient({ values }: AboutClientProps) {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: idx * 0.08, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                    whileHover={{ y: -8 }}
+                    whileHover={{ y: -8, scale: 1.02 }}
                     className="relative p-10 rounded-[2.5rem] bg-[var(--bg-primary)] border border-[var(--border-primary)] group overflow-hidden hover:shadow-2xl transition-all duration-500"
+                    style={{ borderColor: `${config.accent}15` }}
                   >
                     {/* Floating Glow */}
                     <div 
-                      className="absolute -top-24 -right-24 w-48 h-48 rounded-full opacity-0 group-hover:opacity-10 transition-opacity duration-700 blur-[60px]"
+                      className="absolute -top-24 -right-24 w-48 h-48 rounded-full opacity-0 group-hover:opacity-15 transition-opacity duration-700 blur-[60px]"
                       style={{ backgroundColor: config.accent }}
                     />
                     
-                    {/* Left Border Accent */}
-                    <div 
-                      className="absolute left-0 top-1/4 bottom-1/4 w-1 rounded-full transition-all duration-500 group-hover:top-8 group-hover:bottom-8 group-hover:w-1.5"
-                      style={{ backgroundColor: config.accent }}
-                    />
+                    {/* Background Subtle Gradient */}
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                         style={{ background: `radial-gradient(circle at top right, ${config.bg}, transparent)` }} />
 
                     <span
-                      className="absolute top-2 left-6 font-black text-[var(--text-primary)] select-none pointer-events-none leading-none"
+                      className="absolute top-2 right-6 font-black text-[var(--text-primary)] select-none pointer-events-none leading-none"
                       style={{ fontSize: '6rem', opacity: 0.03, lineHeight: 1 }}
                       aria-hidden="true"
                     >
@@ -269,10 +268,10 @@ export default function AboutClient({ values }: AboutClientProps) {
                     </span>
 
                     <div 
-                      className="w-16 h-16 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 relative z-10" 
-                      style={{ backgroundColor: `${config.accent}15`, color: config.accent }}
+                      className="w-16 h-16 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 relative z-10 shadow-lg" 
+                      style={{ backgroundColor: `${config.accent}20`, color: config.accent, border: `1px solid ${config.accent}30` }}
                     >
-                      {Icon && <Icon size={28} />}
+                      {Icon && <Icon size={32} />}
                     </div>
                     
                     <h3 className="font-black text-xl mb-4 text-[var(--text-primary)] uppercase tracking-tight relative z-10 group-hover:text-[var(--accent-primary)] transition-colors">

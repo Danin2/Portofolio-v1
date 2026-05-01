@@ -70,8 +70,8 @@ export const projects: Project[] = [
     ],
     architecture:
       'MVC + Service-Repository layers on Express.js. PostgreSQL (primary store) with read replicas for analytics. Redis for caching, session storage, and rate-limit counters. Docker-composed for local dev; production deploys via containerised CI/CD.',
-    githubUrl: 'https://github.com/yourusername/ecommerce-api',
-    liveUrl: 'https://api.ecommerce-demo.com',
+    githubUrl: 'https://github.com/danindra/ecommerce-api',
+    liveUrl: 'https://ecommerce-api.danindra.dev',
     createdAt: '2024-01-15',
     completedAt: '2024-03-20',
   },
@@ -112,8 +112,8 @@ export const projects: Project[] = [
     ],
     architecture:
       'Event-driven architecture: Socket.io server clusters communicate via Redis pub/sub. MongoDB stores messages with TTL archival. React SPA connects via persistent WebSocket with auto-reconnect. Worker process handles async push notifications.',
-    githubUrl: 'https://github.com/yourusername/chat-app',
-    liveUrl: 'https://chat-demo.com',
+    githubUrl: 'https://github.com/danindra/chat-app',
+    liveUrl: 'https://chat-app.danindra.dev',
     createdAt: '2023-09-10',
     completedAt: '2023-11-15',
   },
@@ -154,7 +154,7 @@ export const projects: Project[] = [
     ],
     architecture:
       'Modular NestJS monolith with Clean Architecture layers. TypeORM + PostgreSQL. S3-compatible storage for files. JWT with asymmetric RS256 keys. Docker Compose for dev + test environments.',
-    githubUrl: 'https://github.com/yourusername/task-api',
+    githubUrl: 'https://github.com/danindra/task-api',
     createdAt: '2023-06-01',
     completedAt: '2023-08-15',
   },
@@ -195,7 +195,7 @@ export const projects: Project[] = [
     ],
     architecture:
       'Microservices with Nginx API Gateway. Each service: Node.js + Express + MongoDB. Async messaging via RabbitMQ. Redis shared cache. Docker Compose orchestration. Structured JSON logs aggregated centrally.',
-    githubUrl: 'https://github.com/yourusername/blog-microservices',
+    githubUrl: 'https://github.com/danindra/blog-microservices',
     createdAt: '2023-03-01',
     completedAt: '2023-05-30',
   },
@@ -236,7 +236,7 @@ export const projects: Project[] = [
     ],
     architecture:
       'CLI tool with adapter pattern for database driver abstraction. DAG engine for migration ordering. Transaction manager wraps every migration run. SQLite tracks migration state in local dev; the target DB history table governs production.',
-    githubUrl: 'https://github.com/yourusername/db-migration-tool',
+    githubUrl: 'https://github.com/danindra/db-migration-tool',
     createdAt: '2023-01-10',
     completedAt: '2023-02-20',
   },

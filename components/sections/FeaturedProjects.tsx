@@ -3,6 +3,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import Image from 'next/image';
 import { getFeaturedProjects, TECH_META } from '@/lib/data/projects';
 import RevealText from '@/components/ui/RevealText';
 import ScrollReveal from '@/components/ui/ScrollReveal';
@@ -17,7 +18,6 @@ const FeaturedProjects = () => {
         <div className="absolute top-1/4 -right-64 w-[500px] h-[500px] rounded-full bg-[var(--accent-primary)] opacity-[0.03] blur-[120px]" />
         <div className="absolute bottom-1/4 -left-64 w-[500px] h-[500px] rounded-full bg-[var(--accent-secondary)] opacity-[0.03] blur-[120px]" />
       </div>
-
       <div className="container-custom relative z-10">
         {/* Section Header */}
         <div className="mb-16 md:mb-24 flex flex-col md:flex-row md:items-end justify-between gap-8">
@@ -114,10 +114,11 @@ const FeaturedProjects = () => {
                       {/* Placeholder for project thumbnail with a mesh-gradient fallback */}
                       <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent-primary)]/20 via-transparent to-transparent" />
                       {project.thumbnail && (
-                        <img 
+                        <Image 
                           src={project.thumbnail} 
                           alt={project.title}
-                          className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000"
+                          fill
+                          className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000"
                         />
                       )}
                       

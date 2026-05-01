@@ -49,60 +49,58 @@ const Hero = () => {
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center bg-[var(--bg-primary)] overflow-hidden">
 
-      {/* ── Ambient Background Layer (Task 1) ── */}
+      {/* ── Ambient Background Layer (Enhanced) ── */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        <div className="absolute inset-0 bg-[var(--bg-primary)] opacity-40" />
+        
+        {/* Animated Orbs with more complex motion */}
         <motion.div 
           animate={{ 
-            x: [0, 50, 0, -50, 0],
-            y: [0, -30, 20, -30, 0],
-            scale: [1, 1.1, 0.9, 1.1, 1]
+            x: [0, 80, -40, 80, 0],
+            y: [0, -50, 60, -50, 0],
+            scale: [1, 1.2, 0.8, 1.2, 1],
+            rotate: [0, 90, 180, 270, 360]
           }}
-          transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-          className="absolute top-[10%] left-[10%] w-[500px] h-[500px] bg-[var(--accent-primary)]/10 blur-[120px] rounded-full"
+          transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-[5%] left-[5%] w-[600px] h-[600px] bg-[var(--accent-primary)]/8 blur-[140px] rounded-full"
         />
         <motion.div 
           animate={{ 
-            x: [0, -60, 40, -60, 0],
-            y: [0, 40, -20, 40, 0],
-            scale: [1, 0.9, 1.1, 0.9, 1]
+            x: [0, -100, 50, -100, 0],
+            y: [0, 60, -80, 60, 0],
+            scale: [1, 0.7, 1.1, 0.7, 1]
           }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className="absolute bottom-[10%] right-[10%] w-[600px] h-[600px] bg-[var(--accent-secondary)]/10 blur-[150px] rounded-full"
+          transition={{ duration: 30, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute bottom-[5%] right-[5%] w-[700px] h-[700px] bg-[var(--accent-secondary)]/8 blur-[160px] rounded-full"
         />
-        <motion.div 
-          animate={{ 
-            x: [0, 30, -30, 30, 0],
-            y: [0, 60, -60, 60, 0],
-          }}
-          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-          className="absolute top-[40%] right-[20%] w-[400px] h-[400px] bg-[var(--accent-primary)]/5 blur-[100px] rounded-full"
+        
+        {/* Grid / Scanline Effect */}
+        <div className="absolute inset-0 opacity-[0.15]" 
+             style={{ 
+               backgroundImage: `linear-gradient(var(--border-primary) 1px, transparent 1px), linear-gradient(90deg, var(--border-primary) 1px, transparent 1px)`,
+               backgroundSize: '80px 80px'
+             }} 
         />
+        <div className="absolute inset-0 bg-gradient-to-b from-[var(--bg-primary)] via-transparent to-[var(--bg-primary)]" />
       </div>
 
-      {/* ── Background Elements ────────────────────────────────── */}
-      <div className="absolute inset-0 z-0">
+      {/* ── Background Elements (Rays) ────────────────────────── */}
+      <div className="absolute inset-0 z-1 pointer-events-none">
         <LightRays
-          raysOrigin="top-right"
-          raysColor="rgba(108, 142, 191, 0.4)"
-          raysSpeed={0.5}
-          lightSpread={2}
-          rayLength={3}
-          followMouse={true}
-          mouseInfluence={0.03}
+          raysOrigin="top-left"
+          raysColor="rgba(139, 169, 214, 0.3)"
+          raysSpeed={0.8}
+          lightSpread={1.5}
+          rayLength={4}
+          followMouse={false}
         />
       </div>
-
-      <div className="absolute inset-0 z-[1] bg-[radial-gradient(circle_at_center,transparent_0%,var(--bg-primary)_100%)] opacity-40 pointer-events-none" />
-      
-      <div
-        className="pointer-events-none absolute inset-0 z-[1] opacity-[0.03]"
-        style={{ backgroundImage: 'radial-gradient(var(--accent-primary) 1px, transparent 1px)', backgroundSize: '40px 40px' }}
-      />
 
       <OrbBackground />
 
+
       {/* ── Content Container ───────────────────────────────────── */}
-      <div className="container-custom relative z-10 pt-32 pb-12">
+      <div className="container-custom relative z-10 pt-24 md:pt-32 pb-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center">
           
           {/* ────────────────── LEFT CONTENT (Typography) ────────────────── */}
@@ -191,7 +189,7 @@ const Hero = () => {
                 handle="masdani"
                 title="Systems Engineer"
                 status="Active_Operational"
-                avatarUrl="/assets/foto/Kucing.jpg"
+                avatarUrl="/assets/foto/profile.png"
                 innerGradient="linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0) 100%)"
                 behindGlowColor="rgba(139, 169, 214, 0.15)"
                 className="shadow-2xl"

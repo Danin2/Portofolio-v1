@@ -4,6 +4,7 @@ import Stats from '@/components/sections/Stats';
 import ProjectPreview from '@/components/sections/ToolsWorkflow';
 import TechMarquee from '@/components/sections/TechMarquee';
 import Link from 'next/link';
+import ScrollReveal from '@/components/ui/ScrollReveal';
 
 export default function Home() {
   const jsonLd = {
@@ -43,27 +44,29 @@ export default function Home() {
       <ProjectPreview />
 
       {/* 5. CTA — bottom call-to-action */}
-      <section className="bg-[var(--section-bg-alt)] py-24 sm:py-32 border-t border-[var(--border-primary)]">
-        <div className="container-custom text-center">
-          <h2
-            className="text-[var(--text-primary)] font-bold mb-6 leading-none tracking-[-0.02em]"
-            style={{ fontSize: 'clamp(2rem, 5vw, 4rem)' }}
-          >
-            Ready to build{' '}
-            <span className="gradient-text">the future?</span>
-          </h2>
-          <p className="text-[var(--text-secondary)] max-w-xl mx-auto mb-10 text-lg leading-relaxed">
-            Currently accepting new projects and consulting opportunities.
-            Let's create something exceptional together.
-          </p>
-          <Link
-            href="/contact"
-            className="inline-flex items-center gap-3 px-10 py-5 bg-[var(--accent-purple)] text-white font-bold uppercase tracking-widest text-sm rounded-full hover:bg-[var(--accent-violet)] transition-all duration-300 shadow-xl"
-          >
-            Start a Conversation →
-          </Link>
-        </div>
-      </section>
+      <ScrollReveal>
+        <section className="bg-[var(--section-bg-alt)] py-24 sm:py-32 border-t border-[var(--border-primary)]">
+          <div className="container-custom text-center">
+            <h2
+              className="text-[var(--text-primary)] font-bold mb-6 leading-none tracking-[-0.02em]"
+              style={{ fontSize: 'clamp(2rem, 5vw, 4rem)' }}
+            >
+              Ready to build{' '}
+              <span className="gradient-text">the future?</span>
+            </h2>
+            <p className="text-[var(--text-secondary)] max-w-xl mx-auto mb-10 text-lg leading-relaxed">
+              Currently accepting new projects and consulting opportunities.
+              Let's create something exceptional together.
+            </p>
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-3 px-10 py-5 bg-[var(--accent-purple)] text-white font-bold uppercase tracking-widest text-sm rounded-full hover:bg-[var(--accent-violet)] transition-all duration-300 shadow-xl"
+            >
+              Start a Conversation →
+            </Link>
+          </div>
+        </section>
+      </ScrollReveal>
     </main>
   );
 }
