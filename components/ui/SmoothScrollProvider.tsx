@@ -22,7 +22,6 @@ export default function SmoothScrollProvider({ children }: SmoothScrollProviderP
       orientation: 'vertical',
       smoothWheel: true,
       touchMultiplier: 1.5,
-      smoothTouch: false,
     });
 
     lenisRef.current = lenis;
