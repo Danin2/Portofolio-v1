@@ -1,18 +1,31 @@
 import type { Metadata } from 'next'
-import { Inter, JetBrains_Mono } from 'next/font/google'
+import { JetBrains_Mono } from 'next/font/google'
+import localFont from 'next/font/local'
 import './globals.css'
 import Footer from '@/components/layout/Footer'
 import Navigation from '@/components/layout/Navigation'
 import ClientProviders from '@/components/ui/ClientProviders'
 import ScrollProgress from '@/components/ui/ScrollProgress'
 import BackToTop from '@/components/ui/BackToTop'
-import CustomCursor from '@/components/ui/CustomCursor'
-import PageTransition from '@/components/ui/PageTransition'
 
+const syne = localFont({
+  src: '../public/assets/Font/Syne-VariableFont_wght.ttf',
+  variable: '--font-syne',
+  display: 'swap',
+})
 
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-inter',
+const dmSans = localFont({
+  src: [
+    {
+      path: '../public/assets/Font/DMSans-VariableFont_opsz,wght.ttf',
+      style: 'normal',
+    },
+    {
+      path: '../public/assets/Font/DMSans-Italic-VariableFont_opsz,wght.ttf',
+      style: 'italic',
+    }
+  ],
+  variable: '--font-dm-sans',
   display: 'swap',
 })
 
@@ -28,32 +41,6 @@ export const metadata: Metadata = {
     template: '%s | Muhammad Danindra I',
   },
   description: 'Professional backend developer specializing in Node.js, TypeScript, PostgreSQL, and scalable system architecture.',
-  keywords: [
-    'Backend Developer',
-    'Node.js',
-    'TypeScript',
-    'PostgreSQL',
-    'System Architecture',
-    'MasDani',
-  ],
-  authors: [{ name: 'Muhammad Danindra I' }],
-  creator: 'Muhammad Danindra I',
-  publisher: 'Muhammad Danindra I',
-  metadataBase: new URL('https://danindra.dev'),
-  openGraph: {
-    type: 'website',
-    locale: 'en_US',
-    url: 'https://danindra.dev',
-    title: 'Muhammad Danindra I | Backend Systems Architect',
-    description: 'Professional backend developer specializing in Node.js, TypeScript, and scalable system architecture.',
-    siteName: 'Muhammad Danindra I Portfolio',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Muhammad Danindra I | Backend Systems Architect',
-    description: 'Professional backend developer specializing in Node.js and TypeScript',
-    creator: '@danindra',
-  },
 }
 
 export default function RootLayout({
@@ -62,7 +49,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${syne.variable} ${dmSans.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{
@@ -84,14 +71,11 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-[var(--bg-primary)] text-[var(--text-primary)] font-sans antialiased">
-        <CustomCursor />
-        <ScrollProgress />
         <ClientProviders>
+          <ScrollProgress />
           <Navigation />
-          <main className="relative z-10">
-            <PageTransition>
-              {children}
-            </PageTransition>
+          <main className="relative z-10 min-h-screen">
+            {children}
           </main>
           <Footer />
           <BackToTop />

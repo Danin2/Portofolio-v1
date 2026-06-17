@@ -30,11 +30,11 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans:    ['DM Sans', 'var(--font-inter)', 'system-ui', 'sans-serif'],
-        mono:    ['var(--font-jetbrains-mono)', 'JetBrains Mono', 'monospace'],
-        display: ['Syne', 'var(--font-inter)', 'system-ui', 'sans-serif'],
-        syne:    ['Syne', 'system-ui', 'sans-serif'],
-        'dm-sans': ['DM Sans', 'system-ui', 'sans-serif'],
+        sans:    ['var(--font-dm-sans)', 'system-ui', 'sans-serif'],
+        mono:    ['var(--font-jetbrains-mono)', 'monospace'],
+        display: ['var(--font-syne)', 'system-ui', 'sans-serif'],
+        syne:    ['var(--font-syne)', 'system-ui', 'sans-serif'],
+        'dm-sans': ['var(--font-dm-sans)', 'system-ui', 'sans-serif'],
       },
       fontSize: {
         'display': ['4.5rem', { lineHeight: '1.0', letterSpacing: '-0.03em' }],

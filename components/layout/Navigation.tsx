@@ -6,13 +6,8 @@ import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion';
 import { AnimatedThemeToggler } from '@/components/ui/animated-theme-toggler';
 import FallingLetters from '@/components/ui/FallingLetters';
-
-const navItems = [
-  { label: 'Home', href: '/', ariaLabel: 'Go to home page' },
-  { label: 'About', href: '/about', ariaLabel: 'Go to about page' },
-  { label: 'Projects', href: '/projects', ariaLabel: 'View my projects' },
-  { label: 'Contact', href: '/contact', ariaLabel: 'Get in touch' },
-];
+import LanguageSwitcher from '@/components/ui/LanguageSwitcher';
+import { useLanguage } from '@/context/LanguageContext';
 
 // ─── Magnetic Effect Wrapper ──────────────────────────────────────────────────
 function Magnetic({ children }: { children: React.ReactNode }) {
@@ -53,6 +48,14 @@ const Navigation = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
   const pathname = usePathname();
+  const { t } = useLanguage();
+
+  const navItems = [
+    { label: t('nav.home'), href: '/', ariaLabel: 'Go to home page' },
+    { label: t('nav.about'), href: '/about', ariaLabel: 'Go to about page' },
+    { label: t('nav.projects'), href: '/projects', ariaLabel: 'View my projects' },
+    { label: t('nav.contact'), href: '/contact', ariaLabel: 'Get in touch' },
+  ];
 
   const { scrollY } = useScroll();
   const navHeight = useTransform(scrollY, [0, 100], [90, 70]);
@@ -149,30 +152,31 @@ const Navigation = () => {
           </div>
 
           {/* ── Actions Area ────────────────────────────── */}
-          <div className="w-[180px] flex items-center justify-end gap-3">
+          <div className="w-[180px] flex items-center justify-end gap-2">
+            <LanguageSwitcher />
             <div className="flex items-center justify-center w-10 h-10">
               <motion.div whileHover={{ scale: 1.15 }} whileTap={{ scale: 0.85 }}>
                 <AnimatedThemeToggler className="w-5 h-5 text-[var(--text-secondary)] hover:text-[var(--accent-primary)] transition-colors cursor-pointer" />
               </motion.div>
             </div>
-
-            <Link
-              href="/contact"
-              className={`hidden sm:flex items-center group bg-[var(--text-primary)] text-[var(--bg-primary)] px-5 py-2 rounded-full text-[0.6rem] font-black uppercase tracking-widest hover:bg-[var(--accent-primary)] hover:text-white transition-all shadow-md ${isScrolled ? 'px-4 py-1.5' : ''}`}
-            >
-              Build ↗
-            </Link>
-
-            {/* Hamburger */}
-            <button
-              className="md:hidden relative w-10 h-10 flex flex-col items-center justify-center gap-1.5 focus:outline-none z-50 ml-2"
-              onClick={() => setMobileOpen(!mobileOpen)}
-            >
-              <motion.span animate={{ rotate: mobileOpen ? 45 : 0, y: mobileOpen ? 8 : 0 }} className="w-6 h-0.5 bg-[var(--text-primary)] rounded-full" />
-              <motion.span animate={{ opacity: mobileOpen ? 0 : 1 }} className="w-6 h-0.5 bg-[var(--text-primary)] rounded-full" />
-              <motion.span animate={{ rotate: mobileOpen ? -45 : 0, y: mobileOpen ? -8 : 0 }} className="w-6 h-0.5 bg-[var(--text-primary)] rounded-full" />
-            </button>
           </div>
+
+          <Link
+            href="/contact"
+            className={`hidden sm:flex items-center group bg-[var(--text-primary)] text-[var(--bg-primary)] px-5 py-2 rounded-full text-[0.6rem] font-black uppercase tracking-widest hover:bg-[var(--accent-primary)] hover:text-white transition-all shadow-md ${isScrolled ? 'px-4 py-1.5' : ''}`}
+          >
+            {t('nav.build')}
+          </Link>
+
+          {/* Hamburger */}
+          <button
+            className="md:hidden relative w-10 h-10 flex flex-col items-center justify-center gap-1.5 focus:outline-none z-50 ml-2"
+            onClick={() => setMobileOpen(!mobileOpen)}
+          >
+            <motion.span animate={{ rotate: mobileOpen ? 45 : 0, y: mobileOpen ? 8 : 0 }} className="w-6 h-0.5 bg-[var(--text-primary)] rounded-full" />
+            <motion.span animate={{ opacity: mobileOpen ? 0 : 1 }} className="w-6 h-0.5 bg-[var(--text-primary)] rounded-full" />
+            <motion.span animate={{ rotate: mobileOpen ? -45 : 0, y: mobileOpen ? -8 : 0 }} className="w-6 h-0.5 bg-[var(--text-primary)] rounded-full" />
+          </button>
         </div>
       </motion.nav>
 

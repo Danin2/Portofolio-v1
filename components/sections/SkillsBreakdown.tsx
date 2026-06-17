@@ -82,7 +82,7 @@ const SkillsBreakdown = () => {
                       </h3>
                     </div>
                     <span className="text-[0.65rem] font-mono text-[var(--text-muted)] group-hover:text-[var(--text-primary)] transition-colors">
-                      {skill.level}%
+                      {skill.level >= 90 ? 'Expert' : skill.level >= 75 ? 'Advanced' : 'Intermediate'} · {skill.level}%
                     </span>
                   </div>
 

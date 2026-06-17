@@ -52,10 +52,10 @@ const Hero = () => {
       {/* ── Ambient Background Layer (Enhanced) ── */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
         <div className="absolute inset-0 bg-[var(--bg-primary)] opacity-40" />
-        
+
         {/* Animated Orbs with more complex motion */}
-        <motion.div 
-          animate={{ 
+        <motion.div
+          animate={{
             x: [0, 80, -40, 80, 0],
             y: [0, -50, 60, -50, 0],
             scale: [1, 1.2, 0.8, 1.2, 1],
@@ -64,8 +64,8 @@ const Hero = () => {
           transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
           className="absolute top-[5%] left-[5%] w-[600px] h-[600px] bg-[var(--accent-primary)]/8 blur-[140px] rounded-full"
         />
-        <motion.div 
-          animate={{ 
+        <motion.div
+          animate={{
             x: [0, -100, 50, -100, 0],
             y: [0, 60, -80, 60, 0],
             scale: [1, 0.7, 1.1, 0.7, 1]
@@ -73,13 +73,13 @@ const Hero = () => {
           transition={{ duration: 30, repeat: Infinity, ease: "easeInOut" }}
           className="absolute bottom-[5%] right-[5%] w-[700px] h-[700px] bg-[var(--accent-secondary)]/8 blur-[160px] rounded-full"
         />
-        
+
         {/* Grid / Scanline Effect */}
-        <div className="absolute inset-0 opacity-[0.15]" 
-             style={{ 
-               backgroundImage: `linear-gradient(var(--border-primary) 1px, transparent 1px), linear-gradient(90deg, var(--border-primary) 1px, transparent 1px)`,
-               backgroundSize: '80px 80px'
-             }} 
+        <div className="absolute inset-0 opacity-[0.15]"
+          style={{
+            backgroundImage: `linear-gradient(var(--border-primary) 1px, transparent 1px), linear-gradient(90deg, var(--border-primary) 1px, transparent 1px)`,
+            backgroundSize: '80px 80px'
+          }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-[var(--bg-primary)] via-transparent to-[var(--bg-primary)]" />
       </div>
@@ -102,10 +102,10 @@ const Hero = () => {
       {/* ── Content Container ───────────────────────────────────── */}
       <div className="container-custom relative z-10 pt-24 md:pt-32 pb-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center">
-          
+
           {/* ────────────────── LEFT CONTENT (Typography) ────────────────── */}
           <div className="lg:col-span-8 flex flex-col items-start text-left order-2 lg:order-1">
-            
+
             {/* Availability Badge (Task 6) */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
@@ -125,12 +125,12 @@ const Hero = () => {
                 <StaggeredText
                   text="Muhammad"
                   delay={0.2}
-                  className="font-black leading-[0.85] tracking-tighter text-[var(--text-primary)] select-none"
+                  className="font-display font-black leading-[0.85] tracking-tighter text-[var(--text-primary)] select-none"
                   style={{ fontSize: 'clamp(3.5rem, 9vw, 8rem)' } as React.CSSProperties}
                 />
               </div>
               <div
-                className="font-black leading-[0.85] tracking-tighter select-none gradient-text overflow-hidden"
+                className="font-display font-black leading-[0.85] tracking-tighter select-none gradient-text overflow-hidden"
                 style={{ fontSize: 'clamp(3.5rem, 9vw, 8rem)' } as React.CSSProperties}
               >
                 <StaggeredText text="Danindra I" delay={0.6} />
@@ -141,13 +141,13 @@ const Hero = () => {
               <div className="flex items-center gap-4 mb-8">
                 <div className="h-px w-12 bg-[var(--accent-primary)] opacity-50" />
                 <TypewriterText
-                  text="Backend Systems Architect"
+                  text=" Junior Web Development"
                   delay={1.2}
                   className="font-mono font-black tracking-[0.4em] text-[var(--accent-primary)] uppercase text-[0.7rem] md:text-[0.85rem]"
                 />
               </div>
               <p className="text-[var(--text-secondary)] leading-relaxed text-xl md:text-2xl opacity-90 font-medium mb-12 max-w-xl">
-                I engineer resilient, high-performance backends for the next generation of scalable digital systems.
+                Architecting high-performance backends with precision. Beyond the terminal, I&apos;m a systems enthusiast focused on building the invisible infrastructure that powers modern experiences.
               </p>
             </div>
 
@@ -162,19 +162,17 @@ const Hero = () => {
                 href="/projects"
                 className="relative inline-flex items-center gap-4 px-10 py-5 bg-[var(--text-primary)] text-[var(--bg-primary)] font-bold uppercase tracking-[0.2em] text-[0.7rem] rounded-full hover:bg-[var(--accent-primary)] hover:text-white transition-all duration-500 shadow-2xl group overflow-hidden"
               >
-                Launch Dossier &gt;
+                My Projects
               </Link>
               <button
                 onClick={() => scrollToSection('skills')}
                 className="inline-flex items-center gap-4 px-10 py-5 border border-[var(--border-primary)] bg-[var(--bg-secondary)]/30 backdrop-blur-md text-[var(--text-primary)] font-bold uppercase tracking-[0.2em] text-[0.7rem] rounded-full hover:border-[var(--accent-primary)] hover:bg-[var(--accent-primary)]/5 group transition-all duration-500"
               >
-                <span className="text-[var(--accent-primary)] group-hover:translate-y-1 transition-transform duration-300">v</span>
-                Core Stack
+                View Skills
               </button>
             </motion.div>
           </div>
 
-          {/* ────────────────── RIGHT CONTENT (3D Card) ────────────────── */}
           <div className="lg:col-span-4 flex items-start justify-center order-1 lg:order-2 pt-2">
             <motion.div
               initial={{ opacity: 0, scale: 0.9, rotate: 10 }}
@@ -183,8 +181,8 @@ const Hero = () => {
               className="relative w-full max-w-[360px]"
             >
               <div className="absolute -inset-10 bg-[var(--accent-primary)]/5 blur-[100px] rounded-full animate-pulse" />
-              
-              <ProfileCard 
+
+              <ProfileCard
                 name="M. Danindra"
                 handle="masdani"
                 title="Systems Engineer"
@@ -196,8 +194,8 @@ const Hero = () => {
               />
 
               {/* Repositioned slightly more to the left for better alignment */}
-              <HeroCodeSnippet 
-                className="absolute -bottom-32 -right-12 xl:block hidden z-20 scale-100 origin-top-left" 
+              <HeroCodeSnippet
+                className="absolute -bottom-32 -right-12 xl:block hidden z-20 scale-100 origin-top-left"
                 style={{ transform: 'perspective(1000px) rotateX(10deg) rotateY(-15deg) rotateZ(5deg)' }}
               />
             </motion.div>

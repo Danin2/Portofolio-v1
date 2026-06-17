@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, ReactNode } from 'react';
 import Lenis from 'lenis';
+import { usePathname } from 'next/navigation';
 
 interface SmoothScrollProviderProps {
   children: ReactNode;
@@ -9,11 +10,10 @@ interface SmoothScrollProviderProps {
 
 /**
  * SmoothScrollProvider — wraps the app with Lenis smooth scrolling.
- * This is the single biggest perceived quality improvement you can make
- * to a portfolio — exactly what ribbit.dk uses.
  */
 export default function SmoothScrollProvider({ children }: SmoothScrollProviderProps) {
   const lenisRef = useRef<Lenis | null>(null);
+  const pathname = usePathname();
 
   useEffect(() => {
     const lenis = new Lenis({
@@ -33,8 +33,6 @@ export default function SmoothScrollProvider({ children }: SmoothScrollProviderP
     }
 
     const rafId = requestAnimationFrame(raf);
-
-    // Expose lenis instance globally so GSAP ScrollTrigger can sync
     (window as any).lenis = lenis;
 
     return () => {
@@ -43,6 +41,13 @@ export default function SmoothScrollProvider({ children }: SmoothScrollProviderP
       (window as any).lenis = null;
     };
   }, []);
+
+  // Reset scroll on route change
+  useEffect(() => {
+    if (lenisRef.current) {
+      lenisRef.current.scrollTo(0, { immediate: true });
+    }
+  }, [pathname]);
 
   return <>{children}</>;
 }

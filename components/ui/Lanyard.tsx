@@ -34,9 +34,10 @@ export default function Lanyard({
   fov = 20,
   transparent = true
 }: LanyardProps) {
-  const [isMobile, setIsMobile] = useState<boolean>(() => typeof window !== 'undefined' && window.innerWidth < 768);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
 
   useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
     const handleResize = (): void => setIsMobile(window.innerWidth < 768);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
@@ -46,7 +47,6 @@ export default function Lanyard({
     <div className="relative z-0 w-full h-screen flex justify-center items-center transform scale-100 origin-center">
       <Canvas
         camera={{ position, fov }}
-        // Optimasi: Membatasi DPR maksimal ke 1.5 agar tidak membebani GPU pada layar beresolusi tinggi (Retina/4K)
         dpr={[1, 1.5]}
         gl={{ alpha: transparent }}
         onCreated={({ gl }) => gl.setClearColor(new THREE.Color(0x000000), transparent ? 0 : 1)}
@@ -56,7 +56,6 @@ export default function Lanyard({
           <Physics gravity={gravity} timeStep={isMobile ? 1 / 30 : 1 / 60}>
             <Band isMobile={isMobile} />
           </Physics>
-          {/* Optimasi: Menurunkan resolusi Environment map dari default (1024) ke 256. Sangat meringankan GPU tapi pantulan tetap terlihat bagus */}
           <Environment blur={0.75} resolution={256}>
             <Lightformer
               intensity={2}
@@ -106,13 +105,11 @@ interface BandProps {
 }
 
 function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
-  // Single Rope Refs
   const band = useRef<any>(null);
   const fixed = useRef<any>(null);
   const j1 = useRef<any>(null);
   const j2 = useRef<any>(null);
   const j3 = useRef<any>(null);
-
   const card = useRef<any>(null);
 
   const vec = new THREE.Vector3();
@@ -129,7 +126,19 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
   };
 
   const { nodes, materials } = useGLTF(cardGLB) as any;
-  const stickerTexture = useTexture('/assets/foto/coding.png');
+
+  // FIX 1: Load texture dengan konfigurasi yang benar
+  const stickerTexture = useTexture('/assets/foto/Asset.jpeg');
+
+  // FIX 2: Set colorSpace yang benar agar warna foto tidak pudar/aneh
+  stickerTexture.colorSpace = THREE.SRGBColorSpace;
+  // FIX 3: Pastikan texture wrapping tidak menyebabkan "bleeding" ke luar batas decal
+  stickerTexture.wrapS = THREE.ClampToEdgeWrapping;
+  stickerTexture.wrapT = THREE.ClampToEdgeWrapping;
+  // FIX 4: Set filter untuk kualitas yang lebih baik
+  stickerTexture.minFilter = THREE.LinearFilter;
+  stickerTexture.magFilter = THREE.LinearFilter;
+  stickerTexture.needsUpdate = true;
 
   const [curve] = useState(
     () => new THREE.CatmullRomCurve3([
@@ -143,15 +152,13 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
   const [dragged, drag] = useState<false | THREE.Vector3>(false);
   const [hovered, hover] = useState(false);
 
-  // Titik temu tali dan pengait besi
   const stringAttachmentPoint: [number, number, number] = [0, 2.78, 0];
 
-  // Setup sendi tali (Single Rope Joints)
   useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], 0.7]);
   useRopeJoint(j1, j2, [[0, 0, 0], [0, 0, 0], 0.8]);
   useRopeJoint(j2, j3, [[0, 0, 0], [0, 0, 0], 0.7]);
   useSphericalJoint(j3, card, [[0, 0, 0], stringAttachmentPoint]);
-  // Variabel untuk menghitung putaran saat ditarik
+
   const targetRot = useRef(new THREE.Quaternion());
   const currentRot = useRef(new THREE.Quaternion());
 
@@ -176,7 +183,6 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
         z: vec.z - dragged.z
       });
 
-      // Efek langsung muter saat ditarik (interaktif 3D)
       targetRot.current.setFromEuler(new THREE.Euler(0, state.pointer.x * (Math.PI * 1.5), 0));
       currentRot.current.slerp(targetRot.current, 0.15);
       card.current?.setNextKinematicRotation(currentRot.current);
@@ -196,22 +202,18 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
       curve.points[2].copy(j1.current.lerped);
       curve.points[3].copy(fixed.current.translation());
 
-      // Mengubah geometri tali menjadi Tabung 3D (Bulat) setiap frame
       if (band.current) {
         band.current.geometry.dispose();
-        // Optimasi: Mengurangi jumlah segmen tabung (radialSegments diturunkan ke 4/6) agar kalkulasi dan Garbage Collection sangat ringan
         band.current.geometry = new THREE.TubeGeometry(curve, isMobile ? 16 : 24, 0.05, isMobile ? 4 : 6, false);
       }
       if (card.current) {
         ang.copy(card.current.angvel());
         rot.copy(card.current.rotation());
-        // Memaksa putaran Y agar selalu membal (kembali) menghadap ke depan
         card.current.setAngvel({ x: ang.x, y: ang.y - rot.y * 0.25, z: ang.z });
       }
     }
   });
 
-  // Menghapus texture.wrapS karena sudah tidak menggunakan MeshLineMaterial
   curve.curveType = 'chordal';
 
   return (
@@ -234,7 +236,6 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
           {...segmentProps}
           type={dragged ? ('kinematicPosition' as RigidBodyProps['type']) : ('dynamic' as RigidBodyProps['type'])}
         >
-          {/* Memperkecil kembali kotak fisiknya agar kartu tidak menjadi "berat/kaku" secara physics, sehingga mudah berputar */}
           <CuboidCollider args={[0.8, 1.125, 0.01]} />
           <group
             scale={3.25}
@@ -260,7 +261,6 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
                 clearcoatRoughness={0.15}
                 roughness={0.9}
                 metalness={0.8}
-                // Custom properti untuk menghilangkan logo tapi mempertahankan transparansi lubang
                 color="#ffffff"
                 transparent={true}
                 alphaTest={0.5}
@@ -276,14 +276,21 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
                   );
                 }}
               />
-              {/* Ini adalah stiker/gambar yang ditempel ke atas kartu */}
+              {/* FIX 5: polygonOffset dipindah ke material di dalam Decal */}
               <Decal
-                position={[0, -0.1, 0.02]} // Posisi stiker (X, Y, Z)
-                rotation={[0, 0, 0]}       // Rotasi stiker
-                scale={[0.7, 0.7, 0.7]}    // Ukuran stiker
-                map={stickerTexture}
-                depthTest={true}
-              />
+                position={[0, 0.15, 0.02]}
+                rotation={[0, 0, 0]}
+                scale={[0.7, 0.7, 0.7]}
+              >
+                <meshStandardMaterial
+                  map={stickerTexture}
+                  transparent={true}
+                  depthTest={false}
+                  polygonOffset={true}
+                  polygonOffsetFactor={-1}
+                  polygonOffsetUnits={-1}
+                />
+              </Decal>
             </mesh>
             <mesh geometry={nodes.clip.geometry} material={materials.metal} material-roughness={0.3} />
             <mesh geometry={nodes.clamp.geometry} material={materials.metal} />
@@ -291,7 +298,6 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
         </RigidBody>
       </group>
 
-      {/* Rendering 1 Tali Bulat (Tube) */}
       <mesh ref={band}>
         <tubeGeometry args={[curve, isMobile ? 24 : 64, 0.05, 8, false]} />
         <meshStandardMaterial color="#1a1a1a" roughness={0.8} metalness={0.2} />
@@ -300,5 +306,4 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
   );
 }
 
-// Preload model GLB agar langsung di-download saat file ini dibaca (menghilangkan delay render)
 useGLTF.preload(cardGLB);

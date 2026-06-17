@@ -92,8 +92,36 @@ function AvailabilityCard() {
 // ─── Main Component ───────────────────────────────────────────────────────────
 export default function ContactClient() {
   const spotlightRef = useRef<HTMLDivElement>(null);
-  const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'success'>('idle');
+  const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [focusedField, setFocusedField] = useState<string | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setFormStatus('sending');
+
+    const formData = new FormData(e.currentTarget);
+    const data = Object.fromEntries(formData.entries());
+
+    try {
+      const response = await fetch('https://formspree.io/f/your-id', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        setFormStatus('success');
+        e.currentTarget.reset();
+      } else {
+        setFormStatus('error');
+      }
+    } catch (error) {
+      setFormStatus('error');
+    }
+  };
 
   useEffect(() => {
     const onMouseMove = (e: MouseEvent) => {
@@ -109,15 +137,6 @@ export default function ContactClient() {
     window.addEventListener('mousemove', onMouseMove);
     return () => window.removeEventListener('mousemove', onMouseMove);
   }, []);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setFormStatus('sending');
-    setTimeout(() => {
-      setFormStatus('success');
-      // Toast notification would be triggered here
-    }, 2000);
-  };
 
   return (
     <div className="min-h-screen bg-[var(--bg-primary)] relative overflow-hidden flex flex-col pt-24 md:pt-32 pb-20">
@@ -288,13 +307,13 @@ export default function ContactClient() {
                         className="space-y-10"
                       >
                         {[
-                          { label: 'Identification', type: 'text', placeholder: 'Your Name', field: 'name', helper: '(Your full name)' },
-                          { label: 'Return Path', type: 'email', placeholder: 'Email Address', field: 'email', helper: '(Your email address)' },
-                        ].map(({ label, type, placeholder, field, helper }) => (
-                          <div key={field} className="space-y-3">
+                          { label: 'Identification', type: 'text', placeholder: 'Your Name', name: 'name', helper: '(Your full name)' },
+                          { label: 'Return Path', type: 'email', placeholder: 'Email Address', name: 'email', helper: '(Your email address)' },
+                        ].map(({ label, type, placeholder, name, helper }) => (
+                          <div key={name} className="space-y-3">
                             <div className="flex items-center justify-between">
                               <label className="flex items-center gap-2 text-[0.65rem] uppercase tracking-[0.3em] text-[var(--text-muted)] font-black pl-1">
-                                <span className={`font-mono transition-colors duration-300 ${focusedField === field ? 'text-[var(--accent-primary)]' : 'text-[var(--text-muted)]'}`}>&gt;</span>
+                                <span className={`font-mono transition-colors duration-300 ${focusedField === name ? 'text-[var(--accent-primary)]' : 'text-[var(--text-muted)]'}`}>&gt;</span>
                                 {label}
                               </label>
                               <span className="text-[10px] text-[var(--text-muted)] italic opacity-60 font-medium">{helper}</span>
@@ -302,8 +321,9 @@ export default function ContactClient() {
                             <input 
                               required
                               type={type} 
+                              name={name}
                               placeholder={placeholder}
-                              onFocus={() => setFocusedField(field)}
+                              onFocus={() => setFocusedField(name)}
                               onBlur={() => setFocusedField(null)}
                               className="w-full bg-[var(--bg-primary)]/40 border border-[var(--border-primary)] rounded-2xl px-6 py-5 text-[var(--text-primary)] font-medium focus:outline-none focus:border-[var(--accent-primary)]/60 focus:shadow-[0_0_0_4px_var(--accent-primary)]/5 transition-all placeholder:text-[var(--text-muted)]/40 text-sm"
                             />
@@ -320,6 +340,7 @@ export default function ContactClient() {
                           </div>
                           <textarea 
                             required
+                            name="message"
                             rows={5}
                             placeholder="Describe your architectural needs..."
                             onFocus={() => setFocusedField('requirements')}
@@ -327,6 +348,16 @@ export default function ContactClient() {
                             className="w-full bg-[var(--bg-primary)]/40 border border-[var(--border-primary)] rounded-2xl px-6 py-5 text-[var(--text-primary)] font-medium focus:outline-none focus:border-[var(--accent-primary)]/60 focus:shadow-[0_0_0_4px_var(--accent-primary)]/5 transition-all placeholder:text-[var(--text-muted)]/40 resize-none text-sm"
                           />
                         </div>
+
+                        {formStatus === 'error' && (
+                          <motion.div 
+                            initial={{ opacity: 0, y: -10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-500 text-[0.65rem] font-bold uppercase tracking-widest text-center"
+                          >
+                            Transmission failed. Please check your network or try again.
+                          </motion.div>
+                        )}
 
                         <button 
                           disabled={formStatus === 'sending'}

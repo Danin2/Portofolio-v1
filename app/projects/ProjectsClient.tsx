@@ -11,6 +11,7 @@ import { certificates } from '@/lib/data/certificates';
 import FallingLetters from '@/components/ui/FallingLetters';
 import ScrollReveal from '@/components/ui/ScrollReveal';
 import KeyboardTechStack from '@/components/sections/KeyboardTechStack';
+import FooterCTA from '@/components/sections/FooterCTA';
 
 // ─── Constants & Utils ───────────────────────────────────────────────────────
 const TABS = [
@@ -483,65 +484,7 @@ export default function ProjectsClient({ projects, categories, totalTechs }: Pro
         </AnimatePresence>
 
         {/* ── FOOTER CTA ─────────────────────────────────────── */}
-        <section className="mt-40">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="relative rounded-[3.5rem] bg-[var(--bg-secondary)]/40 backdrop-blur-3xl border border-[var(--border-primary)] p-12 lg:p-24 overflow-hidden text-center shadow-2xl"
-          >
-            <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent-primary)]/5 via-transparent to-[var(--accent-secondary)]/5 pointer-events-none" />
-
-            <div className="relative z-10 max-w-3xl mx-auto">
-              <motion.h2
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.2, duration: 0.8 }}
-                className="text-4xl lg:text-7xl font-black text-[var(--text-primary)] mb-10 tracking-tight leading-tight px-4"
-              >
-                Ready to architect <br />
-                <span className="gradient-text italic font-medium inline-block pr-4">something great?</span>
-              </motion.h2>
-
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.4, duration: 0.8 }}
-                className="text-[var(--text-secondary)] text-lg mb-12 opacity-80 max-w-xl mx-auto font-medium"
-              >
-                I&apos;m currently accepting new projects and consulting inquiries. Let&apos;s talk about your next backend challenge.
-              </motion.p>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.6, duration: 0.8 }}
-                className="flex flex-wrap items-center justify-center gap-6"
-              >
-                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                  <Link
-                    href="/contact"
-                    className="px-12 py-5 bg-[var(--text-primary)] text-[var(--bg-primary)] font-bold uppercase tracking-widest text-[0.7rem] rounded-full transition-all shadow-xl hover:bg-[var(--accent-primary)] hover:text-white block"
-                  >
-                    Hire Me →
-                  </Link>
-                </motion.div>
-                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                  <Link
-                    href="/about"
-                    className="px-12 py-5 bg-transparent text-[var(--text-primary)] border border-[var(--border-primary)] font-bold uppercase tracking-widest text-[0.7rem] rounded-full hover:border-[var(--accent-primary)] transition-all block"
-                  >
-                    My Journey
-                  </Link>
-                </motion.div>
-              </motion.div>
-            </div>
-          </motion.div>
-        </section>
+        <FooterCTA />
       </section>
     </div>
   );
