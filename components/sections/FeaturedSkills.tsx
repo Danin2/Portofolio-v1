@@ -219,7 +219,7 @@ const FeaturedSkills = () => {
     <section
       id="skills"
       ref={sectionRef}
-      className={`relative bg-[var(--section-bg)] py-20 md:py-32 px-6 md:px-12 lg:px-20 overflow-hidden border-t border-[var(--border-primary)] transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+      className={`relative bg-[var(--section-bg)] py-12 md:py-20 lg:py-32 px-4 md:px-12 lg:px-20 overflow-hidden border-t border-[var(--border-primary)] transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}
     >
       {/* Decorative Blur */}
@@ -228,11 +228,11 @@ const FeaturedSkills = () => {
 
       <div className="container mx-auto relative z-10">
         {/* Header */}
-        <div className="mb-20">
+        <div className="mb-10 md:mb-20">
           <ScrollReveal>
-            <div className="flex items-center gap-3 mb-6">
+            <div className="flex items-center gap-3 mb-4 md:mb-6">
               <div className="h-px w-8 bg-[var(--accent-purple)]" />
-              <p className="text-[0.65rem] font-black uppercase tracking-[0.3em] text-[var(--accent-purple)]">
+              <p className="text-[0.65rem] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] text-[var(--accent-purple)]">
                 Technical Ecosystem
               </p>
             </div>
@@ -240,13 +240,13 @@ const FeaturedSkills = () => {
           <RevealText
             as="h2"
             delay={0.1}
-            className="font-bold tracking-[-0.03em] leading-tight text-[var(--text-primary)] mb-6"
-            style={{ fontSize: 'clamp(2.5rem, 5vw, 4.5rem)' } as React.CSSProperties}
+            className="font-bold tracking-[-0.03em] leading-tight text-[var(--text-primary)] mb-4 md:mb-6"
+            style={{ fontSize: 'clamp(1.9rem, 5vw, 4.5rem)' } as React.CSSProperties}
           >
             Engineering <span className="gradient-text">Proficiency</span>
           </RevealText>
           <ScrollReveal delay={0.2}>
-            <p className="text-[var(--text-secondary)] max-w-2xl text-lg md:text-xl leading-relaxed opacity-80">
+            <p className="text-[var(--text-secondary)] max-w-2xl text-base md:text-xl leading-relaxed opacity-80">
               Building the future with modern tools and robust architectures.
               My stack is focused on speed, safety, and scalability.
             </p>
@@ -284,7 +284,7 @@ const FeaturedSkills = () => {
                   layoutId={`card-${active.title}-${id}`}
                   ref={modalRef}
                   transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
-                  className="w-full max-w-[700px] h-full max-h-[85vh] md:max-h-[90vh] flex flex-col bg-[var(--card-bg)] border border-[var(--border-primary)] rounded-[2.5rem] overflow-hidden shadow-2xl relative pointer-events-auto"
+                  className="w-full max-w-[700px] h-full max-h-[90vh] flex flex-col bg-[var(--card-bg)] border border-[var(--border-primary)] rounded-[2rem] md:rounded-[2.5rem] overflow-hidden shadow-2xl relative pointer-events-auto"
                   role="dialog"
                   aria-modal="true"
                   aria-labelledby={`modal-title-${id}`}
@@ -301,27 +301,27 @@ const FeaturedSkills = () => {
                   </div>
 
                   <div
-                    className="flex-1 min-h-0 h-full overflow-y-auto custom-scrollbar p-10 md:p-14 overscroll-contain touch-pan-y"
+                    className="flex-1 min-h-0 h-full overflow-y-auto custom-scrollbar p-6 md:p-10 lg:p-14 overscroll-contain touch-pan-y"
                     data-lenis-prevent
                   >
-                    <header className="mb-10">
+                    <header className="mb-6 md:mb-10">
                       <motion.div
                         layoutId={`icon-${active.title}-${id}`}
-                        className={`inline-flex p-4 rounded-2xl bg-gradient-to-br ${active.color} text-white mb-6 shadow-lg`}
+                        className={`inline-flex p-3 md:p-4 rounded-2xl bg-gradient-to-br ${active.color} text-white mb-4 md:mb-6 shadow-lg`}
                       >
                         {active.icon}
                       </motion.div>
                       <motion.h3
                         layoutId={`title-${active.title}-${id}`}
                         id={`modal-title-${id}`}
-                        className="font-bold text-[var(--text-primary)] text-3xl md:text-4xl mb-3"
+                        className="font-bold text-[var(--text-primary)] text-2xl md:text-3xl lg:text-4xl mb-3"
                       >
                         {active.title}
                       </motion.h3>
                       <motion.p
                         layoutId={`description-${active.title}-${id}`}
                         id={`modal-desc-${id}`}
-                        className="text-[var(--text-secondary)] text-lg opacity-70"
+                        className="text-[var(--text-secondary)] text-base md:text-lg opacity-70"
                       >
                         {active.description}
                       </motion.p>
@@ -345,7 +345,7 @@ const FeaturedSkills = () => {
         )}
 
         {/* Bento-Inspired Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-4 md:gap-6">
           {skills.map((card, idx) => {
             // Define responsive column spans for a "bento" feel
             const colSpan = idx === 0 ? "lg:col-span-8 md:col-span-6" :
@@ -373,7 +373,7 @@ const FeaturedSkills = () => {
                 <motion.div
                   layoutId={`card-${card.title}-${id}`}
                   onClick={() => setActive(card)}
-                  className={`group h-full relative p-8 md:p-10 flex flex-col border border-[rgba(255,255,255,0.1)] dark:bg-[rgba(255,255,255,0.05)] bg-[rgba(0,0,0,0.03)] backdrop-blur-[10px] rounded-[2rem] cursor-pointer transition-all duration-500 hover:border-[var(--accent-purple)]/50 shadow-sm hover:shadow-2xl hover:-translate-y-1`}
+                  className={`group h-full relative p-5 md:p-8 lg:p-10 flex flex-col border border-[rgba(255,255,255,0.1)] dark:bg-[rgba(255,255,255,0.05)] bg-[rgba(0,0,0,0.03)] backdrop-blur-[10px] rounded-[1.5rem] md:rounded-[2rem] cursor-pointer transition-all duration-500 hover:border-[var(--accent-purple)]/50 shadow-sm hover:shadow-2xl hover:-translate-y-1`}
                   style={{ transformStyle: 'preserve-3d' }}
                 >
                   {/* Visual Accent */}
@@ -385,7 +385,7 @@ const FeaturedSkills = () => {
                     <header className="mb-auto">
                       <motion.div
                         layoutId={`icon-${card.title}-${id}`}
-                        className={`inline-flex p-4 rounded-2xl bg-gradient-to-br ${card.color} text-white mb-8 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 shadow-xl`}
+                        className={`inline-flex p-3 md:p-4 rounded-2xl bg-gradient-to-br ${card.color} text-white mb-5 md:mb-8 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 shadow-xl`}
                       >
                         {React.cloneElement(card.icon as React.ReactElement<WithClassName>, { className: 'w-8 h-8' })}
                       </motion.div>
@@ -412,7 +412,7 @@ const FeaturedSkills = () => {
                       </div>
                     </header>
 
-                    <footer className="mt-10 flex items-center justify-between">
+                    <footer className="mt-6 md:mt-10 flex items-center justify-between">
                       <div className="text-[0.6rem] font-black uppercase tracking-[0.2em] text-[var(--text-muted)] group-hover:text-[var(--accent-violet)] transition-colors">
                         Learn More
                       </div>

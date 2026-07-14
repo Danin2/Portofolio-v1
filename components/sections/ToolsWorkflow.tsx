@@ -106,27 +106,27 @@ const ProjectPreview = () => {
 
       <div className="container-custom relative z-10">
         {/* Header Section */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-10 mb-20">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 md:gap-10 mb-10 md:mb-20">
           <div className="max-w-2xl">
-            <div className="flex items-center gap-3 mb-6">
+            <div className="flex items-center gap-3 mb-4 md:mb-6">
               <span className="h-[1px] w-8 bg-[var(--accent-purple)]" />
-              <span className="text-[0.7rem] font-bold uppercase tracking-[0.3em] text-[var(--accent-purple)]">
+              <span className="text-[0.7rem] font-bold uppercase tracking-[0.2em] md:tracking-[0.3em] text-[var(--accent-purple)]">
                 Featured Work
               </span>
             </div>
 
-            <h2 className="text-4xl md:text-6xl font-black tracking-tight text-[var(--text-primary)]">
+            <h2 className="text-3xl md:text-5xl lg:text-6xl font-black tracking-tight text-[var(--text-primary)]" style={{ textWrap: 'balance' } as React.CSSProperties}>
               Selected <span className="text-[var(--text-muted)] font-light italic">Creations</span>
             </h2>
           </div>
 
-          <p className="text-lg text-[var(--text-secondary)] max-w-sm opacity-80 border-l border-[var(--border-primary)] pl-8">
+          <p className="text-base md:text-lg text-[var(--text-secondary)] max-w-sm opacity-80 border-l border-[var(--border-primary)] pl-4 md:pl-8">
             A glimpse into robust backend systems and modern API architectures.
           </p>
         </div>
 
         {/* Project Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-8 mb-10 md:mb-20">
           {featuredProjects.map((project, idx) => {
             const termData = getTerminalData(project);
             return (
@@ -161,7 +161,7 @@ const ProjectPreview = () => {
                     />
 
                     {/* Card content */}
-                    <div className="p-8 flex flex-col flex-1 relative z-10">
+                    <div className="p-5 md:p-8 flex flex-col flex-1 relative z-10">
                       <div className="flex items-center justify-between mb-6">
                         <span className="text-[0.6rem] font-black uppercase tracking-[0.2em] text-[var(--text-muted)] group-hover:text-[var(--accent-primary)] transition-colors">
                           {project.category}

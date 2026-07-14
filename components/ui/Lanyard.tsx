@@ -2,7 +2,7 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
 import { Canvas, extend, useFrame } from '@react-three/fiber';
-import { useGLTF, Environment, Lightformer, Loader, Decal, useTexture } from '@react-three/drei';
+import { useGLTF, Environment, Lightformer, useProgress, Decal, useTexture } from '@react-three/drei';
 import { Suspense } from 'react';
 import {
   BallCollider,
@@ -44,7 +44,7 @@ export default function Lanyard({
   }, []);
 
   return (
-    <div className="relative z-0 w-full h-screen flex justify-center items-center transform scale-100 origin-center">
+    <div className="relative z-0 w-full h-[65vh] md:h-screen flex justify-center items-center transform scale-100 origin-center">
       <Canvas
         camera={{ position, fov }}
         dpr={[1, 1.5]}
@@ -88,12 +88,123 @@ export default function Lanyard({
           </Environment>
         </Suspense>
       </Canvas>
-      <Loader
-        containerStyles={{ background: 'transparent' }}
-        innerStyles={{ width: '200px' }}
-        barStyles={{ background: 'var(--accent-purple)' }}
-        dataInterpolation={(p) => `Memuat 3D... ${p.toFixed(0)}%`}
-      />
+      <LanyardSkeleton />
+    </div>
+  );
+}
+
+function LanyardSkeleton() {
+  const { progress, active } = useProgress();
+  const [visible, setVisible] = useState(true);
+  const [opacity, setOpacity] = useState(1);
+
+  useEffect(() => {
+    if (!active && progress === 100) {
+      // Fade out smoothly
+      const fadeTimer = setTimeout(() => {
+        setOpacity(0);
+      }, 100);
+      const hideTimer = setTimeout(() => {
+        setVisible(false);
+      }, 700);
+      return () => {
+        clearTimeout(fadeTimer);
+        clearTimeout(hideTimer);
+      };
+    }
+  }, [active, progress]);
+
+  if (!visible) return null;
+
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        inset: 0,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        pointerEvents: 'none',
+        opacity,
+        transition: 'opacity 0.6s ease',
+        zIndex: 10,
+      }}
+    >
+      {/* Lanyard string skeleton */}
+      <div style={{
+        width: '3px',
+        height: '120px',
+        background: 'linear-gradient(180deg, rgba(139,92,246,0.6) 0%, rgba(139,92,246,0.2) 100%)',
+        borderRadius: '2px',
+        marginBottom: '-4px',
+        animation: 'lanyardPulse 1.8s ease-in-out infinite',
+      }} />
+
+      {/* Card skeleton */}
+      <div style={{
+        width: '140px',
+        height: '200px',
+        borderRadius: '14px',
+        background: 'linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%)',
+        border: '1px solid rgba(255,255,255,0.1)',
+        backdropFilter: 'blur(12px)',
+        overflow: 'hidden',
+        position: 'relative',
+        boxShadow: '0 20px 60px rgba(0,0,0,0.4), 0 0 40px rgba(139,92,246,0.1)',
+      }}>
+        {/* Shimmer sweep */}
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          background: 'linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.07) 50%, transparent 70%)',
+          backgroundSize: '200% 100%',
+          animation: 'lanyardShimmer 1.8s ease-in-out infinite',
+        }} />
+
+        {/* Photo placeholder */}
+        <div style={{
+          width: '64px',
+          height: '64px',
+          borderRadius: '50%',
+          background: 'rgba(139,92,246,0.15)',
+          border: '1px solid rgba(139,92,246,0.25)',
+          margin: '28px auto 14px',
+          animation: 'lanyardPulse 1.8s ease-in-out infinite',
+        }} />
+
+        {/* Name line */}
+        <div style={{
+          height: '10px',
+          width: '80px',
+          background: 'rgba(255,255,255,0.08)',
+          borderRadius: '6px',
+          margin: '0 auto 8px',
+          animation: 'lanyardPulse 1.8s ease-in-out infinite 0.1s',
+        }} />
+
+        {/* Role line */}
+        <div style={{
+          height: '8px',
+          width: '100px',
+          background: 'rgba(255,255,255,0.05)',
+          borderRadius: '6px',
+          margin: '0 auto',
+          animation: 'lanyardPulse 1.8s ease-in-out infinite 0.2s',
+        }} />
+      </div>
+
+      {/* Inline keyframes */}
+      <style>{`
+        @keyframes lanyardShimmer {
+          0%   { background-position: -200% 0; }
+          100% { background-position: 200% 0; }
+        }
+        @keyframes lanyardPulse {
+          0%, 100% { opacity: 0.5; }
+          50%       { opacity: 1; }
+        }
+      `}</style>
     </div>
   );
 }

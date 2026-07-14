@@ -126,8 +126,8 @@ const Hero = () => {
 
 
       {/* ── Content Container ───────────────────────────────────── */}
-      <div className="container-custom relative z-10 pt-24 md:pt-32 pb-12">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center">
+      <div className="container-custom relative z-10 pt-20 md:pt-32 pb-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-16 lg:gap-24 items-center">
 
           {/* ────────────────── LEFT CONTENT (Typography) ────────────────── */}
           <div className="lg:col-span-8 flex flex-col items-start text-left order-2 lg:order-1">
@@ -137,7 +137,7 @@ const Hero = () => {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.1, duration: 0.6 }}
-              className="inline-flex items-center gap-3 px-6 py-3 mb-10 rounded-full border border-[var(--accent-primary)]/30 bg-[var(--accent-primary)]/10 backdrop-blur-xl text-[var(--accent-primary)] text-[0.7rem] font-black tracking-[0.2em] uppercase shadow-lg group hover:scale-105 transition-all duration-300"
+              className="inline-flex items-center gap-3 px-4 py-2.5 mb-6 md:mb-10 rounded-full border border-[var(--accent-primary)]/30 bg-[var(--accent-primary)]/10 backdrop-blur-xl text-[var(--accent-primary)] text-[0.65rem] font-black tracking-[0.15em] md:tracking-[0.2em] uppercase shadow-lg group hover:scale-105 transition-all duration-300"
             >
               <span className="relative flex h-3 w-3">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--accent-primary)] opacity-75" />
@@ -146,33 +146,33 @@ const Hero = () => {
               Available for Projects
             </motion.div>
 
-            <div className="mb-10 space-y-2">
+            <div className="mb-6 md:mb-10 space-y-1">
               <div className="overflow-hidden">
                 <StaggeredText
                   text="Muhammad"
                   delay={0.2}
                   className="font-display font-black leading-[0.85] tracking-tighter text-[var(--text-primary)] select-none"
-                  style={{ fontSize: 'clamp(3.5rem, 9vw, 8rem)' } as React.CSSProperties}
+                  style={{ fontSize: 'clamp(2.4rem, 8vw, 8rem)' } as React.CSSProperties}
                 />
               </div>
               <div
                 className="font-display font-black leading-[0.85] tracking-tighter select-none gradient-text overflow-hidden"
-                style={{ fontSize: 'clamp(3.5rem, 9vw, 8rem)' } as React.CSSProperties}
+                style={{ fontSize: 'clamp(2.4rem, 8vw, 8rem)' } as React.CSSProperties}
               >
                 <StaggeredText text="Danindra I" delay={0.6} />
               </div>
             </div>
 
             <div className="flex flex-col items-start max-w-2xl">
-              <div className="flex items-center gap-4 mb-8">
+              <div className="flex items-center gap-4 mb-5 md:mb-8">
                 <div className="h-px w-12 bg-[var(--accent-primary)] opacity-50" />
                 <TypewriterText
                   text=" Junior Web Development"
                   delay={1.2}
-                  className="font-mono font-black tracking-[0.4em] text-[var(--accent-primary)] uppercase text-[0.7rem] md:text-[0.85rem]"
+                  className="font-mono font-black tracking-[0.2em] md:tracking-[0.4em] text-[var(--accent-primary)] uppercase text-[0.65rem] md:text-[0.85rem]"
                 />
               </div>
-              <p className="text-[var(--text-secondary)] leading-relaxed text-xl md:text-2xl opacity-90 font-medium mb-12 max-w-xl">
+              <p className="text-[var(--text-secondary)] leading-relaxed text-base md:text-xl opacity-90 font-medium mb-8 md:mb-12 max-w-xl">
                 Architecting high-performance backends with precision. Beyond the terminal, I&apos;m a systems enthusiast focused on building the invisible infrastructure that powers modern experiences.
               </p>
             </div>
@@ -182,17 +182,17 @@ const Hero = () => {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8, duration: 0.7 }}
-              className="flex flex-wrap items-center gap-6"
+              className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3 md:gap-6 w-full sm:w-auto"
             >
               <Link
                 href="/projects"
-                className="relative inline-flex items-center gap-4 px-10 py-5 bg-[var(--text-primary)] text-[var(--bg-primary)] font-bold uppercase tracking-[0.2em] text-[0.7rem] rounded-full hover:bg-[var(--accent-primary)] hover:text-white transition-all duration-500 shadow-2xl group overflow-hidden"
+                className="relative inline-flex items-center justify-center gap-4 px-8 py-4 md:px-10 md:py-5 bg-[var(--text-primary)] text-[var(--bg-primary)] font-bold uppercase tracking-[0.2em] text-[0.65rem] md:text-[0.7rem] rounded-full hover:bg-[var(--accent-primary)] hover:text-white transition-all duration-500 shadow-2xl group overflow-hidden"
               >
                 My Projects
               </Link>
               <button
                 onClick={() => scrollToSection('skills')}
-                className="inline-flex items-center gap-4 px-10 py-5 border border-[var(--border-primary)] bg-[var(--bg-secondary)]/30 backdrop-blur-md text-[var(--text-primary)] font-bold uppercase tracking-[0.2em] text-[0.7rem] rounded-full hover:border-[var(--accent-primary)] hover:bg-[var(--accent-primary)]/5 group transition-all duration-500"
+                className="inline-flex items-center justify-center gap-4 px-8 py-4 md:px-10 md:py-5 border border-[var(--border-primary)] bg-[var(--bg-secondary)]/30 backdrop-blur-md text-[var(--text-primary)] font-bold uppercase tracking-[0.2em] text-[0.65rem] md:text-[0.7rem] rounded-full hover:border-[var(--accent-primary)] hover:bg-[var(--accent-primary)]/5 group transition-all duration-500"
               >
                 View Skills
               </button>
@@ -204,7 +204,7 @@ const Hero = () => {
               initial={{ opacity: 0, scale: 0.9, rotate: 10 }}
               animate={{ opacity: 1, scale: 1, rotate: 0 }}
               transition={{ delay: 0.4, duration: 1.2, ease: [0.23, 1, 0.32, 1] }}
-              className="relative w-full max-w-[360px]"
+              className="relative w-full max-w-[240px] sm:max-w-[300px] md:max-w-[360px]"
             >
               <div className="absolute -inset-10 bg-[var(--accent-primary)]/5 blur-[100px] rounded-full animate-pulse" />
 

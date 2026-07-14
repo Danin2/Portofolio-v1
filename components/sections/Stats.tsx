@@ -44,12 +44,12 @@ export default function Stats() {
   return (
     <section
       ref={ref}
-      className={`py-16 md:py-24 border-y border-[var(--border-primary)] bg-[var(--bg-secondary)]/30 backdrop-blur-sm transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+      className={`py-10 md:py-24 border-y border-[var(--border-primary)] bg-[var(--bg-secondary)]/30 backdrop-blur-sm transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] ${
         isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
       }`}
     >
       <div className="container-custom">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-12">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-12">
           {stats.map((stat, idx) => (
             <StatItem key={idx} stat={stat} start={isVisible} />
           ))}
@@ -64,11 +64,11 @@ function StatItem({ stat, start }: { stat: typeof stats[0], start: boolean }) {
 
   return (
     <div className="flex flex-col items-center justify-center text-center group">
-      <div className="text-5xl md:text-7xl font-black text-[var(--text-primary)] mb-4 tracking-tighter group-hover:scale-110 transition-transform duration-500">
+      <div className="text-4xl md:text-7xl font-black text-[var(--text-primary)] mb-3 tracking-tighter group-hover:scale-110 transition-transform duration-500">
         {count}
         <span className="text-[var(--accent-primary)]">{stat.suffix}</span>
       </div>
-      <div className="text-[0.65rem] text-[var(--text-muted)] uppercase tracking-[0.3em] font-black group-hover:text-[var(--accent-primary)] transition-colors duration-300">
+      <div className="text-[0.6rem] md:text-[0.65rem] text-[var(--text-muted)] uppercase tracking-[0.15em] md:tracking-[0.3em] font-black group-hover:text-[var(--accent-primary)] transition-colors duration-300 leading-tight">
         {stat.label}
       </div>
       {/* Visual Flash effect when count reaches end */}
