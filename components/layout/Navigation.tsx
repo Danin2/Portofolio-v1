@@ -172,6 +172,8 @@ const Navigation = () => {
           <button
             className="md:hidden relative w-10 h-10 flex flex-col items-center justify-center gap-1.5 focus:outline-none z-50 ml-2"
             onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label="Toggle navigation menu"
+            aria-expanded={mobileOpen}
           >
             <motion.span animate={{ rotate: mobileOpen ? 45 : 0, y: mobileOpen ? 8 : 0 }} className="w-6 h-0.5 bg-[var(--text-primary)] rounded-full" />
             <motion.span animate={{ opacity: mobileOpen ? 0 : 1 }} className="w-6 h-0.5 bg-[var(--text-primary)] rounded-full" />

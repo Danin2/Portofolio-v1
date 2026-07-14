@@ -2,10 +2,12 @@
 
 @font-face {
   font-family: 'Determination';
+  /* font-display: optional prevents layout shift — this font is only used in the
+     PageLoader overlay, not in critical above-the-fold content */
   src: url('/assets/Font/determination.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
-  font-display: swap;
+  font-display: optional;
 }
 
 /* ─── Keyframes ─────────────────────────────────────────── */
@@ -148,6 +150,35 @@
   }
 }
 
+/* ─── Pure CSS Marquee (replaces framer-motion in Marquee.tsx) ── */
+@keyframes marqueeLeft {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes marqueeRight {
+  0%   { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+.marquee-track--left {
+  animation: marqueeLeft var(--marquee-duration, 30s) linear infinite;
+}
+
+.marquee-track--right {
+  animation: marqueeRight var(--marquee-duration, 30s) linear infinite;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
 /* ─── Base CSS Variables ─────────────────────────────────── */
 :root {
   /* Default: Light Mode - Premium Slate System */
@@ -259,6 +290,8 @@ body {
   font-family: var(--font-dm-sans), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Optimize text rendering speed over legibility on large text blocks */
+  text-rendering: optimizeSpeed;
 }
 
 h1, h2, h3, h4, h5, h6 {

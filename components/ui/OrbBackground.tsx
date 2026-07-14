@@ -4,12 +4,18 @@
  * OrbBackground — Animated floating gradient orbs
  * "Dark Tech Artisan" aesthetic: teal + amber + indigo blobs
  * CSS animation only (no JS), GPU-accelerated via will-change: transform
+ * Performance: blur values reduced on mobile via CSS media queries.
  */
 const OrbBackground = () => (
-  <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none" aria-hidden="true">
+  <div
+    className="fixed inset-0 -z-10 overflow-hidden pointer-events-none"
+    aria-hidden="true"
+    // content-visibility skips rendering when the element is off-screen
+    style={{ contentVisibility: 'auto' } as React.CSSProperties}
+  >
     {/* Orb 1: Slate Blue — large, bottom-left */}
     <div
-      className="absolute rounded-full animate-orb-1 will-change-transform"
+      className="absolute rounded-full animate-orb-1 will-change-transform orb-1"
       style={{
         width: '600px',
         height: '600px',
@@ -17,6 +23,7 @@ const OrbBackground = () => (
         left: '-120px',
         bottom: '-80px',
         opacity: 0.08,
+        // Mobile: reduced blur for GPU savings
         filter: 'blur(80px)',
       }}
     />
@@ -33,9 +40,9 @@ const OrbBackground = () => (
         filter: 'blur(70px)',
       }}
     />
-    {/* Orb 3: Primary subtle — center */}
+    {/* Orb 3: Primary subtle — center (hidden on mobile for perf) */}
     <div
-      className="absolute rounded-full animate-orb-3 will-change-transform"
+      className="absolute rounded-full animate-orb-3 will-change-transform hidden md:block"
       style={{
         width: '320px',
         height: '320px',

@@ -51,6 +51,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${syne.variable} ${dmSans.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
       <head>
+        {/* Theme init script — runs synchronously to prevent flash of wrong theme */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -68,6 +69,25 @@ export default function RootLayout({
               })();
             `,
           }}
+        />
+        {/* Preconnect for Google Fonts CDN used by JetBrains Mono */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        {/* Preload critical display font — Syne is used for all headings */}
+        <link
+          rel="preload"
+          href="/assets/Font/Syne-VariableFont_wght.ttf"
+          as="font"
+          type="font/ttf"
+          crossOrigin="anonymous"
+        />
+        {/* Preload critical LCP image */}
+        <link
+          rel="preload"
+          href="/assets/foto/profile.webp"
+          as="image"
+          type="image/webp"
+          fetchPriority="high"
         />
       </head>
       <body className="bg-[var(--bg-primary)] text-[var(--text-primary)] font-sans antialiased">

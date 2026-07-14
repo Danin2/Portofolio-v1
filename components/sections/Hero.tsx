@@ -1,46 +1,87 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { gsap } from 'gsap';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import RevealText from '@/components/ui/RevealText';
-import LightRays from '@/components/ui/LightRays';
 import ScrollReveal from '@/components/ui/ScrollReveal';
 import StaggeredText from '@/components/ui/StaggeredText';
 import TypewriterText from '@/components/ui/TypewriterText';
-import OrbBackground from '@/components/ui/OrbBackground';
 import HeroCodeSnippet from '@/components/ui/HeroCodeSnippet';
 import ProfileCard from '@/components/ui/ProfileCard';
 
+// Lazy-load WebGL/heavy components — removed from critical render path
+const LightRays = dynamic(() => import('@/components/ui/LightRays'), {
+  ssr: false,
+  loading: () => null,
+});
+const OrbBackground = dynamic(() => import('@/components/ui/OrbBackground'), {
+  ssr: false,
+  loading: () => null,
+});
+
 const Hero = () => {
   const ctaRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(true);
 
   useEffect(() => {
-    const buttons = ctaRef.current?.querySelectorAll('a, button');
-    if (!buttons) return;
+    // Determine screen size to avoid running heavy WebGL/GSAP logic on mobile
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile, { passive: true });
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
-    const cleanups: (() => void)[] = [];
-    buttons.forEach(btn => {
-      const el = btn as HTMLElement;
-      const onMove = (e: MouseEvent) => {
-        const rect = el.getBoundingClientRect();
-        const x = e.clientX - rect.left - rect.width / 2;
-        const y = e.clientY - rect.top - rect.height / 2;
-        gsap.to(el, { x: x * 0.22, y: y * 0.22, duration: 0.4, ease: 'power2.out' });
-      };
-      const onLeave = () => {
-        gsap.to(el, { x: 0, y: 0, duration: 0.6, ease: 'elastic.out(1, 0.5)' });
-      };
-      el.addEventListener('mousemove', onMove);
-      el.addEventListener('mouseleave', onLeave);
-      cleanups.push(() => {
-        el.removeEventListener('mousemove', onMove);
-        el.removeEventListener('mouseleave', onLeave);
+  useEffect(() => {
+    let cleanups: (() => void)[] = [];
+    let idleId: any = null;
+
+    const initMagneticButtons = () => {
+      const buttons = ctaRef.current?.querySelectorAll('a, button');
+      if (!buttons) return;
+
+      buttons.forEach(btn => {
+        const el = btn as HTMLElement;
+        const onMove = (e: MouseEvent) => {
+          const rect = el.getBoundingClientRect();
+          const x = e.clientX - rect.left - rect.width / 2;
+          const y = e.clientY - rect.top - rect.height / 2;
+          gsap.to(el, { x: x * 0.22, y: y * 0.22, duration: 0.4, ease: 'power2.out' });
+        };
+        const onLeave = () => {
+          gsap.to(el, { x: 0, y: 0, duration: 0.6, ease: 'elastic.out(1, 0.5)' });
+        };
+        el.addEventListener('mousemove', onMove, { passive: true });
+        el.addEventListener('mouseleave', onLeave, { passive: true });
+        cleanups.push(() => {
+          el.removeEventListener('mousemove', onMove);
+          el.removeEventListener('mouseleave', onLeave);
+        });
       });
-    });
+    };
 
-    return () => cleanups.forEach(c => c());
+    if (typeof window !== 'undefined') {
+      if ('requestIdleCallback' in window) {
+        idleId = (window as any).requestIdleCallback(initMagneticButtons);
+      } else {
+        idleId = setTimeout(initMagneticButtons, 50);
+      }
+    }
+
+    return () => {
+      if (idleId !== null && typeof window !== 'undefined') {
+        if ('cancelIdleCallback' in window) {
+          (window as any).cancelIdleCallback(idleId);
+        } else {
+          clearTimeout(idleId);
+        }
+      }
+      cleanups.forEach(c => c());
+    };
   }, []);
 
   const scrollToSection = (id: string) =>
@@ -49,30 +90,13 @@ const Hero = () => {
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center bg-[var(--bg-primary)] overflow-hidden">
 
-      {/* ── Ambient Background Layer (Enhanced) ── */}
+      {/* ── Ambient Background Layer ── */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
         <div className="absolute inset-0 bg-[var(--bg-primary)] opacity-40" />
 
-        {/* Animated Orbs with more complex motion */}
-        <motion.div
-          animate={{
-            x: [0, 80, -40, 80, 0],
-            y: [0, -50, 60, -50, 0],
-            scale: [1, 1.2, 0.8, 1.2, 1],
-            rotate: [0, 90, 180, 270, 360]
-          }}
-          transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-[5%] left-[5%] w-[600px] h-[600px] bg-[var(--accent-primary)]/8 blur-[140px] rounded-full"
-        />
-        <motion.div
-          animate={{
-            x: [0, -100, 50, -100, 0],
-            y: [0, 60, -80, 60, 0],
-            scale: [1, 0.7, 1.1, 0.7, 1]
-          }}
-          transition={{ duration: 30, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute bottom-[5%] right-[5%] w-[700px] h-[700px] bg-[var(--accent-secondary)]/8 blur-[160px] rounded-full"
-        />
+        {/* CSS-animated orbs — no JS, GPU-composited */}
+        <div className="absolute top-[5%] left-[5%] w-[600px] h-[600px] bg-[var(--accent-primary)]/8 blur-[140px] rounded-full animate-orb-float-1" />
+        <div className="absolute bottom-[5%] right-[5%] w-[700px] h-[700px] bg-[var(--accent-secondary)]/8 blur-[160px] rounded-full animate-orb-float-2" />
 
         {/* Grid / Scanline Effect */}
         <div className="absolute inset-0 opacity-[0.15]"
@@ -85,16 +109,18 @@ const Hero = () => {
       </div>
 
       {/* ── Background Elements (Rays) ────────────────────────── */}
-      <div className="absolute inset-0 z-1 pointer-events-none">
-        <LightRays
-          raysOrigin="top-left"
-          raysColor="rgba(139, 169, 214, 0.3)"
-          raysSpeed={0.8}
-          lightSpread={1.5}
-          rayLength={4}
-          followMouse={false}
-        />
-      </div>
+      {!isMobile && (
+        <div className="absolute inset-0 z-1 pointer-events-none">
+          <LightRays
+            raysOrigin="top-left"
+            raysColor="rgba(139, 169, 214, 0.3)"
+            raysSpeed={0.8}
+            lightSpread={1.5}
+            rayLength={4}
+            followMouse={false}
+          />
+        </div>
+      )}
 
       <OrbBackground />
 

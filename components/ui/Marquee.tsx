@@ -1,7 +1,6 @@
 'use client';
 
-import { ReactNode, useRef } from 'react';
-import { motion } from 'framer-motion';
+import { ReactNode, CSSProperties } from 'react';
 
 interface MarqueeProps {
   children: ReactNode;
@@ -13,9 +12,9 @@ interface MarqueeProps {
 }
 
 /**
- * Marquee — an infinitely scrolling horizontal strip.
- * Duplicates children so the loop is seamless.
- * Used between sections on sites like ribbit.dk as premium separators.
+ * Marquee — infinitely scrolling horizontal strip.
+ * Uses pure CSS animation (no framer-motion) for maximum performance.
+ * GPU-composited via `will-change: transform` declared in globals.css.
  */
 export default function Marquee({
   children,
@@ -24,28 +23,29 @@ export default function Marquee({
   className = '',
   pauseOnHover = true,
 }: MarqueeProps) {
-  const duration = 100 / speed * 20; // rough approx for animation duration
+  // Convert speed (px/s) to a CSS duration. Higher speed → shorter duration.
+  const duration = Math.round((10000 / speed) * 3);
+
+  const trackStyle: CSSProperties = {
+    '--marquee-duration': `${duration}s`,
+  } as CSSProperties;
+
+  const trackClass = [
+    'marquee-track',
+    direction === 'left' ? 'marquee-track--left' : 'marquee-track--right',
+  ].join(' ');
 
   return (
     <div
       className={`overflow-hidden select-none ${className}`}
       style={{ maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}
     >
-      <motion.div
-        className="flex gap-0 whitespace-nowrap"
-        animate={{ x: direction === 'left' ? ['0%', '-50%'] : ['-50%', '0%'] }}
-        transition={{
-          duration,
-          ease: 'linear',
-          repeat: Infinity,
-        }}
-        whileHover={pauseOnHover ? { animationPlayState: 'paused' } : undefined}
-        style={{ width: 'max-content' }}
-      >
+      {/* pauseOnHover is handled via .marquee-track:hover CSS rule in globals.css */}
+      <div className={trackClass} style={trackStyle} data-pause-on-hover={pauseOnHover}>
         {/* Render twice for seamless loop */}
         <div className="flex items-center gap-0 shrink-0">{children}</div>
         <div className="flex items-center gap-0 shrink-0" aria-hidden="true">{children}</div>
-      </motion.div>
+      </div>
     </div>
   );
 }

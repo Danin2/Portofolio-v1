@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, useCallback, useMemo } from 'react';
+import Image from 'next/image';
 import { useLanguage } from '@/context/LanguageContext';
 
 const DEFAULT_INNER_GRADIENT = 'linear-gradient(145deg,#60496e8c 0%,#71C4FF44 100%)';
@@ -34,7 +35,7 @@ interface ProfileCardProps {
 }
 
 const ProfileCardComponent: React.FC<ProfileCardProps> = ({
-    avatarUrl = '/assets/foto/profile.png',
+    avatarUrl = '/assets/foto/profile.webp',
     innerGradient,
     behindGlowEnabled = true,
     behindGlowColor,
@@ -106,7 +107,14 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
             <section className="relative overflow-hidden bg-black/90 rounded-[30px] border border-white/10 shadow-2xl" style={{ transform: 'rotateX(var(--rotate-y)) rotateY(var(--rotate-x))', transition: 'transform 0.1s ease-out' }}>
                 <div className="p-6 flex flex-col gap-4">
                     <div className="flex items-center gap-3 bg-white/5 p-2 rounded-xl border border-white/5 w-fit">
-                        <img src={miniAvatarUrl || avatarUrl} className="w-8 h-6 rounded-full border border-white/10" alt="avatar" />
+                        <Image
+                          src={miniAvatarUrl || avatarUrl}
+                          className="rounded-full border border-white/10 object-cover"
+                          alt={`${name} mini avatar`}
+                          width={32}
+                          height={32}
+                          loading="eager"
+                        />
                         <div className="flex flex-col">
                             <span className="text-white font-bold text-xs">@{handle}</span>
                             <span className="text-white/40 text-[8px] uppercase tracking-widest">{displayStatus}</span>
@@ -116,8 +124,17 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
                         <h3 className="text-3xl font-black text-white m-0">{name}</h3>
                         <p className="text-[10px] font-bold text-white/50 uppercase tracking-[0.2em] m-0">{displayTitle}</p>
                     </div>
-                    <div className="rounded-2xl overflow-hidden border border-white/10">
-                        <img src={avatarUrl} className="w-full aspect-square object-cover" alt={name} />
+                    <div className="rounded-2xl overflow-hidden border border-white/10 relative aspect-square">
+                        <Image
+                          src={avatarUrl}
+                          className="object-cover"
+                          alt={`Official portrait of ${name}`}
+                          fill
+                          sizes="(max-width: 768px) 300px, 360px"
+                          loading="eager"
+                          priority
+                          fetchPriority="high"
+                        />
                     </div>
                 </div>
             </section>

@@ -285,11 +285,16 @@ const FeaturedSkills = () => {
                   ref={modalRef}
                   transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
                   className="w-full max-w-[700px] h-full max-h-[85vh] md:max-h-[90vh] flex flex-col bg-[var(--card-bg)] border border-[var(--border-primary)] rounded-[2.5rem] overflow-hidden shadow-2xl relative pointer-events-auto"
+                  role="dialog"
+                  aria-modal="true"
+                  aria-labelledby={`modal-title-${id}`}
+                  aria-describedby={`modal-desc-${id}`}
                 >
                   <div className="absolute top-6 right-6 z-20">
                     <motion.button
                       className="flex items-center justify-center bg-[var(--bg-tertiary)]/80 backdrop-blur-md rounded-full h-10 w-10 border border-[var(--border-primary)] hover:scale-110 transition-transform"
                       onClick={() => setActive(null)}
+                      aria-label="Close modal"
                     >
                       <CloseIcon />
                     </motion.button>
@@ -308,12 +313,14 @@ const FeaturedSkills = () => {
                       </motion.div>
                       <motion.h3
                         layoutId={`title-${active.title}-${id}`}
+                        id={`modal-title-${id}`}
                         className="font-bold text-[var(--text-primary)] text-3xl md:text-4xl mb-3"
                       >
                         {active.title}
                       </motion.h3>
                       <motion.p
                         layoutId={`description-${active.title}-${id}`}
+                        id={`modal-desc-${id}`}
                         className="text-[var(--text-secondary)] text-lg opacity-70"
                       >
                         {active.description}
@@ -437,6 +444,7 @@ export const CloseIcon = () => {
       strokeLinecap="round"
       strokeLinejoin="round"
       className="h-4 w-4 text-[var(--text-primary)]"
+      aria-hidden="true"
     >
       <path stroke="none" d="M0 0h24v24H0z" fill="none" />
       <path d="M18 6l-12 12" />

@@ -10,36 +10,53 @@ interface SmoothScrollProviderProps {
 
 /**
  * SmoothScrollProvider — wraps the app with Lenis smooth scrolling.
+ * Lenis is initialized after the browser's first idle moment to avoid
+ * adding to Total Blocking Time during the critical page load phase.
  */
 export default function SmoothScrollProvider({ children }: SmoothScrollProviderProps) {
   const lenisRef = useRef<Lenis | null>(null);
+  const rafIdRef = useRef<number | null>(null);
   const pathname = usePathname();
 
   useEffect(() => {
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // expo out
-      orientation: 'vertical',
-      smoothWheel: true,
-      touchMultiplier: 1.5,
-    });
+    // Defer init to browser idle time — reduces TBT on initial load
+    const initLenis = () => {
+      const lenis = new Lenis({
+        duration: 1.2,
+        easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // expo out
+        orientation: 'vertical',
+        smoothWheel: true,
+        touchMultiplier: 1.5,
+      });
 
-    lenisRef.current = lenis;
+      lenisRef.current = lenis;
 
-    // Sync Lenis with requestAnimationFrame
-    function raf(time: number) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-
-    const rafId = requestAnimationFrame(raf);
-    (window as any).lenis = lenis;
-
-    return () => {
-      cancelAnimationFrame(rafId);
-      lenis.destroy();
-      (window as any).lenis = null;
+      function raf(time: number) {
+        lenis.raf(time);
+        rafIdRef.current = requestAnimationFrame(raf);
+      }
+      rafIdRef.current = requestAnimationFrame(raf);
+      (window as any).lenis = lenis;
     };
+
+    // Use requestIdleCallback when available, else defer via setTimeout
+    if ('requestIdleCallback' in window) {
+      const id = (window as any).requestIdleCallback(initLenis, { timeout: 1000 });
+      return () => {
+        (window as any).cancelIdleCallback(id);
+        if (rafIdRef.current) cancelAnimationFrame(rafIdRef.current);
+        lenisRef.current?.destroy();
+        (window as any).lenis = null;
+      };
+    } else {
+      const t = setTimeout(initLenis, 50);
+      return () => {
+        clearTimeout(t);
+        if (rafIdRef.current) cancelAnimationFrame(rafIdRef.current);
+        lenisRef.current?.destroy();
+        (window as any).lenis = null;
+      };
+    }
   }, []);
 
   // Reset scroll on route change

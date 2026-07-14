@@ -1,10 +1,25 @@
+import dynamic from 'next/dynamic';
 import Hero from '@/components/sections/Hero';
-import FeaturedSkills from '@/components/sections/FeaturedSkills';
-import Stats from '@/components/sections/Stats';
-import ProjectPreview from '@/components/sections/ToolsWorkflow';
-import TechMarquee from '@/components/sections/TechMarquee';
-import ScrollReveal from '@/components/ui/ScrollReveal';
-import FooterCTA from '@/components/sections/FooterCTA';
+
+const TechMarquee = dynamic(() => import('@/components/sections/TechMarquee'), {
+  loading: () => <div className="h-20 bg-[var(--section-bg-alt)] animate-pulse" />
+});
+
+const Stats = dynamic(() => import('@/components/sections/Stats'), {
+  loading: () => <div className="h-40 bg-[var(--section-bg)] animate-pulse" />
+});
+
+const FeaturedSkills = dynamic(() => import('@/components/sections/FeaturedSkills'), {
+  loading: () => <div className="h-96 bg-[var(--section-bg)] animate-pulse" />
+});
+
+const ProjectPreview = dynamic(() => import('@/components/sections/ToolsWorkflow'), {
+  loading: () => <div className="h-96 bg-[var(--bg-primary)] animate-pulse" />
+});
+
+const FooterCTA = dynamic(() => import('@/components/sections/FooterCTA'), {
+  loading: () => <div className="h-48 bg-[var(--bg-primary)] animate-pulse" />
+});
 
 export default function Home() {
   const jsonLd = {

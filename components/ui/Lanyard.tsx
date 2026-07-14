@@ -264,6 +264,7 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
                 color="#ffffff"
                 transparent={true}
                 alphaTest={0.5}
+                depthWrite={true}
                 onBeforeCompile={(shader) => {
                   shader.fragmentShader = shader.fragmentShader.replace(
                     '#include <map_fragment>',
@@ -278,17 +279,19 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
               />
               {/* FIX 5: polygonOffset dipindah ke material di dalam Decal */}
               <Decal
-                position={[0, 0.15, 0.02]}
+                position={[0, 0.523, 0.01]}
                 rotation={[0, 0, 0]}
-                scale={[0.7, 0.7, 0.7]}
+                scale={[0.75, 1.0, 0.15]}
+                renderOrder={10}
               >
                 <meshStandardMaterial
                   map={stickerTexture}
                   transparent={true}
-                  depthTest={false}
+                  depthTest={true}
+                  depthWrite={false}
                   polygonOffset={true}
-                  polygonOffsetFactor={-1}
-                  polygonOffsetUnits={-1}
+                  polygonOffsetFactor={-4}
+                  polygonOffsetUnits={-4}
                 />
               </Decal>
             </mesh>
