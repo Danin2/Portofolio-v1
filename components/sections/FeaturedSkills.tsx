@@ -310,7 +310,6 @@ const FeaturedSkills = () => {
                 glarePosition="all"
                 glareBorderRadius="2rem"
                 tiltEnable={true}
-                gyroscope={true}
               >
                 <motion.div
                   layoutId={`card-${card.title}-${id}`}
