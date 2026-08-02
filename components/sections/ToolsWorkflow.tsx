@@ -8,6 +8,7 @@ import RevealText from '@/components/ui/RevealText';
 import { getFeaturedProjects } from '@/lib/data/projects';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
 import TerminalCardHeader from '@/components/ui/TerminalCardHeader';
+import { useLanguage } from '@/context/LanguageContext';
 
 // Terminal output lines per project
 const terminalData: Record<string, { lines: { text: string; type: 'command' | 'success' | 'info' | 'warning' }[]; title: string }> = {
@@ -90,13 +91,13 @@ function getTerminalData(project: { slug: string; title: string }) {
 const ProjectPreview = () => {
   const featuredProjects = getFeaturedProjects().slice(0, 3);
   const { ref, isVisible } = useScrollReveal();
+  const { t } = useLanguage();
 
   return (
     <section
       ref={ref}
-      className={`relative bg-[var(--bg-primary)] section-padding overflow-hidden border-t border-[var(--border-primary)] transition-all duration-700 ${
-        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-      }`}
+      className={`relative bg-[var(--bg-primary)] section-padding overflow-hidden border-t border-[var(--border-primary)] transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`}
     >
       {/* Background decoration */}
       <div className="absolute inset-0 pointer-events-none">
@@ -108,20 +109,14 @@ const ProjectPreview = () => {
         {/* Header Section */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 md:gap-10 mb-10 md:mb-20">
           <div className="max-w-2xl">
-            <div className="flex items-center gap-3 mb-4 md:mb-6">
-              <span className="h-[1px] w-8 bg-[var(--accent-purple)]" />
-              <span className="text-[0.7rem] font-bold uppercase tracking-[0.2em] md:tracking-[0.3em] text-[var(--accent-purple)]">
-                Featured Work
-              </span>
-            </div>
 
             <h2 className="text-3xl md:text-5xl lg:text-6xl font-black tracking-tight text-[var(--text-primary)]" style={{ textWrap: 'balance' } as React.CSSProperties}>
-              Selected <span className="text-[var(--text-muted)] font-light italic">Creations</span>
+              {t('projects.section_title')} <span className="text-[var(--text-muted)] font-light italic">{t('projects.section_title_italic')}</span>
             </h2>
           </div>
 
           <p className="text-base md:text-lg text-[var(--text-secondary)] max-w-sm opacity-80 border-l border-[var(--border-primary)] pl-4 md:pl-8">
-            A glimpse into robust backend systems and modern API architectures.
+            {t('projects.section_desc')}
           </p>
         </div>
 
@@ -226,7 +221,7 @@ const ProjectPreview = () => {
             className="group flex flex-col items-center gap-4"
           >
             <span className="text-[0.7rem] font-black uppercase tracking-[0.4em] text-[var(--text-primary)] group-hover:text-[var(--accent-purple)] transition-colors">
-              Explore Full Archive
+              {t('projects.explore_archive')}
             </span>
             <motion.div
               animate={{ y: [0, 5, 0] }}

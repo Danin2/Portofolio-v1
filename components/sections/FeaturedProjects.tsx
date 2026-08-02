@@ -7,9 +7,11 @@ import Image from 'next/image';
 import { getFeaturedProjects, TECH_META } from '@/lib/data/projects';
 import RevealText from '@/components/ui/RevealText';
 import ScrollReveal from '@/components/ui/ScrollReveal';
+import { useLanguage } from '@/context/LanguageContext';
 
 const FeaturedProjects = () => {
   const featured = getFeaturedProjects().slice(0, 3); // Top 3 featured projects
+  const { t } = useLanguage();
 
   return (
     <section id="work" className="relative bg-[var(--bg-primary)] py-24 sm:py-32 overflow-hidden">
@@ -23,7 +25,7 @@ const FeaturedProjects = () => {
         <div className="mb-16 md:mb-24 flex flex-col md:flex-row md:items-end justify-between gap-8">
           <div className="max-w-2xl">
             <ScrollReveal>
-              <p className="label-uppercase mb-4">Selected Work</p>
+              <p className="label-uppercase mb-4">{t('projects.selected_work')}</p>
             </ScrollReveal>
             <RevealText
               as="h2"
@@ -31,12 +33,11 @@ const FeaturedProjects = () => {
               className="font-bold tracking-[-0.03em] leading-none text-[var(--text-primary)] mb-6"
               style={{ fontSize: 'clamp(2.5rem, 6vw, 4.5rem)' } as React.CSSProperties}
             >
-              Featured <span className="gradient-text">Projects</span>
+              {t('projects.featured_title')} <span className="gradient-text">{t('projects.featured_title_gradient')}</span>
             </RevealText>
             <ScrollReveal delay={0.2}>
               <p className="text-[var(--text-secondary)] text-base md:text-lg leading-relaxed max-w-lg opacity-80">
-                A showcase of high-performance backend systems, 
-                distributed architectures, and robust API solutions.
+                {t('projects.featured_desc')}
               </p>
             </ScrollReveal>
           </div>
@@ -46,7 +47,7 @@ const FeaturedProjects = () => {
               href="/projects" 
               className="group inline-flex items-center gap-2 px-6 py-3 border border-[var(--border-primary)] hover:border-[var(--accent-primary)] rounded-full text-xs font-bold uppercase tracking-widest text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-all duration-300"
             >
-              All Projects
+              {t('projects.all_projects')}
               <span className="group-hover:translate-x-1 transition-transform inline-block">&gt;</span>
             </Link>
           </ScrollReveal>
@@ -79,9 +80,9 @@ const FeaturedProjects = () => {
                            </span>
                         </div>
                         
-                        <h3 className="text-2xl md:text-3xl font-bold text-[var(--text-primary)] mb-4 group-hover:text-[var(--accent-primary)] transition-colors duration-300">
+                        <h2 className="text-2xl md:text-3xl font-bold text-[var(--text-primary)] mb-4 group-hover:text-[var(--accent-primary)] transition-colors duration-300">
                           {project.title}
-                        </h3>
+                        </h2>
                         
                         <p className="text-[var(--text-secondary)] text-sm md:text-base leading-relaxed max-w-md opacity-80 group-hover:opacity-100 transition-opacity">
                           {project.shortDescription}
@@ -139,7 +140,7 @@ const FeaturedProjects = () => {
          <div className="mt-20 flex justify-center">
             <ScrollReveal delay={0.5}>
               <p className="text-[var(--text-muted)] text-sm font-medium">
-                Interested in more? <Link href="/projects" className="text-[var(--accent-primary)] hover:text-[var(--text-primary)] border-b border-[var(--accent-primary)]/20 hover:border-[var(--text-primary)] transition-all ml-1">Explore the full archive</Link>
+                {t('projects.interested')} <Link href="/projects" className="text-[var(--accent-primary)] hover:text-[var(--text-primary)] border-b border-[var(--accent-primary)]/20 hover:border-[var(--text-primary)] transition-all ml-1">{t('projects.explore_link')}</Link>
               </p>
             </ScrollReveal>
          </div>

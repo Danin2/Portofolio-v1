@@ -189,7 +189,7 @@
   /* Text */
   --text-primary: #0F172A;
   --text-secondary: #334155;
-  --text-muted: #64748B;
+  --text-muted: #556070;
 
   /* Accents — Slate Blue primary, Deep Slate secondary */
   --accent-primary: #6C8EBF;
@@ -235,8 +235,8 @@
 
   /* Text */
   --text-primary: #F8FAFC;
-  --text-secondary: #94A3B8;
-  --text-muted: #64748B;
+  --text-secondary: #B0C0D4;
+  --text-muted: #7A8FA6;
 
   /* Accents — Slate Blue primary */
   --accent-primary: #8BA9D6;

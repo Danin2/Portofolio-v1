@@ -8,6 +8,7 @@ import { useOutsideClick } from "@/hooks/use-outside-click";
 import RevealText from '@/components/ui/RevealText';
 import ScrollReveal from '@/components/ui/ScrollReveal';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
+import { useLanguage } from '@/context/LanguageContext';
 import {
   Server,
   Database,
@@ -22,162 +23,108 @@ import {
 
 type WithClassName = { className?: string };
 
-const skills = [
-  {
-    title: "Project Architecture",
-    description: "Scalable Systems & Infrastructure",
-    techs: ["Microservices", "Docker", "K8s"],
-    icon: <Layers className="w-10 h-10" />,
-    color: "from-[#8BA9D6] to-[#475569]", 
-    src: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2000&auto=format&fit=crop",
-    ctaText: "Full Specs",
-    ctaLink: "#",
-    content: () => (
-      <div className="space-y-6">
-        <p className="text-lg">
-          I architect distributed systems that stand the test of time.
-          Leveraging microservices, event-driven patterns, and containerization,
-          I build environments that are resilient and easy to scale.
-        </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="p-4 rounded-xl bg-[var(--bg-tertiary)] border border-[var(--border-primary)]">
-            <h4 className="font-bold mb-2 text-[var(--accent-primary)]">Infrastructure</h4>
-            <ul className="text-sm space-y-1 opacity-80">
-              <li>• Docker & K8s Orchestration</li>
-              <li>• Message Brokers (RabbitMQ/Kafka)</li>
-              <li>• gRPC & Protocol Buffers</li>
-            </ul>
-          </div>
-          <div className="p-4 rounded-xl bg-[var(--bg-tertiary)] border border-[var(--border-primary)]">
-            <h4 className="font-bold mb-2 text-[var(--text-muted)]">Patterns</h4>
-            <ul className="text-sm space-y-1 opacity-80">
-              <li>• Domain-Driven Design (DDD)</li>
-              <li>• Event Sourcing / CQRS</li>
-              <li>• Layered Architecture</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    ),
-  },
-  {
-    title: "Database Engineering",
-    description: "High-Performance Data Storage",
-    techs: ["PostgreSQL", "Redis", "MongoDB"],
-    icon: <Database className="w-8 h-8" />,
-    color: "from-[#475569] to-[#2D3748]",
-    src: "https://images.unsplash.com/photo-1544383835-bda2bc66a55d?q=80&w=2000&auto=format&fit=crop",
-    content: () => (
-      <div className="space-y-4">
-        <p>
-          From ER modeling to complex query optimization, I ensure data integrity
-          and speed across both SQL and NoSQL environments.
-        </p>
-        <ul className="list-disc list-inside space-y-2 text-[var(--text-secondary)]">
-          <li>PostgreSQL schema design & optimization</li>
-          <li>NoSQL modeling with MongoDB & Redis</li>
-          <li>Distributed caching strategies</li>
-          <li>Query profiling & indexing tuning</li>
-        </ul>
-      </div>
-    ),
-  },
-  {
-    title: "Modern Tooling",
-    description: "Lightning Fast Workflow",
-    techs: ["Vite", "ESBuild", "Vitest"],
-    icon: <Terminal className="w-8 h-8 text-[#8BA9D6]" />,
-    color: "from-[#8BA9D6] to-[#2D3748]",
-    src: "https://images.unsplash.com/photo-1516116216624-53e697fedbea?q=80&w=2000&auto=format&fit=crop",
-    content: () => (
-      <div className="space-y-4">
-        <p>
-          I leverage the latest ecosystem improvements to ensure "Lightning Fast"
-          development cycles and optimized production bundles.
-        </p>
-        <div className="p-4 rounded-xl border border-[var(--accent-primary)]/20 bg-[var(--accent-primary)]/5">
-          <h4 className="flex items-center gap-2 font-bold text-[var(--accent-primary)] mb-3">
-            <Zap className="w-4 h-4" /> The Modern Ecosystem
-          </h4>
-          <ul className="grid grid-cols-2 gap-2 text-sm opacity-90">
-            <li>• Vite-powered dev server</li>
-            <li>• Vitest for unit testing</li>
-            <li>• Rapid HMR workflows</li>
-            <li>• Rollup/ESBuild optimization</li>
-          </ul>
-        </div>
-      </div>
-    ),
-  },
-  {
-    title: "Backend API",
-    description: "Type-Safe Robust Foundation",
-    techs: ["Node.js", "Express", "NestJS"],
-    icon: <Server className="w-8 h-8" />,
-    color: "from-[#2D3748] to-[#8BA9D6]",
-    src: "https://images.unsplash.com/photo-1558494949-ef010cbdcc4b?q=80&w=2000&auto=format&fit=crop",
-    content: () => (
-      <div className="space-y-4">
-        <p>
-          Building secure, well-documented, and high-performance APIs
-          using modern Node.js and TypeScript frameworks.
-        </p>
-        <ul className="list-disc list-inside space-y-2 text-[var(--text-secondary)]">
-          <li>Node.js / Express / NestJS</li>
-          <li>Strict TypeScript implementation</li>
-          <li>Zod validation & OpenAPI documentation</li>
-          <li>Advanced Middleware & Security layers</li>
-        </ul>
-      </div>
-    ),
-  },
-  {
-    title: "Security & Auth",
-    description: "Identity & Data Hardening",
-    techs: ["JWT", "OAuth2", "RBAC"],
-    icon: <Shield className="w-8 h-8" />,
-    color: "from-[#8BA9D6] to-[#1A202C]",
-    src: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2000&auto=format&fit=crop",
-    content: () => (
-      <div className="space-y-4">
-        <p>
-          Bulletproof identity management and data protection following
-          OWASP standards and modern security protocols.
-        </p>
-        <ul className="list-disc list-inside space-y-2 text-[var(--text-secondary)]">
-          <li>JWT with refresh token rotation</li>
-          <li>OAuth2 & OIDC integrations</li>
-          <li>RBAC & ACL implementation</li>
-          <li>End-to-end encryption / Hashing</li>
-        </ul>
-      </div>
-    ),
-  },
-  {
-    title: "QA & Testing",
-    description: "Stability & Zero-Regression",
-    techs: ["Vitest", "Playwright", "CI/CD"],
-    icon: <Cpu className="w-8 h-8" />,
-    color: "from-[#1A202C] to-[#8BA9D6]",
-    src: "https://images.unsplash.com/photo-1551288049-bbbda536639a?q=80&w=2000&auto=format&fit=crop",
-    content: () => (
-      <div className="space-y-4">
-        <p>
-          Maintaining code health through automated test suites and
-          continuous integration pipelines.
-        </p>
-        <ul className="list-disc list-inside space-y-2 text-[var(--text-secondary)]">
-          <li>Unit & Integration testing (Vitest)</li>
-          <li>E2E scenarios (Playwright)</li>
-          <li>CI/CD pipeline automation</li>
-          <li>Coverage monitoring & Reporting</li>
-        </ul>
-      </div>
-    ),
-  },
+const SKILL_ICONS = [
+  <Layers className="w-10 h-10" />,
+  <Database className="w-8 h-8" />,
+  <Terminal className="w-8 h-8 text-[#8BA9D6]" />,
+  <Server className="w-8 h-8" />,
+  <Shield className="w-8 h-8" />,
+  <Cpu className="w-8 h-8" />,
 ];
 
+const SKILL_COLORS = [
+  "from-[#8BA9D6] to-[#475569]",
+  "from-[#475569] to-[#2D3748]",
+  "from-[#8BA9D6] to-[#2D3748]",
+  "from-[#2D3748] to-[#8BA9D6]",
+  "from-[#8BA9D6] to-[#1A202C]",
+  "from-[#1A202C] to-[#8BA9D6]",
+];
+
+const SKILL_SRCS = [
+  "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2000&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1544383835-bda2bc66a55d?q=80&w=2000&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1516116216624-53e697fedbea?q=80&w=2000&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1558494949-ef010cbdcc4b?q=80&w=2000&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2000&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1551288049-bbbda536639a?q=80&w=2000&auto=format&fit=crop",
+];
+
+const SKILL_TECHS = [
+  ["Microservices", "Docker", "K8s"],
+  ["PostgreSQL", "Redis", "MongoDB"],
+  ["Vite", "ESBuild", "Vitest"],
+  ["Node.js", "Express", "NestJS"],
+  ["JWT", "OAuth2", "RBAC"],
+  ["Vitest", "Playwright", "CI/CD"],
+];
+
+function useSkills(t: (key: string) => any) {
+  const cards = t('skills.cards') as any[];
+  if (!Array.isArray(cards)) return [];
+
+  return cards.map((card, i) => ({
+    title: card.title,
+    description: card.description,
+    techs: SKILL_TECHS[i],
+    icon: SKILL_ICONS[i],
+    color: SKILL_COLORS[i],
+    src: SKILL_SRCS[i],
+    content: () => {
+      if (i === 0) {
+        // Architecture – 2 column layout
+        return (
+          <div className="space-y-6">
+            <p className="text-lg">{card.content_intro}</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="p-4 rounded-xl bg-[var(--bg-tertiary)] border border-[var(--border-primary)]">
+                <h4 className="font-bold mb-2 text-[var(--accent-primary)]">{card.infra_title}</h4>
+                <ul className="text-sm space-y-1 opacity-80">
+                  {card.infra_items?.map((item: string) => <li key={item}>• {item}</li>)}
+                </ul>
+              </div>
+              <div className="p-4 rounded-xl bg-[var(--bg-tertiary)] border border-[var(--border-primary)]">
+                <h4 className="font-bold mb-2 text-[var(--text-muted)]">{card.patterns_title}</h4>
+                <ul className="text-sm space-y-1 opacity-80">
+                  {card.patterns_items?.map((item: string) => <li key={item}>• {item}</li>)}
+                </ul>
+              </div>
+            </div>
+          </div>
+        );
+      }
+      if (i === 2) {
+        // Modern Tooling – ecosystem box
+        return (
+          <div className="space-y-4">
+            <p>{card.content_intro}</p>
+            <div className="p-4 rounded-xl border border-[var(--accent-primary)]/20 bg-[var(--accent-primary)]/5">
+              <h4 className="flex items-center gap-2 font-bold text-[var(--accent-primary)] mb-3">
+                <Zap className="w-4 h-4" /> {card.ecosystem_title}
+              </h4>
+              <ul className="grid grid-cols-2 gap-2 text-sm opacity-90">
+                {card.ecosystem_items?.map((item: string) => <li key={item}>• {item}</li>)}
+              </ul>
+            </div>
+          </div>
+        );
+      }
+      // Default list layout
+      return (
+        <div className="space-y-4">
+          <p>{card.content_intro}</p>
+          <ul className="list-disc list-inside space-y-2 text-[var(--text-secondary)]">
+            {card.items?.map((item: string) => <li key={item}>{item}</li>)}
+          </ul>
+        </div>
+      );
+    },
+  }));
+}
+
 const FeaturedSkills = () => {
+  const { t } = useLanguage();
+  const skills = useSkills(t);
   const [active, setActive] = useState<(typeof skills)[number] | boolean | null>(null);
   const [mounted, setMounted] = useState(false);
   const id = useId();
@@ -230,12 +177,7 @@ const FeaturedSkills = () => {
         {/* Header */}
         <div className="mb-10 md:mb-20">
           <ScrollReveal>
-            <div className="flex items-center gap-3 mb-4 md:mb-6">
-              <div className="h-px w-8 bg-[var(--accent-purple)]" />
-              <p className="text-[0.65rem] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] text-[var(--accent-purple)]">
-                Technical Ecosystem
-              </p>
-            </div>
+            <div className="flex items-center gap-3 mb-4 md:mb-6"></div>
           </ScrollReveal>
           <RevealText
             as="h2"
@@ -243,12 +185,11 @@ const FeaturedSkills = () => {
             className="font-bold tracking-[-0.03em] leading-tight text-[var(--text-primary)] mb-4 md:mb-6"
             style={{ fontSize: 'clamp(1.9rem, 5vw, 4.5rem)' } as React.CSSProperties}
           >
-            Engineering <span className="gradient-text">Proficiency</span>
+            {t('skills.section_title')} <span className="gradient-text">{t('skills.section_title_gradient')}</span>
           </RevealText>
           <ScrollReveal delay={0.2}>
             <p className="text-[var(--text-secondary)] max-w-2xl text-base md:text-xl leading-relaxed opacity-80">
-              Building the future with modern tools and robust architectures.
-              My stack is focused on speed, safety, and scalability.
+              {t('skills.section_desc')}
             </p>
           </ScrollReveal>
         </div>
@@ -368,7 +309,7 @@ const FeaturedSkills = () => {
                 glareColor="white"
                 glarePosition="all"
                 glareBorderRadius="2rem"
-                tiltEnable={typeof window !== 'undefined' && window.innerWidth > 768} // Disable on mobile
+                tiltEnable={typeof window !== 'undefined' && window.innerWidth > 768}
               >
                 <motion.div
                   layoutId={`card-${card.title}-${id}`}
@@ -401,8 +342,8 @@ const FeaturedSkills = () => {
                       >
                         {card.description}
                       </motion.p>
-                      
-                      {/* Concrete Technologies (Task 4) */}
+
+                      {/* Concrete Technologies */}
                       <div className="flex flex-wrap gap-2 mt-4">
                         {card.techs?.map(tech => (
                           <span key={tech} className="text-[0.55rem] font-black uppercase tracking-widest text-[var(--accent-purple)] bg-[var(--accent-purple)]/5 px-2 py-1 rounded-md border border-[var(--accent-purple)]/10 group-hover:border-[var(--accent-purple)]/30 transition-all">
@@ -414,7 +355,7 @@ const FeaturedSkills = () => {
 
                     <footer className="mt-6 md:mt-10 flex items-center justify-between">
                       <div className="text-[0.6rem] font-black uppercase tracking-[0.2em] text-[var(--text-muted)] group-hover:text-[var(--accent-violet)] transition-colors">
-                        Learn More
+                        {t('skills.learn_more')}
                       </div>
                       <div className="w-8 h-8 rounded-full border border-[var(--border-primary)] flex items-center justify-center text-[var(--text-muted)] group-hover:bg-[var(--accent-purple)] group-hover:text-white transition-all duration-300">
                         →

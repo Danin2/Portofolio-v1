@@ -87,7 +87,7 @@ const Navigation = () => {
         <div className={`
           relative transition-all duration-700 ease-[0.23,1,0.32,1] pointer-events-auto
           ${isScrolled
-            ? 'w-[92%] md:w-[85%] max-w-[1200px] h-14 bg-[var(--bg-primary)]/60 backdrop-blur-2xl border border-[var(--border-primary)] rounded-full px-8 flex items-center justify-between shadow-[0_12px_40px_rgba(0,0,0,0.12)]'
+            ? 'w-[92%] md:w-[85%] max-w-[1200px] h-14 bg-[var(--bg-primary)]/85 backdrop-blur-xl border border-[var(--border-primary)] rounded-full px-8 flex items-center justify-between shadow-[0_12px_40px_rgba(0,0,0,0.15)]'
             : 'container-custom flex items-center justify-between h-full pt-4 bg-transparent'
           }
         `}>
@@ -152,7 +152,7 @@ const Navigation = () => {
           </div>
 
           {/* ── Actions Area ────────────────────────────── */}
-          <div className="w-[180px] flex items-center justify-end gap-2">
+          <div className="w-[120px] flex items-center justify-end gap-2">
             <LanguageSwitcher />
             <div className="flex items-center justify-center w-10 h-10">
               <motion.div whileHover={{ scale: 1.15 }} whileTap={{ scale: 0.85 }}>

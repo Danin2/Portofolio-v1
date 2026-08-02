@@ -11,6 +11,7 @@ import StaggeredText from '@/components/ui/StaggeredText';
 import TypewriterText from '@/components/ui/TypewriterText';
 import HeroCodeSnippet from '@/components/ui/HeroCodeSnippet';
 import ProfileCard from '@/components/ui/ProfileCard';
+import { useLanguage } from '@/context/LanguageContext';
 
 // Lazy-load WebGL/heavy components — removed from critical render path
 const LightRays = dynamic(() => import('@/components/ui/LightRays'), {
@@ -25,6 +26,7 @@ const OrbBackground = dynamic(() => import('@/components/ui/OrbBackground'), {
 const Hero = () => {
   const ctaRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(true);
+  const { t } = useLanguage();
 
   useEffect(() => {
     // Determine screen size to avoid running heavy WebGL/GSAP logic on mobile
@@ -133,18 +135,6 @@ const Hero = () => {
           <div className="lg:col-span-8 flex flex-col items-start text-left order-2 lg:order-1">
 
             {/* Availability Badge (Task 6) */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.1, duration: 0.6 }}
-              className="inline-flex items-center gap-3 px-4 py-2.5 mb-6 md:mb-10 rounded-full border border-[var(--accent-primary)]/30 bg-[var(--accent-primary)]/10 backdrop-blur-xl text-[var(--accent-primary)] text-[0.65rem] font-black tracking-[0.15em] md:tracking-[0.2em] uppercase shadow-lg group hover:scale-105 transition-all duration-300"
-            >
-              <span className="relative flex h-3 w-3">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--accent-primary)] opacity-75" />
-                <span className="relative inline-flex rounded-full h-3 w-3 bg-[var(--accent-primary)] shadow-[0_0_8px_var(--accent-primary)]" />
-              </span>
-              Available for Projects
-            </motion.div>
 
             <div className="mb-6 md:mb-10 space-y-1">
               <div className="overflow-hidden">
@@ -173,7 +163,7 @@ const Hero = () => {
                 />
               </div>
               <p className="text-[var(--text-secondary)] leading-relaxed text-base md:text-xl opacity-90 font-medium mb-8 md:mb-12 max-w-xl">
-                Architecting high-performance backends with precision. Beyond the terminal, I&apos;m a systems enthusiast focused on building the invisible infrastructure that powers modern experiences.
+                {t('hero.desc')}
               </p>
             </div>
 
@@ -188,13 +178,13 @@ const Hero = () => {
                 href="/projects"
                 className="relative inline-flex items-center justify-center gap-4 px-8 py-4 md:px-10 md:py-5 bg-[var(--text-primary)] text-[var(--bg-primary)] font-bold uppercase tracking-[0.2em] text-[0.65rem] md:text-[0.7rem] rounded-full hover:bg-[var(--accent-primary)] hover:text-white transition-all duration-500 shadow-2xl group overflow-hidden"
               >
-                My Projects
+                {t('hero.cta_projects')}
               </Link>
               <button
                 onClick={() => scrollToSection('skills')}
                 className="inline-flex items-center justify-center gap-4 px-8 py-4 md:px-10 md:py-5 border border-[var(--border-primary)] bg-[var(--bg-secondary)]/30 backdrop-blur-md text-[var(--text-primary)] font-bold uppercase tracking-[0.2em] text-[0.65rem] md:text-[0.7rem] rounded-full hover:border-[var(--accent-primary)] hover:bg-[var(--accent-primary)]/5 group transition-all duration-500"
               >
-                View Skills
+                {t('hero.cta_skills')}
               </button>
             </motion.div>
           </div>
@@ -212,8 +202,7 @@ const Hero = () => {
                 name="M. Danindra"
                 handle="masdani"
                 title="Systems Engineer"
-                status="Active_Operational"
-                avatarUrl="/assets/foto/profile.png"
+                avatarUrl="/assets/foto/profile"
                 innerGradient="linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0) 100%)"
                 behindGlowColor="rgba(139, 169, 214, 0.15)"
                 className="shadow-2xl"

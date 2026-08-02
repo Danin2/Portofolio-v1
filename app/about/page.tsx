@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import AboutClient from './AboutClient';
 
 export const metadata: Metadata = {
-  title: 'About Me | Muhammad Danindra I',
+  title: 'About',
   description: 'Learn about my journey as a backend developer, my technical skills, and my approach to building scalable systems.',
 };
 

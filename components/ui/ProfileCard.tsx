@@ -35,7 +35,7 @@ interface ProfileCardProps {
 }
 
 const ProfileCardComponent: React.FC<ProfileCardProps> = ({
-    avatarUrl = '/assets/foto/profile.webp',
+    avatarUrl = '/assets/foto/profile.',
     innerGradient,
     behindGlowEnabled = true,
     behindGlowColor,
@@ -53,7 +53,6 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
     const shellRef = useRef<HTMLDivElement>(null);
 
     const displayTitle = title || t('about.role');
-    const displayStatus = status || 'Active_Operational';
 
     const tiltEngine = useMemo(() => {
         if (!enableTilt) return null;
@@ -108,16 +107,15 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
                 <div className="p-6 flex flex-col gap-4">
                     <div className="flex items-center gap-3 bg-white/5 p-2 rounded-xl border border-white/5 w-fit">
                         <Image
-                          src={miniAvatarUrl || avatarUrl}
-                          className="rounded-full border border-white/10 object-cover"
-                          alt={`${name} mini avatar`}
-                          width={32}
-                          height={32}
-                          loading="eager"
+                            src={miniAvatarUrl || avatarUrl}
+                            className="rounded-full border border-white/10 object-cover"
+                            alt={`${name} mini avatar`}
+                            width={32}
+                            height={32}
+                            loading="eager"
                         />
                         <div className="flex flex-col">
                             <span className="text-white font-bold text-xs">@{handle}</span>
-                            <span className="text-white/40 text-[8px] uppercase tracking-widest">{displayStatus}</span>
                         </div>
                     </div>
                     <div className="text-center py-2">
@@ -126,14 +124,14 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
                     </div>
                     <div className="rounded-2xl overflow-hidden border border-white/10 relative aspect-square">
                         <Image
-                          src={avatarUrl}
-                          className="object-cover"
-                          alt={`Official portrait of ${name}`}
-                          fill
-                          sizes="(max-width: 768px) 300px, 360px"
-                          loading="eager"
-                          priority
-                          fetchPriority="high"
+                            src={avatarUrl}
+                            className="object-cover"
+                            alt={`Official portrait of ${name}`}
+                            fill
+                            sizes="(max-width: 768px) 300px, 360px"
+                            loading="eager"
+                            priority
+                            fetchPriority="high"
                         />
                     </div>
                 </div>

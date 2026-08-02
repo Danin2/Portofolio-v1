@@ -84,7 +84,7 @@ export default function RootLayout({
         {/* Preload critical LCP image */}
         <link
           rel="preload"
-          href="/assets/foto/profile.webp"
+          href="/assets/foto/profile."
           as="image"
           type="image/webp"
           fetchPriority="high"

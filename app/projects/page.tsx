@@ -4,7 +4,7 @@ import { projects, getAllCategories } from '@/lib/data/projects';
 import ProjectsClient from './ProjectsClient';
 
 export const metadata: Metadata = {
-  title: 'Projects | Muhammad Danindra I',
+  title: 'Projects',
   description: 'A collection of backend systems and APIs built with Node.js, TypeScript, and modern backend architecture.',
 };
 

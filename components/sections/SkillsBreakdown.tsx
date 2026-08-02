@@ -10,13 +10,13 @@ interface Skill {
 }
 
 const skillsData: Skill[] = [
-  { name: 'Node.js',      level: 90, category: 'Backend' },
-  { name: 'TypeScript',   level: 85, category: 'Backend' },
-  { name: 'PostgreSQL',   level: 80, category: 'Database' },
-  { name: 'Redis',        level: 70, category: 'Database' },
-  { name: 'NestJS',       level: 75, category: 'Frameworks' },
-  { name: 'GraphQL',      level: 65, category: 'API' },
-  { name: 'Docker',       level: 75, category: 'DevOps' },
+  { name: 'Node.js', level: 90, category: 'Backend' },
+  { name: 'TypeScript', level: 85, category: 'Backend' },
+  { name: 'PostgreSQL', level: 80, category: 'Database' },
+  { name: 'Redis', level: 70, category: 'Database' },
+  { name: 'NestJS', level: 75, category: 'Frameworks' },
+  { name: 'GraphQL', level: 65, category: 'API' },
+  { name: 'Docker', level: 75, category: 'DevOps' },
   { name: 'System Design', level: 80, category: 'Architecture' },
 ];
 
@@ -32,12 +32,6 @@ const SkillsBreakdown = () => {
       <div className="container-custom relative z-10">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-10 mb-20">
           <div className="max-w-2xl">
-            <div className="flex items-center gap-3 mb-6">
-              <span className="h-[1px] w-8 bg-[var(--accent-primary)]" />
-              <span className="text-[0.7rem] font-bold uppercase tracking-[0.3em] text-[var(--accent-primary)]">
-                Proficiency
-              </span>
-            </div>
             <h2 className="text-4xl md:text-5xl font-black tracking-tight text-[var(--text-primary)]">
               Technical <span className="text-[var(--text-muted)] font-light italic">Core</span>
             </h2>
@@ -48,11 +42,10 @@ const SkillsBreakdown = () => {
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                className={`px-5 py-2 rounded-full text-[0.65rem] font-bold uppercase tracking-widest transition-all duration-300 border ${
-                  activeCategory === cat
-                    ? 'bg-[var(--text-primary)] text-[var(--bg-primary)] border-[var(--text-primary)]'
-                    : 'bg-transparent text-[var(--text-muted)] border-[var(--border-primary)] hover:border-[var(--text-primary)] hover:text-[var(--text-primary)]'
-                }`}
+                className={`px-5 py-2 rounded-full text-[0.65rem] font-bold uppercase tracking-widest transition-all duration-300 border ${activeCategory === cat
+                  ? 'bg-[var(--text-primary)] text-[var(--bg-primary)] border-[var(--text-primary)]'
+                  : 'bg-transparent text-[var(--text-muted)] border-[var(--border-primary)] hover:border-[var(--text-primary)] hover:text-[var(--text-primary)]'
+                  }`}
               >
                 {cat}
               </button>
@@ -81,9 +74,6 @@ const SkillsBreakdown = () => {
                         {skill.name}
                       </h3>
                     </div>
-                    <span className="text-[0.65rem] font-mono text-[var(--text-muted)] group-hover:text-[var(--text-primary)] transition-colors">
-                      {skill.level >= 90 ? 'Expert' : skill.level >= 75 ? 'Advanced' : 'Intermediate'} · {skill.level}%
-                    </span>
                   </div>
 
                   <div className="h-[2px] w-full bg-[var(--border-primary)] relative overflow-hidden rounded-full">
@@ -92,7 +82,7 @@ const SkillsBreakdown = () => {
                       whileInView={{ scaleX: 1 }}
                       viewport={{ once: true }}
                       transition={{ duration: 1.2, ease: [0.23, 1, 0.32, 1], delay: idx * 0.05 }}
-                      style={{ 
+                      style={{
                         width: `${skill.level}%`,
                         transformOrigin: 'left'
                       }}

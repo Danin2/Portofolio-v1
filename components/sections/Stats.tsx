@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
+import { useLanguage } from '@/context/LanguageContext';
 
 function useCountUp(end: number, duration = 2000, start = false) {
   const [count, setCount] = useState(0);
@@ -31,15 +32,25 @@ function useCountUp(end: number, duration = 2000, start = false) {
   return count;
 }
 
-const stats = [
-  { value: 3, label: 'Years Experience', suffix: '+' },
-  { value: 20, label: 'Systems Architected', suffix: '+' },
-  { value: 50, label: 'APIs Optimized', suffix: '+' },
-  { value: 99, label: 'Uptime Reliability', suffix: '%' },
+const statValues = [
+  { value: 3, suffix: '+' },
+  { value: 20, suffix: '+' },
+  { value: 50, suffix: '+' },
+  { value: 99, suffix: '%' },
 ];
 
 export default function Stats() {
-  const { ref, isVisible } = useScrollReveal({ threshold: 0.2 }); // Lower threshold to trigger earlier
+  const { ref, isVisible } = useScrollReveal({ threshold: 0.2 });
+  const { t } = useLanguage();
+
+  const statLabels: string[] = [
+    t('stats.years'),
+    t('stats.systems'),
+    t('stats.apis'),
+    t('stats.uptime'),
+  ];
+
+  const stats = statValues.map((s, i) => ({ ...s, label: statLabels[i] }));
 
   return (
     <section
@@ -59,7 +70,7 @@ export default function Stats() {
   );
 }
 
-function StatItem({ stat, start }: { stat: typeof stats[0], start: boolean }) {
+function StatItem({ stat, start }: { stat: { value: number; label: string; suffix: string }, start: boolean }) {
   const count = useCountUp(stat.value, 2000, start);
 
   return (
@@ -68,7 +79,7 @@ function StatItem({ stat, start }: { stat: typeof stats[0], start: boolean }) {
         {count}
         <span className="text-[var(--accent-primary)]">{stat.suffix}</span>
       </div>
-      <div className="text-[0.6rem] md:text-[0.65rem] text-[var(--text-muted)] uppercase tracking-[0.15em] md:tracking-[0.3em] font-black group-hover:text-[var(--accent-primary)] transition-colors duration-300 leading-tight">
+      <div className="text-xs text-[var(--text-secondary)] uppercase tracking-[0.15em] md:tracking-[0.3em] font-black group-hover:text-[var(--accent-primary)] transition-colors duration-300 leading-tight">
         {stat.label}
       </div>
       {/* Visual Flash effect when count reaches end */}

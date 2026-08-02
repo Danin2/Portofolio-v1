@@ -3,26 +3,27 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import { useLanguage } from '@/context/LanguageContext';
 
 interface FooterCTAProps {
-  title?: string;
-  description?: string;
-  primaryBtnText?: string;
-  primaryBtnHref?: string;
-  secondaryBtnText?: string;
-  secondaryBtnHref?: string;
   className?: string;
 }
 
-const FooterCTA = ({
-  title = "Ready to architect something great?",
-  description = "I'm currently accepting new projects and consulting inquiries. Let's talk about your next backend challenge.",
-  primaryBtnText = "Hire Me →",
-  primaryBtnHref = "/contact",
-  secondaryBtnText = "View Projects",
-  secondaryBtnHref = "/projects",
-  className = ""
-}: FooterCTAProps) => {
+const FooterCTA = ({ className = "" }: FooterCTAProps) => {
+  const { t } = useLanguage();
+
+  const title: string = t('footerCTA.title');
+  const description: string = t('footerCTA.desc');
+  const primaryBtnText: string = t('footerCTA.primary_btn');
+  const primaryBtnHref = "/contact";
+  const secondaryBtnText: string = t('footerCTA.secondary_btn');
+  const secondaryBtnHref = "/projects";
+
+  // Split title on "something" for the gradient span effect (EN only)
+  // For other languages, render title as-is with a gradient span on the last word
+  const hasSomething = title.includes('something');
+  const titleParts = hasSomething ? title.split('something') : null;
+
   return (
     <section className={`mt-20 md:mt-40 container-custom ${className}`}>
       <motion.div
@@ -42,8 +43,14 @@ const FooterCTA = ({
             transition={{ delay: 0.2, duration: 0.8 }}
             className="text-3xl md:text-5xl lg:text-7xl font-black text-[var(--text-primary)] mb-6 md:mb-10 tracking-tight leading-tight px-4" style={{ textWrap: 'balance' } as React.CSSProperties}
           >
-            {title.split('something')[0]} <br />
-            <span className="gradient-text italic font-medium inline-block pr-4">something {title.split('something')[1]}</span>
+            {titleParts ? (
+              <>
+                {titleParts[0]} <br />
+                <span className="gradient-text italic font-medium inline-block pr-4">something {titleParts[1]}</span>
+              </>
+            ) : (
+              title
+            )}
           </motion.h2>
 
           <motion.p
@@ -74,7 +81,7 @@ const FooterCTA = ({
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto">
               <Link
                 href={secondaryBtnHref}
-                className="px-8 py-4 md:px-12 md:py-5 bg-transparent text-[var(--text-primary)] border border-[var(--border-primary)] font-bold uppercase tracking-widest text-[0.65rem] md:text-[0.7rem] rounded-full hover:border-[var(--accent-primary)] transition-all block text-center"
+                className="px-8 py-4 md:px-12 md:py-5 bg-transparent text-[var(--text-primary)] border border-[var(--text-primary)]/40 font-bold uppercase tracking-widest text-[0.65rem] md:text-[0.7rem] rounded-full hover:border-[var(--accent-primary)] hover:bg-[var(--accent-primary)]/8 hover:text-[var(--accent-primary)] transition-all block text-center"
               >
                 {secondaryBtnText}
               </Link>

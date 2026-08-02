@@ -41,11 +41,11 @@ function getLucideIcon(name?: string) {
 export default function AboutClient({ values }: AboutClientProps) {
   const { t } = useLanguage();
   const stats = useMemo(() => [
-    { value: '3+', label: 'Years Exp.' },
-    { value: '20+', label: 'Systems Built' },
-    { value: '40%', label: 'Perf. Boost' },
-    { value: '100%', label: 'Reliability' },
-  ], []);
+    { value: '3+', label: t('about.stats.0') },
+    { value: '20+', label: t('about.stats.1') },
+    { value: '40%', label: t('about.stats.2') },
+    { value: '100%', label: t('about.stats.3') },
+  ], [t]);
 
   const glanceDetails = useMemo(() => [
     { label: 'Role', value: t('about.role') },
@@ -61,31 +61,24 @@ export default function AboutClient({ values }: AboutClientProps) {
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-0 left-0 w-[40%] h-[40%] bg-[var(--accent-primary)]/5 blur-[120px] rounded-full" />
         </div>
-
         <div className="container-custom relative z-10">
-          <div className="flex items-center gap-3 mb-8">
-            <span className="h-[1px] w-8 bg-[var(--accent-primary)]" />
-            <span className="text-[0.7rem] font-bold uppercase tracking-[0.3em] text-[var(--accent-primary)]">
-              {t('about.title')}
-            </span>
-          </div>
 
-          <div className="grid lg:grid-cols-12 gap-12 items-end mb-24">
-            <div className="lg:col-span-9">
-              <h1 className="text-5xl md:text-7xl lg:text-9xl font-black tracking-tight text-[var(--text-primary)] leading-[0.9]">
-                {t('hero.title_part1')} <span className="text-[var(--text-muted)] font-light italic">{t('hero.title_part2')}</span>
-              </h1>
-            </div>
-            <div className="lg:col-span-3">
-              <motion.p
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.4 }}
-                className="text-[var(--text-secondary)] text-lg leading-relaxed opacity-80 border-l border-[var(--border-primary)] pl-6"
-              >
-                {t('hero.desc')}
-              </motion.p>
-            </div>
+          <div className="max-w-5xl mb-20 space-y-9">
+            <h1
+              className="font-black tracking-tight text-[var(--text-primary)] leading-[0.95] overflow-wrap-break-word"
+              style={{ fontSize: 'clamp(1.75rem, 8vw, 5rem)', wordBreak: 'break-word', overflowWrap: 'break-word', whiteSpace: 'normal' } as React.CSSProperties}
+            >
+              <span className="block">{t('hero.title_part1')}</span>
+              <span className="text-[var(--text-muted)] font-light italic block mt-1 md:mt-2">{t('hero.title_part2')}</span>
+            </h1>
+            <motion.p
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="text-[var(--text-secondary)] text-base sm:text-lg md:text-xl leading-relaxed opacity-90 border-l-2 border-[var(--accent-primary)] pl-6 max-w-2xl"
+            >
+              {t('hero.desc')}
+            </motion.p>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 py-16 border-y border-[var(--border-primary)]">
@@ -107,7 +100,7 @@ export default function AboutClient({ values }: AboutClientProps) {
                 >
                   {stat.value}
                 </motion.span>
-                <span className="text-[0.6rem] uppercase tracking-[0.3em] text-[var(--text-muted)] font-bold">
+                <span className="text-xs uppercase tracking-[0.3em] text-[var(--text-secondary)] font-bold">
                   {stat.label}
                 </span>
               </motion.div>
@@ -131,7 +124,7 @@ export default function AboutClient({ values }: AboutClientProps) {
 
             <div className="lg:col-span-7 space-y-12 order-1 lg:order-2">
               <div className="flex items-center gap-4">
-                <h2 className="text-3xl font-black tracking-tight uppercase italic text-[var(--text-primary)]">My Profile</h2>
+                <h2 className="text-2xl md:text-3xl font-black tracking-tight uppercase italic text-[var(--text-primary)]">{t('about.profile_title')}</h2>
                 <div className="h-px flex-1 bg-[var(--border-primary)]" />
               </div>
 
@@ -147,7 +140,7 @@ export default function AboutClient({ values }: AboutClientProps) {
                     { label: 'DevOps_Stack', value: 'Docker / K8s / CI-CD' },
                   ].map((spec) => (
                     <div key={spec.label} className="p-5 rounded-2xl bg-[var(--bg-tertiary)]/40 border border-[var(--border-primary)] group hover:border-[var(--accent-primary)]/40 transition-colors">
-                      <span className="text-[0.55rem] font-mono font-bold uppercase tracking-[0.2em] text-[var(--accent-primary)] block mb-2">{spec.label}</span>
+                      <span className="text-[0.65rem] font-mono font-bold uppercase tracking-[0.2em] text-[var(--accent-primary)] block mb-2">{spec.label}</span>
                       <p className="text-sm font-bold text-[var(--text-primary)]">{spec.value}</p>
                     </div>
                   ))}
@@ -158,70 +151,32 @@ export default function AboutClient({ values }: AboutClientProps) {
         </div>
       </section>
 
-      {/* ── LIFE OUTSIDE THE TERMINAL ───────────────────────── */}
-      <section className="py-24 border-y border-[var(--border-primary)] bg-[var(--bg-secondary)]/10">
-        <div className="container-custom">
-          <div className="flex flex-col md:flex-row items-center gap-16">
-            <div className="flex-1">
-              <div className="flex items-center gap-3 mb-6">
-                <span className="h-[1px] w-8 bg-[var(--accent-primary)]" />
-                <span className="text-[0.6rem] font-bold uppercase tracking-[0.3em] text-[var(--accent-primary)]">Personal / Interests</span>
-              </div>
-              <h2 className="text-4xl font-black mb-8 tracking-tight">Life Beyond <br /><span className="text-[var(--text-muted)] font-light italic">The Terminal.</span></h2>
-              <p className="text-lg text-[var(--text-secondary)] opacity-80 leading-relaxed">
-                When I&apos;m not optimizing database queries or designing microservices, you&apos;ll likely find me exploring the latest in hardware tech or enjoying a deep dive into urban photography.
-              </p>
-            </div>
-            <div className="flex-1 grid grid-cols-2 gap-4">
-              {[
-                { icon: 'Camera', label: 'Photography' },
-                { icon: 'Cpu', label: 'Hardware' },
-                { icon: 'Coffee', label: 'Coffee Brewing' },
-                { icon: 'Music', label: 'Lo-Fi Beats' },
-              ].map((hobby, i) => {
-                const Icon = getLucideIcon(hobby.icon) as LucideIcons.LucideIcon;
-                return (
-                  <div key={i} className="p-8 rounded-3xl bg-[var(--bg-primary)] border border-[var(--border-primary)] flex flex-col items-center justify-center text-center group hover:border-[var(--accent-primary)] transition-all">
-                    <div className="mb-4 text-[var(--text-muted)] group-hover:text-[var(--accent-primary)] transition-colors">
-                      {Icon && <Icon size={32} />}
-                    </div>
-                    <span className="text-[0.6rem] font-black uppercase tracking-widest">{hobby.label}</span>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* ── CURRENTLY LEARNING ─────────────────────────────── */}
       <section className="py-24 border-b border-[var(--border-primary)]">
         <div className="container-custom">
           <div className="max-w-4xl mx-auto">
-            <div className="flex items-center gap-3 mb-8">
-              <span className="h-[1px] w-8 bg-[var(--accent-primary)]" />
-              <span className="text-[0.6rem] font-bold uppercase tracking-[0.3em] text-[var(--accent-primary)]">Growth / R&D</span>
-            </div>
-            <h2 className="text-4xl font-black mb-12 tracking-tight">Currently <span className="text-[var(--text-muted)] font-light italic">Learning.</span></h2>
+            <h2 className="text-4xl font-black mb-12 tracking-tight">{t('about.learning_title')} <span className="text-[var(--text-muted)] font-light italic">{t('about.learning_italic')}</span></h2>
             <div className="grid md:grid-cols-2 gap-10">
-              {[
-                { title: 'Rust for Systems', desc: 'Exploring high-performance systems programming and safety memory management.', progress: 45 },
-                { title: 'Distributed Systems', desc: 'Deep diving into Consensus Algorithms (Raft/Paxos) and Data Consistency models.', progress: 70 },
-              ].map((item, i) => (
-                <div key={i} className="p-10 rounded-[2.5rem] bg-[var(--bg-secondary)]/30 border border-[var(--border-primary)] hover:border-[var(--accent-primary)]/40 transition-all group">
-                  <h3 className="text-xl font-bold mb-4 group-hover:text-[var(--accent-primary)] transition-colors">{item.title}</h3>
-                  <p className="text-sm text-[var(--text-secondary)] opacity-70 mb-8 leading-relaxed">{item.desc}</p>
-                  <div className="space-y-3">
-                    <div className="flex justify-between text-[0.6rem] font-black uppercase tracking-widest text-[var(--text-muted)]">
-                      <span>Progress</span>
-                      <span>{item.progress}%</span>
-                    </div>
-                    <div className="h-1 w-full bg-[var(--border-primary)] rounded-full overflow-hidden">
-                      <motion.div initial={{ width: 0 }} whileInView={{ width: `${item.progress}%` }} transition={{ duration: 1.5, ease: "easeOut" }} className="h-full bg-[var(--accent-primary)]" />
+              {(() => {
+                const items = t('about.learning_items') as { title: string; desc: string }[];
+                if (!Array.isArray(items)) return null;
+                const progressValues = [45, 70];
+                return items.map((item, i) => (
+                  <div key={i} className="p-10 rounded-[2.5rem] bg-[var(--bg-secondary)]/30 border border-[var(--border-primary)] hover:border-[var(--accent-primary)]/40 transition-all group">
+                    <h3 className="text-xl font-bold mb-4 group-hover:text-[var(--accent-primary)] transition-colors">{item.title}</h3>
+                    <p className="text-sm text-[var(--text-secondary)] opacity-80 mb-8 leading-relaxed">{item.desc}</p>
+                    <div className="space-y-3">
+                      <div className="flex justify-between text-xs font-black uppercase tracking-widest text-[var(--text-secondary)]">
+                        <span>{t('about.progress_label')}</span>
+                        <span>{progressValues[i]}%</span>
+                      </div>
+                      <div className="h-1 w-full bg-[var(--border-primary)] rounded-full overflow-hidden">
+                        <motion.div initial={{ width: 0 }} whileInView={{ width: `${progressValues[i]}%` }} transition={{ duration: 1.5, ease: "easeOut" }} className="h-full bg-[var(--accent-primary)]" />
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ));
+              })()}
             </div>
           </div>
         </div>

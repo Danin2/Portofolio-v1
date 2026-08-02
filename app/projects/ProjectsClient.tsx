@@ -184,9 +184,9 @@ const ProjectCard = memo(({ project, isFeatured }: { project: Project; isFeature
             </span>
           </div>
 
-          <h3 className="text-xl lg:text-2xl font-bold text-[var(--text-primary)] mb-4 group-hover:text-[var(--accent-primary)] transition-colors duration-300">
+          <h2 className="text-xl lg:text-2xl font-bold text-[var(--text-primary)] mb-4 group-hover:text-[var(--accent-primary)] transition-colors duration-300">
             {project.title}
-          </h3>
+          </h2>
 
           <p className="text-sm lg:text-base text-[var(--text-secondary)] leading-relaxed mb-8 line-clamp-3 opacity-80 group-hover:opacity-100 transition-opacity">
             {project.shortDescription}
@@ -263,12 +263,6 @@ export default function ProjectsClient({ projects, categories, totalTechs }: Pro
 
         <div className="container-custom relative z-10">
           <motion.div style={{ opacity: headerOpacity, y: headerY }}>
-            <div className="flex items-center gap-3 mb-8">
-              <span className="h-[1px] w-8 bg-[var(--accent-primary)]" />
-              <span className="text-[0.7rem] font-bold uppercase tracking-[0.3em] text-[var(--accent-primary)]">
-                Portfolio & Works
-              </span>
-            </div>
 
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tight text-[var(--text-primary)] mb-8 leading-[0.9]">
               Selected <span className="text-[var(--text-muted)] font-light italic">Projects</span>
@@ -314,18 +308,49 @@ export default function ProjectsClient({ projects, categories, totalTechs }: Pro
                 </div>
               </div>
             </div>
-            
+
             <div className="lg:col-span-4 grid grid-cols-2 gap-4">
               {[
-                { label: 'Latency', value: '14ms', icon: '⚡' },
-                { label: 'Uptime', value: '99.9%', icon: '🟢' },
-                { label: 'Builds', value: '842', icon: '📦' },
-                { label: 'Nodes', value: '12', icon: '🌐' },
-              ].map((stat, i) => (
+                {
+                  label: 'Latency', value: '14ms',
+                  icon: (
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                    </svg>
+                  ),
+                },
+                {
+                  label: 'Uptime', value: '99.9%',
+                  icon: (
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                      <polyline points="22 4 12 14.01 9 11.01"/>
+                    </svg>
+                  ),
+                },
+                {
+                  label: 'Builds', value: '842',
+                  icon: (
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                    </svg>
+                  ),
+                },
+                {
+                  label: 'Nodes', value: '12',
+                  icon: (
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <circle cx="12" cy="12" r="10"/>
+                      <line x1="2" y1="12" x2="22" y2="12"/>
+                      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                    </svg>
+                  ),
+                },
+              ].map((stat) => (
                 <div key={stat.label} className="p-6 rounded-2xl bg-[var(--bg-tertiary)]/30 border border-[var(--border-primary)] hover:border-[var(--accent-primary)]/30 transition-all group">
-                  <span className="text-xl mb-2 block group-hover:scale-110 transition-transform">{stat.icon}</span>
+                  <span className="text-[var(--accent-primary)] mb-2 block group-hover:scale-110 transition-transform">{stat.icon}</span>
                   <div className="text-lg font-black text-[var(--text-primary)]">{stat.value}</div>
-                  <div className="text-[0.55rem] font-bold uppercase tracking-widest text-[var(--text-muted)]">{stat.label}</div>
+                  <div className="text-xs font-bold uppercase tracking-widest text-[var(--text-secondary)]">{stat.label}</div>
                 </div>
               ))}
             </div>

@@ -2,72 +2,42 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useLanguage } from '@/context/LanguageContext';
 
-interface TimelineItem {
-  year: string;
-  title: string;
-  company?: string;
-  description: string;
-  technologies: string[];
-}
-
-const timeline: TimelineItem[] = [
-  {
-    year: '2026',
-    title: 'Future Systems Engineer',
-    description: 'Fokus pada pembangunan infrastruktur skala besar yang tangguh. Terus mengeksplorasi batas-batas optimasi backend dan desain sistem terdistribusi.',
-    technologies: ['Architecture', 'Scaling', 'Consulting'],
-  },
-  {
-    year: '2025',
-    title: 'Open Source & Optimization',
-    description: 'Mulai berkontribusi pada ekosistem open source. Membangun library internal untuk manajemen state database yang lebih efisien dan performa tinggi.',
-    technologies: ['Go', 'Redis', 'Performance'],
-  },
-  {
-    year: '2024',
-    title: 'The Shift to Systems Architect',
-    description: 'Mulai memahami pentingnya orkestrasi. Mengimplementasikan Docker dan Kubernetes untuk memastikan reliabilitas sistem di berbagai environment.',
-    technologies: ['Docker', 'Kubernetes', 'Microservices'],
-  },
-  {
-    year: '2023',
-    title: 'Mastering the Full Stack',
-    description: 'Memperluas keahlian ke frontend dengan Next.js untuk memahami bagaimana API dikonsumsi secara real-time. Membangun dashboard analitik pertama.',
-    technologies: ['Next.js', 'React', 'TypeScript'],
-  },
-  {
-    year: '2023',
-    title: 'Deep Dive into Databases',
-    description: 'Membangun project database PostgreSQL pertama yang kompleks. Belajar tentang indexing, query optimization, dan normalisasi data yang benar.',
-    technologies: ['Node.js', 'PostgreSQL', 'Express'],
-  },
-  {
-    year: '2022',
-    title: 'The Beginning of the Terminal',
-    description: 'Menulis baris kode pertama di Node.js. Terpesona oleh bagaimana server dapat menangani ribuan permintaan secara asinkron.',
-    technologies: ['JavaScript', 'Node.js', 'Express'],
-  },
+const years = ['2026', '2025', '2024', '2023', '2023', '2022'];
+const technologies = [
+  ['Architecture', 'Scaling', 'Consulting'],
+  ['Go', 'Redis', 'Performance'],
+  ['Docker', 'Kubernetes', 'Microservices'],
+  ['Next.js', 'React', 'TypeScript'],
+  ['Node.js', 'PostgreSQL', 'Express'],
+  ['JavaScript', 'Node.js', 'Express'],
 ];
 
 const ExperienceTimeline = () => {
+  const { t } = useLanguage();
+  const items = t('experience.items') as { title: string; description: string }[];
+
+  const timeline = Array.isArray(items)
+    ? items.map((item, i) => ({
+        year: years[i],
+        title: item.title,
+        description: item.description,
+        technologies: technologies[i],
+      }))
+    : [];
+
   return (
     <section className="relative bg-[var(--bg-primary)] py-32 overflow-hidden border-t border-[var(--border-primary)]">
       <div className="container-custom relative z-10">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-10 mb-20">
           <div className="max-w-2xl">
-            <div className="flex items-center gap-3 mb-6">
-              <span className="h-[1px] w-8 bg-[var(--accent-primary)]" />
-              <span className="text-[0.7rem] font-bold uppercase tracking-[0.3em] text-[var(--accent-primary)]">
-                Career Path
-              </span>
-            </div>
             <h2 className="text-4xl md:text-5xl font-black tracking-tight text-[var(--text-primary)]">
-              Professional <span className="text-[var(--text-muted)] font-light italic">Evolution</span>
+              {t('experience.section_title')} <span className="text-[var(--text-muted)] font-light italic">{t('experience.section_title_italic')}</span>
             </h2>
           </div>
           <p className="text-lg text-[var(--text-secondary)] max-w-sm opacity-80 border-l border-[var(--border-primary)] pl-8">
-            A history of building resilient systems across various industries and scales.
+            {t('experience.section_desc')}
           </p>
         </div>
 
@@ -86,9 +56,6 @@ const ExperienceTimeline = () => {
                 <span className="text-2xl font-black text-[var(--text-primary)] font-mono tracking-tighter">
                   {item.year}
                 </span>
-                <span className="text-[0.6rem] font-black text-[var(--accent-primary)] uppercase tracking-[0.3em] mt-auto">
-                  EXP_{String(idx + 1).padStart(2, '0')}
-                </span>
               </div>
 
               {/* Title & Company */}
@@ -96,11 +63,6 @@ const ExperienceTimeline = () => {
                 <h3 className="text-xl font-bold text-[var(--text-primary)] group-hover:text-[var(--accent-primary)] transition-colors duration-300 uppercase tracking-tight leading-tight">
                   {item.title}
                 </h3>
-                {item.company && (
-                  <p className="inline-flex px-3 py-1 bg-[var(--accent-primary)]/10 text-[var(--accent-primary)] text-[0.6rem] font-black uppercase tracking-widest rounded-md">
-                    @ {item.company}
-                  </p>
-                )}
               </div>
 
               {/* Description & Tech */}
