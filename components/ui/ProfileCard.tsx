@@ -35,7 +35,6 @@ interface ProfileCardProps {
 }
 
 const ProfileCardComponent: React.FC<ProfileCardProps> = ({
-    avatarUrl = '/assets/foto/profile.',
     innerGradient,
     behindGlowEnabled = true,
     behindGlowColor,
@@ -91,6 +90,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
     useEffect(() => {
         const shell = shellRef.current;
         if (!shell || !tiltEngine) return;
+        if (window.matchMedia('(pointer: coarse)').matches) return;
         const onMove = (e: PointerEvent) => {
             const rect = shell.getBoundingClientRect();
             tiltEngine.setTarget(e.clientX - rect.left, e.clientY - rect.top);
@@ -106,14 +106,6 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
             <section className="relative overflow-hidden bg-black/90 rounded-[30px] border border-white/10 shadow-2xl" style={{ transform: 'rotateX(var(--rotate-y)) rotateY(var(--rotate-x))', transition: 'transform 0.1s ease-out' }}>
                 <div className="p-6 flex flex-col gap-4">
                     <div className="flex items-center gap-3 bg-white/5 p-2 rounded-xl border border-white/5 w-fit">
-                        <Image
-                            src={miniAvatarUrl || avatarUrl}
-                            className="rounded-full border border-white/10 object-cover"
-                            alt={`${name} mini avatar`}
-                            width={32}
-                            height={32}
-                            loading="eager"
-                        />
                         <div className="flex flex-col">
                             <span className="text-white font-bold text-xs">@{handle}</span>
                         </div>
@@ -121,18 +113,6 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
                     <div className="text-center py-2">
                         <h3 className="text-3xl font-black text-white m-0">{name}</h3>
                         <p className="text-[10px] font-bold text-white/50 uppercase tracking-[0.2em] m-0">{displayTitle}</p>
-                    </div>
-                    <div className="rounded-2xl overflow-hidden border border-white/10 relative aspect-square">
-                        <Image
-                            src={avatarUrl}
-                            className="object-cover"
-                            alt={`Official portrait of ${name}`}
-                            fill
-                            sizes="(max-width: 768px) 300px, 360px"
-                            loading="eager"
-                            priority
-                            fetchPriority="high"
-                        />
                     </div>
                 </div>
             </section>

@@ -49,7 +49,7 @@ const FallingLetters: React.FC<FallingLettersProps> = ({
 
   return (
     <motion.span
-      style={{ display: 'flex', overflow: 'hidden' }}
+      style={{ display: 'inline-flex', flexWrap: 'wrap', overflow: 'visible' }}
       variants={container}
       initial="hidden"
       animate={trigger ? "visible" : "hidden"}

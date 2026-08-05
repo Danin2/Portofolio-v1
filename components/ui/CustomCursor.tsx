@@ -76,7 +76,7 @@ export default function CustomCursor() {
   if (shouldReduceMotion || !isVisible) return null;
 
   return (
-    <div className="pointer-events-none fixed inset-0 z-[9999] hidden md:block overflow-hidden">
+    <div className="cursor-container pointer-events-none fixed inset-0 z-[9999] hidden md:block overflow-hidden">
       {/* 40px Ring (follows with delay) */}
       <motion.div
         className="fixed top-0 left-0 rounded-full border border-[var(--accent-primary)] opacity-40 shadow-[0_0_15px_rgba(var(--accent-primary-rgb),0.2)]"
@@ -85,17 +85,18 @@ export default function CustomCursor() {
           y: ringY,
           translateX: '-50%',
           translateY: '-50%',
-          width: isHovered ? 56 : 40,
-          height: isHovered ? 56 : 40,
-          backgroundColor: isHovered ? 'rgba(var(--accent-primary-rgb), 0.1)' : 'transparent',
+          // Fixed size — use scale transform (GPU) instead of width/height (layout)
+          width: 40,
+          height: 40,
+          willChange: 'transform',
         }}
         animate={{
-          scale: isClicked ? 0.8 : isHovered ? 1.2 : 1,
+          scale: isClicked ? 0.7 : isHovered ? 1.4 : 1,
+          backgroundColor: isHovered ? 'rgba(var(--accent-primary-rgb), 0.1)' : 'rgba(0,0,0,0)',
         }}
         transition={{
-          scale: { duration: 0.2, ease: [0.16, 1, 0.3, 1] },
-          width: { duration: 0.4 },
-          height: { duration: 0.4 },
+          scale: { duration: 0.25, ease: [0.16, 1, 0.3, 1] },
+          backgroundColor: { duration: 0.3 },
         }}
       />
 
@@ -107,6 +108,7 @@ export default function CustomCursor() {
           y: mouseY,
           translateX: '-50%',
           translateY: '-50%',
+          willChange: 'transform',
         }}
       />
     </div>

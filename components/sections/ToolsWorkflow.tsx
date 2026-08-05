@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import Tilt from "react-parallax-tilt";
@@ -92,6 +92,11 @@ const ProjectPreview = () => {
   const featuredProjects = getFeaturedProjects().slice(0, 3);
   const { ref, isVisible } = useScrollReveal();
   const { t } = useLanguage();
+  const [isTouch, setIsTouch] = useState(false);
+
+  useEffect(() => {
+    setIsTouch(window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768);
+  }, []);
 
   return (
     <section
@@ -143,10 +148,11 @@ const ProjectPreview = () => {
                   glareColor="white"
                   glarePosition="all"
                   glareBorderRadius="2rem"
+                  tiltEnable={!isTouch}
                 >
                   <Link
                     href={`/projects/${project.slug}`}
-                    className="group flex flex-col h-full rounded-[2rem] border border-[rgba(255,255,255,0.1)] dark:bg-[rgba(255,255,255,0.05)] bg-[rgba(0,0,0,0.03)] backdrop-blur-[10px] overflow-hidden transition-all duration-500 hover:border-[var(--accent-primary)]/50 hover:shadow-2xl relative"
+                    className="group flex flex-col h-full rounded-[2rem] border border-[var(--border-primary)] bg-[var(--bg-secondary)] dark:bg-[var(--card-bg)] overflow-hidden transition-all duration-500 hover:border-[var(--accent-primary)]/50 hover:shadow-2xl relative"
                   >
                     {/* Terminal header */}
                     <TerminalCardHeader

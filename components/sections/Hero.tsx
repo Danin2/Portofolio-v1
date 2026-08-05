@@ -175,17 +175,17 @@ const Hero = () => {
               className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3 md:gap-6 w-full sm:w-auto"
             >
               <Link
-                href="/projects"
+                href="/contact"
                 className="relative inline-flex items-center justify-center gap-4 px-8 py-4 md:px-10 md:py-5 bg-[var(--text-primary)] text-[var(--bg-primary)] font-bold uppercase tracking-[0.2em] text-[0.65rem] md:text-[0.7rem] rounded-full hover:bg-[var(--accent-primary)] hover:text-white transition-all duration-500 shadow-2xl group overflow-hidden"
+              >
+                {t('footerCTA.primary_btn')}
+              </Link>
+              <Link
+                href="/projects"
+                className="inline-flex items-center justify-center gap-4 px-8 py-4 md:px-10 md:py-5 border border-[var(--border-primary)] bg-[var(--bg-secondary)]/30 backdrop-blur-md text-[var(--text-primary)] font-bold uppercase tracking-[0.2em] text-[0.65rem] md:text-[0.7rem] rounded-full hover:border-[var(--accent-primary)] hover:bg-[var(--accent-primary)]/5 group transition-all duration-500"
               >
                 {t('hero.cta_projects')}
               </Link>
-              <button
-                onClick={() => scrollToSection('skills')}
-                className="inline-flex items-center justify-center gap-4 px-8 py-4 md:px-10 md:py-5 border border-[var(--border-primary)] bg-[var(--bg-secondary)]/30 backdrop-blur-md text-[var(--text-primary)] font-bold uppercase tracking-[0.2em] text-[0.65rem] md:text-[0.7rem] rounded-full hover:border-[var(--accent-primary)] hover:bg-[var(--accent-primary)]/5 group transition-all duration-500"
-              >
-                {t('hero.cta_skills')}
-              </button>
             </motion.div>
           </div>
 
@@ -197,16 +197,6 @@ const Hero = () => {
               className="relative w-full max-w-[240px] sm:max-w-[300px] md:max-w-[360px]"
             >
               <div className="absolute -inset-10 bg-[var(--accent-primary)]/5 blur-[100px] rounded-full animate-pulse" />
-
-              <ProfileCard
-                name="M. Danindra"
-                handle="masdani"
-                title="Systems Engineer"
-                avatarUrl="/assets/foto/profile"
-                innerGradient="linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0) 100%)"
-                behindGlowColor="rgba(139, 169, 214, 0.15)"
-                className="shadow-2xl"
-              />
 
               {/* Repositioned slightly more to the left for better alignment */}
               <HeroCodeSnippet

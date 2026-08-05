@@ -294,6 +294,17 @@ body {
   text-rendering: optimizeSpeed;
 }
 
+/* ─── Paint Containment for High-Frequency Animated Elements ── */
+/* Custom cursor wrapper: internal repaints are fully contained */
+.cursor-container {
+  contain: strict;
+}
+
+/* Scroll progress bar: scaleX updates every scroll tick — isolate it */
+.scroll-progress-bar {
+  contain: layout style paint;
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-syne), sans-serif;
 }

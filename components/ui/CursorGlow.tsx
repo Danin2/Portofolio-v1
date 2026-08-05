@@ -14,6 +14,12 @@ export default function CursorGlow({ color = 'rgba(82,39,255,0.12)', size = 600 
         const el = ref.current;
         if (!el) return;
 
+        // Don't run mouse-following rAF loop on touch devices
+        if (window.matchMedia('(pointer: coarse)').matches) {
+          el.style.display = 'none';
+          return;
+        }
+
         let cx = window.innerWidth / 2;
         let cy = window.innerHeight / 2;
         let tx = cx, ty = cy;

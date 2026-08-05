@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { motion, AnimatePresence, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion';
+import { motion, AnimatePresence, useMotionValue, useSpring } from 'framer-motion';
 import { AnimatedThemeToggler } from '@/components/ui/animated-theme-toggler';
 import FallingLetters from '@/components/ui/FallingLetters';
 import LanguageSwitcher from '@/components/ui/LanguageSwitcher';
@@ -56,17 +56,49 @@ const Navigation = () => {
     { label: t('nav.projects'), href: '/projects', ariaLabel: 'View my projects' },
     { label: t('nav.contact'), href: '/contact', ariaLabel: 'Get in touch' },
   ];
+  // Manual scroll-driven values — framer-motion's useScroll/useTransform
+  // don't work under Lenis because Lenis doesn't fire native scroll events.
+  const [scrollPos, setScrollPos] = useState(0);
 
-  const { scrollY } = useScroll();
-  const navHeight = useTransform(scrollY, [0, 100], [90, 70]);
-  const navPadding = useTransform(scrollY, [0, 100], ['2rem', '1.25rem']);
+  // Interpolate navHeight and navPadding from scrollPos (0..100 range)
+  const clampedT = Math.min(scrollPos / 100, 1);
+  const navHeightVal = 90 - clampedT * 20; // 90 → 70
+  const navPaddingVal = 2 - clampedT * 0.75; // 2rem → 1.25rem
 
   useEffect(() => {
-    const onScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+    const handleScroll = (pos: number) => {
+      setScrollPos(pos);
+      setIsScrolled(pos > 20);
     };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+
+    const onNativeScroll = () => handleScroll(window.scrollY);
+    window.addEventListener('scroll', onNativeScroll, { passive: true });
+
+    let lenisUnsub: (() => void) | null = null;
+    const attachLenis = (lenis: any) => {
+      if (!lenis) return;
+      const onLenisScroll = (e: any) => {
+        handleScroll(e.scroll ?? window.scrollY);
+      };
+      lenis.on('scroll', onLenisScroll);
+      lenisUnsub = () => lenis.off('scroll', onLenisScroll);
+    };
+
+    if ((window as any).lenis) {
+      attachLenis((window as any).lenis);
+    }
+
+    const onLenisReady = (e: Event) => {
+      const customEvent = e as CustomEvent;
+      attachLenis(customEvent.detail || (window as any).lenis);
+    };
+    window.addEventListener('lenis-ready', onLenisReady);
+
+    return () => {
+      window.removeEventListener('scroll', onNativeScroll);
+      window.removeEventListener('lenis-ready', onLenisReady);
+      if (lenisUnsub) lenisUnsub();
+    };
   }, []);
 
   useEffect(() => {
@@ -78,9 +110,10 @@ const Navigation = () => {
     <>
       <motion.nav
         style={{
-          height: navHeight,
-          paddingTop: navPadding,
-          paddingBottom: navPadding,
+          height: navHeightVal,
+          paddingTop: `${navPaddingVal}rem`,
+          paddingBottom: `${navPaddingVal}rem`,
+          transition: 'height 0.3s ease, padding 0.3s ease',
         }}
         className="fixed top-0 left-0 right-0 z-50 flex items-center justify-center pointer-events-none"
       >
@@ -189,12 +222,12 @@ const Navigation = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[45] bg-[var(--bg-primary)]/98 backdrop-blur-3xl flex flex-col p-10 justify-center"
+            className="fixed inset-0 z-[45] bg-[var(--bg-primary)]/98 backdrop-blur-3xl flex flex-col px-8 py-6 pt-24 justify-start overflow-y-auto"
           >
             {/* Background Grid */}
             <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{ backgroundImage: 'radial-gradient(var(--text-primary) 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
 
-            <div className="relative z-10 space-y-8">
+            <div className="relative z-10 space-y-6">
               {navItems.map((item, idx) => (
                 <motion.div
                   key={item.href}
@@ -210,7 +243,7 @@ const Navigation = () => {
                     <span className="font-mono text-[var(--accent-primary)] text-sm">{String(idx + 1).padStart(2, '0')}</span>
                     <FallingLetters
                       text={item.label}
-                      className="text-5xl md:text-7xl font-bold uppercase tracking-tighter text-[var(--text-primary)] group-hover:text-[var(--accent-primary)] transition-colors"
+                      className="text-4xl md:text-7xl font-bold uppercase tracking-tighter text-[var(--text-primary)] group-hover:text-[var(--accent-primary)] transition-colors"
                       trigger={mobileOpen}
                     />
                   </Link>
@@ -222,7 +255,7 @@ const Navigation = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
-              className="mt-20 pt-10 border-t border-[var(--border-primary)] flex justify-between items-center"
+              className="mt-10 pt-6 border-t border-[var(--border-primary)] flex justify-between items-center"
             >
               <div className="flex gap-4">
                 {['GH', 'LI', 'TW'].map(s => (

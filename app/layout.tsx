@@ -81,14 +81,7 @@ export default function RootLayout({
           type="font/ttf"
           crossOrigin="anonymous"
         />
-        {/* Preload critical LCP image */}
-        <link
-          rel="preload"
-          href="/assets/foto/profile."
-          as="image"
-          type="image/webp"
-          fetchPriority="high"
-        />
+
       </head>
       <body className="bg-[var(--bg-primary)] text-[var(--text-primary)] font-sans antialiased">
         <ClientProviders>

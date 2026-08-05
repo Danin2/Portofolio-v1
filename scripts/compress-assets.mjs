@@ -19,13 +19,6 @@ const tasks = [
     options: { quality: 72, mozjpeg: true, progressive: true },
     format: 'jpeg',
   },
-  {
-    input: path.join(projectRoot, 'public/assets/foto/profile.png'),
-    output: path.join(projectRoot, 'public/assets/foto/profile.webp'),
-    options: { quality: 82, effort: 6 },
-    format: 'webp',
-    keepOriginal: true,
-  },
 ];
 
 async function run() {

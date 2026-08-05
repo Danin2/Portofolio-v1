@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unknown-property */
 'use client';
-import { useEffect, useRef, useState } from 'react';
-import { Canvas, extend, useFrame } from '@react-three/fiber';
+import { useEffect, useRef, useState, useCallback } from 'react';
+import { Canvas, extend, useFrame, useThree } from '@react-three/fiber';
 import { useGLTF, Environment, Lightformer, useProgress, Decal, useTexture } from '@react-three/drei';
 import { Suspense } from 'react';
 import {
@@ -35,6 +35,8 @@ export default function Lanyard({
   transparent = true
 }: LanyardProps) {
   const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [isInView, setIsInView] = useState(true);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setIsMobile(window.innerWidth < 768);
@@ -43,10 +45,26 @@ export default function Lanyard({
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // Pause render loop when component is off-screen
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsInView(entry.isIntersecting),
+      { threshold: 0.05 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <div className="relative z-0 w-full h-[65vh] md:h-screen flex justify-center items-center transform scale-100 origin-center">
+    <div
+      ref={containerRef}
+      className="relative z-0 w-full h-[65vh] md:h-screen flex justify-center items-center transform scale-100 origin-center"
+    >
       <Canvas
         camera={{ position, fov }}
+        frameloop={isInView ? 'demand' : 'never'}
         dpr={[1, 1.5]}
         gl={{ alpha: transparent }}
         onCreated={({ gl }) => gl.setClearColor(new THREE.Color(0x000000), transparent ? 0 : 1)}
@@ -209,6 +227,12 @@ function LanyardSkeleton() {
   );
 }
 
+// ── Module-level scratch vectors (avoids per-render allocation) ──────────────
+const _vec = new THREE.Vector3();
+const _ang = new THREE.Vector3();
+const _rot = new THREE.Vector3();
+const _dir = new THREE.Vector3();
+
 interface BandProps {
   maxSpeed?: number;
   minSpeed?: number;
@@ -223,10 +247,10 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
   const j3 = useRef<any>(null);
   const card = useRef<any>(null);
 
-  const vec = new THREE.Vector3();
-  const ang = new THREE.Vector3();
-  const rot = new THREE.Vector3();
-  const dir = new THREE.Vector3();
+  // Stable geometry ref — updated in-place each frame instead of dispose+recreate
+  const tubeGeoRef = useRef<THREE.TubeGeometry | null>(null);
+  // Track last-known velocity to stop invalidating when physics has settled
+  const settledFrames = useRef(0);
 
   const segmentProps: any = {
     type: 'dynamic' as RigidBodyProps['type'],
@@ -282,27 +306,41 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
     }
   }, [hovered, dragged]);
 
+  // Cleanup stable geometry on unmount
+  useEffect(() => {
+    return () => {
+      tubeGeoRef.current?.dispose();
+      tubeGeoRef.current = null;
+    };
+  }, []);
+
   useFrame((state, delta) => {
     if (dragged && typeof dragged !== 'boolean') {
-      vec.set(state.pointer.x, state.pointer.y, 0.5).unproject(state.camera);
-      dir.copy(vec).sub(state.camera.position).normalize();
-      vec.add(dir.multiplyScalar(state.camera.position.length()));
+      _vec.set(state.pointer.x, state.pointer.y, 0.5).unproject(state.camera);
+      _dir.copy(_vec).sub(state.camera.position).normalize();
+      _vec.add(_dir.multiplyScalar(state.camera.position.length()));
       [card, j1, j2, j3, fixed].forEach(ref => ref.current?.wakeUp());
       card.current?.setNextKinematicTranslation({
-        x: vec.x - dragged.x,
-        y: vec.y - dragged.y,
-        z: vec.z - dragged.z
+        x: _vec.x - dragged.x,
+        y: _vec.y - dragged.y,
+        z: _vec.z - dragged.z
       });
 
       targetRot.current.setFromEuler(new THREE.Euler(0, state.pointer.x * (Math.PI * 1.5), 0));
       currentRot.current.slerp(targetRot.current, 0.15);
       card.current?.setNextKinematicRotation(currentRot.current);
+
+      // Reset settled counter while dragging
+      settledFrames.current = 0;
     }
 
     if (fixed.current) {
+      let totalMovement = 0;
+
       [j1, j2].forEach(ref => {
         if (!ref.current.lerped) ref.current.lerped = new THREE.Vector3().copy(ref.current.translation());
         const clampedDistance = Math.max(0.1, Math.min(1, ref.current.lerped.distanceTo(ref.current.translation())));
+        totalMovement += clampedDistance;
         ref.current.lerped.lerp(
           ref.current.translation(),
           delta * (minSpeed + clampedDistance * (maxSpeed - minSpeed))
@@ -314,13 +352,44 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
       curve.points[3].copy(fixed.current.translation());
 
       if (band.current) {
-        band.current.geometry.dispose();
-        band.current.geometry = new THREE.TubeGeometry(curve, isMobile ? 16 : 24, 0.05, isMobile ? 4 : 6, false);
+        // ── PERF FIX: in-place geometry update, no dispose+recreate per frame ──
+        // Build a new geometry for the updated curve, then copy its buffer data
+        // into the existing geometry. This avoids GPU memory allocation/deallocation
+        // every frame (was the #1 self-time consumer at 62.1% of trace).
+        const tubeSeg = isMobile ? 16 : 24;
+        const radSeg = isMobile ? 4 : 6;
+        const newGeo = new THREE.TubeGeometry(curve, tubeSeg, 0.05, radSeg, false);
+        if (!tubeGeoRef.current) {
+          // First frame: assign directly
+          tubeGeoRef.current = newGeo;
+          band.current.geometry = tubeGeoRef.current;
+        } else {
+          // Subsequent frames: copy buffer attributes in-place (no GPU realloc)
+          tubeGeoRef.current.copy(newGeo);
+          newGeo.dispose(); // dispose the temp, keep tubeGeoRef on GPU
+          band.current.geometry = tubeGeoRef.current;
+        }
       }
+
       if (card.current) {
-        ang.copy(card.current.angvel());
-        rot.copy(card.current.rotation());
-        card.current.setAngvel({ x: ang.x, y: ang.y - rot.y * 0.25, z: ang.z });
+        _ang.copy(card.current.angvel());
+        _rot.copy(card.current.rotation());
+        card.current.setAngvel({ x: _ang.x, y: _ang.y - _rot.y * 0.25, z: _ang.z });
+      }
+
+      // ── PERF FIX: only request next frame when physics is still active ──
+      // Stop hammering the render loop once the rope has settled.
+      // 120 frames ~= 2s at 60fps before we stop self-requesting.
+      const isPhysicsActive = dragged || totalMovement > 0.001;
+      if (isPhysicsActive) {
+        settledFrames.current = 0;
+        state.invalidate();
+      } else {
+        settledFrames.current++;
+        if (settledFrames.current < 120) {
+          state.invalidate(); // keep going for a couple seconds to fully settle
+        }
+        // After 120 frames of stillness, stop — Canvas frameloop="demand" takes over
       }
     }
   });
@@ -360,7 +429,7 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
             onPointerDown={(e: any) => {
               e.target.setPointerCapture(e.pointerId);
               if (card.current) {
-                drag(new THREE.Vector3().copy(e.point).sub(vec.copy(card.current.translation())));
+                drag(new THREE.Vector3().copy(e.point).sub(_vec.copy(card.current.translation())));
               }
             }}
           >

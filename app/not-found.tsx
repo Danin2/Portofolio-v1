@@ -1,10 +1,17 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import RevealText from '@/components/ui/RevealText';
 
 export default function NotFound() {
+  const [timestamp, setTimestamp] = useState<string>('');
+
+  useEffect(() => {
+    setTimestamp(new Date().toISOString());
+  }, []);
+
   return (
     <div className="min-h-screen bg-[var(--bg-primary)] flex flex-col items-center justify-center p-6 text-center overflow-hidden relative">
       {/* ── Ambient Background ── */}
@@ -52,7 +59,7 @@ export default function NotFound() {
         <div className="font-mono text-[0.6rem] text-[var(--text-muted)] space-y-1 text-left">
           <p>HTTP_RESPONSE_HEADER: 404_NOT_FOUND</p>
           <p>SERVER_ID: ARCHITECT_PRIMARY_01</p>
-          <p>TIMESTAMP: {new Date().toISOString()}</p>
+          <p>TIMESTAMP: {timestamp}</p>
         </div>
       </div>
     </div>

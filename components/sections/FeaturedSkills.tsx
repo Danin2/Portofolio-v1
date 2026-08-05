@@ -131,8 +131,11 @@ const FeaturedSkills = () => {
   const modalRef = useRef<HTMLDivElement>(null);
   const { ref: sectionRef, isVisible } = useScrollReveal();
 
+  const [isTouch, setIsTouch] = useState(false);
+
   useEffect(() => {
     setMounted(true);
+    setIsTouch(window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768);
   }, []);
 
   useEffect(() => {
@@ -194,19 +197,6 @@ const FeaturedSkills = () => {
           </ScrollReveal>
         </div>
 
-        {/* Backdrop Overlay */}
-        <AnimatePresence>
-          {active && typeof active === "object" && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setActive(null)}
-              className="fixed inset-0 bg-black/60 h-full w-full z-50 backdrop-blur-md cursor-pointer"
-            />
-          )}
-        </AnimatePresence>
-
         {/* Modal Content - Rendered via Portal to escape parent transforms */}
         {mounted && createPortal(
           <AnimatePresence>
@@ -222,54 +212,52 @@ const FeaturedSkills = () => {
                 />
 
                 <motion.div
-                  layoutId={`card-${active.title}-${id}`}
+                  initial={{ opacity: 0, scale: 0.95, y: 15 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95, y: 15 }}
+                  transition={{ duration: 0.25, ease: [0.23, 1, 0.32, 1] }}
                   ref={modalRef}
-                  transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
-                  className="w-full max-w-[700px] h-full max-h-[90vh] flex flex-col bg-[var(--card-bg)] border border-[var(--border-primary)] rounded-[2rem] md:rounded-[2.5rem] overflow-hidden shadow-2xl relative pointer-events-auto"
+                  className="w-full max-w-[700px] max-h-[85vh] flex flex-col bg-[var(--card-bg)] border border-[var(--border-primary)] rounded-[2rem] md:rounded-[2.5rem] overflow-hidden shadow-2xl relative pointer-events-auto z-10"
                   role="dialog"
                   aria-modal="true"
                   aria-labelledby={`modal-title-${id}`}
                   aria-describedby={`modal-desc-${id}`}
                 >
                   <div className="absolute top-6 right-6 z-20">
-                    <motion.button
+                    <button
                       className="flex items-center justify-center bg-[var(--bg-tertiary)]/80 backdrop-blur-md rounded-full h-10 w-10 border border-[var(--border-primary)] hover:scale-110 transition-transform"
                       onClick={() => setActive(null)}
                       aria-label="Close modal"
                     >
                       <CloseIcon />
-                    </motion.button>
+                    </button>
                   </div>
 
                   <div
-                    className="flex-1 min-h-0 h-full overflow-y-auto custom-scrollbar p-6 md:p-10 lg:p-14 overscroll-contain touch-pan-y"
+                    className="flex-1 min-h-0 overflow-y-auto custom-scrollbar p-6 md:p-10 lg:p-14 overscroll-contain touch-pan-y"
                     data-lenis-prevent
                   >
                     <header className="mb-6 md:mb-10">
-                      <motion.div
-                        layoutId={`icon-${active.title}-${id}`}
+                      <div
                         className={`inline-flex p-3 md:p-4 rounded-2xl bg-gradient-to-br ${active.color} text-white mb-4 md:mb-6 shadow-lg`}
                       >
                         {active.icon}
-                      </motion.div>
-                      <motion.h3
-                        layoutId={`title-${active.title}-${id}`}
+                      </div>
+                      <h3
                         id={`modal-title-${id}`}
                         className="font-bold text-[var(--text-primary)] text-2xl md:text-3xl lg:text-4xl mb-3"
                       >
                         {active.title}
-                      </motion.h3>
-                      <motion.p
-                        layoutId={`description-${active.title}-${id}`}
+                      </h3>
+                      <p
                         id={`modal-desc-${id}`}
                         className="text-[var(--text-secondary)] text-base md:text-lg opacity-70"
                       >
                         {active.description}
-                      </motion.p>
+                      </p>
                     </header>
 
                     <motion.div
-                      layout
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0 }}
@@ -309,20 +297,19 @@ const FeaturedSkills = () => {
                 glareColor="white"
                 glarePosition="all"
                 glareBorderRadius="2rem"
-                tiltEnable={true}
+                tiltEnable={!isTouch}
               >
                 <motion.div
                   layoutId={`card-${card.title}-${id}`}
                   onClick={() => setActive(card)}
-                  className={`group h-full relative p-5 md:p-8 lg:p-10 flex flex-col border border-[rgba(255,255,255,0.1)] dark:bg-[rgba(255,255,255,0.05)] bg-[rgba(0,0,0,0.03)] backdrop-blur-[10px] rounded-[1.5rem] md:rounded-[2rem] cursor-pointer transition-all duration-500 hover:border-[var(--accent-purple)]/50 shadow-sm hover:shadow-2xl hover:-translate-y-1`}
-                  style={{ transformStyle: 'preserve-3d' }}
+                  className={`group h-full relative p-5 md:p-8 lg:p-10 flex flex-col border border-[var(--border-primary)] bg-[var(--bg-secondary)] dark:bg-[var(--card-bg)] rounded-[1.5rem] md:rounded-[2rem] cursor-pointer transition-all duration-500 hover:border-[var(--accent-purple)]/50 shadow-sm hover:shadow-2xl hover:-translate-y-1`}
                 >
                   {/* Visual Accent */}
-                  <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity transform-gpu" style={{ transform: 'translateZ(20px)' }}>
+                  <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
                     {React.cloneElement(card.icon as React.ReactElement<WithClassName>, { className: 'w-12 h-12' })}
                   </div>
 
-                  <div className="relative z-10 flex flex-col h-full transform-gpu" style={{ transform: 'translateZ(30px)' }}>
+                  <div className="relative z-10 flex flex-col h-full">
                     <header className="mb-auto">
                       <motion.div
                         layoutId={`icon-${card.title}-${id}`}
@@ -338,7 +325,7 @@ const FeaturedSkills = () => {
                       </motion.h3>
                       <motion.p
                         layoutId={`description-${card.title}-${id}`}
-                        className="text-[var(--text-secondary)] text-sm opacity-60 leading-relaxed max-w-xs"
+                        className="text-[var(--text-secondary)] text-sm opacity-80 leading-relaxed max-w-xs"
                       >
                         {card.description}
                       </motion.p>
