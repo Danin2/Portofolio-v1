@@ -85,7 +85,7 @@ export default function PageLoader() {
               <div className="flex justify-between items-end">
                 <span className="text-[0.6rem] font-bold uppercase tracking-[0.4em] text-[var(--accent-purple)] flex items-center gap-3">
                   <span className="w-2 h-2 bg-[var(--accent-purple)] animate-pulse" />
-                  System Loading
+                  Loading...
                 </span>
                 <span className="font-mono text-xl font-black text-[var(--text-primary)]">
                   {counter.toString().padStart(3, '0')}%
@@ -107,27 +107,6 @@ export default function PageLoader() {
                 </div>
               </div>
             </div>
-
-            {/* Bottom Status */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 0.4 }}
-              className="flex items-center gap-6"
-            >
-              <span className="text-[0.55rem] font-mono tracking-widest uppercase">Initializing Core</span>
-              <div className="flex gap-1">
-                {[0, 1, 2].map((i) => (
-                  <motion.div
-                    key={i}
-                    animate={{ opacity: [0.2, 1, 0.2] }}
-                    transition={{ duration: 1, repeat: Infinity, delay: i * 0.2 }}
-                    className="w-1 h-1 bg-[var(--accent-purple)]"
-                  />
-                ))}
-              </div>
-              <span className="text-[0.55rem] font-mono tracking-widest uppercase">Build 2.0.4</span>
-            </motion.div>
-
           </div>
 
           {/* Ambient Glows */}
