@@ -22,7 +22,7 @@ export default function PageLoader() {
     const tick = () => {
       const elapsed = Date.now() - startTime;
       const progress = Math.min(elapsed / duration, 1);
-      
+
       // Use a more mechanical ease for the pixel vibe
       const eased = progress < 0.5 ? 2 * progress * progress : 1 - Math.pow(-2 * progress + 2, 2) / 2;
       setCounter(Math.floor(eased * 100));
@@ -50,18 +50,18 @@ export default function PageLoader() {
           transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
         >
           {/* Subtle background texture */}
-          <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
-               style={{ backgroundImage: 'radial-gradient(var(--text-primary) 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
+          <div className="absolute inset-0 opacity-[0.03] pointer-events-none"
+            style={{ backgroundImage: 'radial-gradient(var(--text-primary) 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
 
           <div className="relative z-20 flex flex-col items-center gap-12 max-w-xl w-full px-10">
-            
+
             {/* Main Text */}
             <div className="relative">
               <motion.h1
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="text-6xl md:text-8xl tracking-[0.1em] text-center"
-                style={{ 
+                className="text-5xl md:text-6xl tracking-[0.1em] text-center"
+                style={{
                   fontFamily: 'Determination, sans-serif',
                   color: 'var(--text-primary)',
                   textShadow: '0 0 20px rgba(var(--accent-purple-rgb), 0.2)'
@@ -69,10 +69,10 @@ export default function PageLoader() {
               >
                 PORTOFOLIO
               </motion.h1>
-              
+
               {/* Scanline Effect over text */}
               <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-20">
-                <motion.div 
+                <motion.div
                   animate={{ y: ['-100%', '200%'] }}
                   transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
                   className="w-full h-1/2 bg-gradient-to-b from-transparent via-[var(--accent-purple)] to-transparent"
@@ -98,7 +98,7 @@ export default function PageLoader() {
                   className="h-full bg-gradient-to-r from-[#0ca8e2] via-[#07a9a6] to-[#08a06e]"
                   style={{ width: `${counter}%` }}
                 />
-                
+
                 {/* Segmented effect for pixel feel */}
                 <div className="absolute inset-0 flex justify-between pointer-events-none">
                   {Array.from({ length: 20 }).map((_, i) => (
@@ -109,7 +109,7 @@ export default function PageLoader() {
             </div>
 
             {/* Bottom Status */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 0.4 }}
               className="flex items-center gap-6"
@@ -117,7 +117,7 @@ export default function PageLoader() {
               <span className="text-[0.55rem] font-mono tracking-widest uppercase">Initializing Core</span>
               <div className="flex gap-1">
                 {[0, 1, 2].map((i) => (
-                  <motion.div 
+                  <motion.div
                     key={i}
                     animate={{ opacity: [0.2, 1, 0.2] }}
                     transition={{ duration: 1, repeat: Infinity, delay: i * 0.2 }}

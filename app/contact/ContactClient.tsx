@@ -49,7 +49,7 @@ const contactInfo = [
   },
   {
     label: 'Location',
-    value: 'Jakarta, Indonesia',
+    value: 'Surakarta, Indonesia',
     icon: <MapPinIcon />,
     href: undefined,
     helper: 'WIB (UTC+7)'
@@ -114,7 +114,7 @@ export default function ContactClient() {
     },
     {
       label: (t('contact.contact_items') as any[])?.[2]?.label ?? 'Location',
-      value: 'Jakarta, Indonesia',
+      value: 'Surakarta, Indonesia',
       icon: <MapPinIcon />,
       href: undefined,
       helper: (t('contact.contact_items') as any[])?.[2]?.helper ?? 'WIB (UTC+7)',

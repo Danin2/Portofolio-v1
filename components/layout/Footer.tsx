@@ -124,7 +124,7 @@ const Footer = () => {
         <div className="pt-10 border-t border-[var(--border-primary)] flex flex-col md:flex-row justify-between items-center gap-4 text-[var(--text-muted)] text-[0.7rem]">
           <p className="font-mono font-medium">© {year} Muhammad Danindra I. {t('footer.rights')}</p>
           <div className="flex items-center gap-6 font-mono font-bold tracking-widest uppercase opacity-70">
-            <span>Jakarta, ID</span>
+            <span>Surakarta, ID</span>
           </div>
         </div>
 
