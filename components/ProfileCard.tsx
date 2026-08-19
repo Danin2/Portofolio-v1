@@ -598,14 +598,9 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
             >
               <div className="w-full absolute flex flex-col" style={{ top: '3em', display: 'flex', gridArea: 'auto' }}>
                 <h3
-                  className="font-semibold m-0"
+                  className="font-semibold m-0 text-[var(--text-primary)]"
                   style={{
                     fontSize: 'min(5svh, 3em)',
-                    backgroundImage: 'linear-gradient(to bottom, #fff, #6f6fbe)',
-                    backgroundSize: '1em 1.5em',
-                    WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text',
-                    WebkitBackgroundClip: 'text',
                     display: 'block',
                     gridArea: 'auto',
                     borderRadius: '0',
@@ -615,17 +610,12 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
                   {name}
                 </h3>
                 <p
-                  className="font-semibold whitespace-nowrap mx-auto w-min"
+                  className="font-semibold whitespace-nowrap mx-auto w-min text-[var(--text-primary)]"
                   style={{
                     position: 'relative',
                     top: '-12px',
                     fontSize: '16px',
                     margin: '0 auto',
-                    backgroundImage: 'linear-gradient(to bottom, #fff, #4a4ac0)',
-                    backgroundSize: '1em 1.5em',
-                    WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text',
-                    WebkitBackgroundClip: 'text',
                     display: 'block',
                     gridArea: 'auto',
                     borderRadius: '0',

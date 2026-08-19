@@ -38,7 +38,6 @@ export default function Marquee({
   return (
     <div
       className={`overflow-hidden select-none ${className}`}
-      style={{ maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}
     >
       {/* pauseOnHover is handled via .marquee-track:hover CSS rule in globals.css */}
       <div className={trackClass} style={trackStyle} data-pause-on-hover={pauseOnHover}>

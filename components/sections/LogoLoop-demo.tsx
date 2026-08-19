@@ -17,7 +17,7 @@ const imageLogos = [
 
 function App() {
   return (
-    <div style={{ height: '200px', position: 'relative', overflow: 'hidden'}}>
+    <div style={{ height: '200px', position: 'relative', overflow: 'hidden' }}>
       {/* Basic horizontal loop */}
       <LogoLoop
         logos={techLogos}
@@ -30,8 +30,8 @@ function App() {
         fadeOut
         fadeOutColor="#ffffff"
         ariaLabel="Technology partners"
-        />
-      
+      />
+
       {/* Vertical loop with deceleration on hover */}
       <LogoLoop
         logos={techLogos}
@@ -41,7 +41,7 @@ function App() {
         gap={60}
         hoverSpeed={0}
         fadeOut
-/>
+      />
     </div>
   );
 }

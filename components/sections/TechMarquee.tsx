@@ -57,9 +57,9 @@ export default function TechMarquee() {
         isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
       }`}
     >
-      {/* Gradient Masks */}
-      <div className="absolute top-0 bottom-0 left-0 w-20 z-10 pointer-events-none bg-gradient-to-r from-[var(--section-bg-alt)] to-transparent" />
-      <div className="absolute top-0 bottom-0 right-0 w-20 z-10 pointer-events-none bg-gradient-to-l from-[var(--section-bg-alt)] to-transparent" />
+      {/* Edge Fade */}
+      <div className="absolute top-0 bottom-0 left-0 w-8 z-10 pointer-events-none bg-[var(--section-bg-alt)]/80" />
+      <div className="absolute top-0 bottom-0 right-0 w-8 z-10 pointer-events-none bg-[var(--section-bg-alt)]/80" />
 
       <Marquee speed={40} className="py-2 relative z-0">
         {items}

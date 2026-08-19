@@ -23,13 +23,19 @@ export default function SmoothScrollProvider({ children }: SmoothScrollProviderP
     const initLenis = () => {
       const isTouch = window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768;
       
+      // On mobile/touch, skip Lenis JS smooth scroll — native touch scroll is 60/120Hz & zero-overhead
+      if (isTouch) {
+        window.dispatchEvent(new CustomEvent('lenis-ready', { detail: null }));
+        return;
+      }
+
       const lenis = new Lenis({
         duration: 1.2,
         easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // expo out
         orientation: 'vertical',
         smoothWheel: true,
         syncTouch: false,
-        touchMultiplier: isTouch ? 1 : 1.5,
+        touchMultiplier: 1.5,
       });
 
       lenisRef.current = lenis;
@@ -67,10 +73,12 @@ export default function SmoothScrollProvider({ children }: SmoothScrollProviderP
 
   // Reset scroll on route change — deferred by one rAF frame so Next.js
   // InnerScrollAndFocusHandler (layout-router.js) can finish its own
-  // clientHeight read + scrollTop write before Lenis kicks in, preventing
-  // a forced reflow double-hit on every navigation.
+  // clientHeight read + scrollTop write before Lenis / native scroll kicks in.
   useEffect(() => {
-    if (!lenisRef.current) return;
+    if (!lenisRef.current) {
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+      return;
+    }
     const id = requestAnimationFrame(() => {
       lenisRef.current?.scrollTo(0, { immediate: true });
     });

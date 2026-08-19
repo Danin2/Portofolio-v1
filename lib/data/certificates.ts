@@ -18,7 +18,7 @@ export const certificates: Certificate[] = [
     date: 'Oct 2023',
     credentialId: 'META-BE-67890',
     credentialUrl: 'https://coursera.org/verify',
-    image: '/certificates/meta-backend.jpg',
+    image: '/certificates/meta-Frontend.jpg',
     tags: ['Node.js', 'Python', 'Django', 'API'],
   },
   {

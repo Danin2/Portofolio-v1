@@ -30,11 +30,14 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans:    ['var(--font-dm-sans)', 'system-ui', 'sans-serif'],
-        mono:    ['var(--font-jetbrains-mono)', 'monospace'],
-        display: ['var(--font-syne)', 'system-ui', 'sans-serif'],
-        syne:    ['var(--font-syne)', 'system-ui', 'sans-serif'],
-        'dm-sans': ['var(--font-dm-sans)', 'system-ui', 'sans-serif'],
+        sans:              ['var(--font-plus-jakarta-sans)', 'system-ui', 'sans-serif'],
+        mono:              ['var(--font-jetbrains-mono)', 'monospace'],
+        display:           ['var(--font-lora)', 'Georgia', 'serif'],
+        lora:              ['var(--font-lora)', 'Georgia', 'serif'],
+        jakarta:           ['var(--font-plus-jakarta-sans)', 'system-ui', 'sans-serif'],
+        'plus-jakarta':    ['var(--font-plus-jakarta-sans)', 'system-ui', 'sans-serif'],
+        syne:              ['var(--font-lora)', 'Georgia', 'serif'],
+        'dm-sans':         ['var(--font-plus-jakarta-sans)', 'system-ui', 'sans-serif'],
       },
       fontSize: {
         'display': ['4.5rem', { lineHeight: '1.0', letterSpacing: '-0.03em' }],
@@ -53,8 +56,8 @@ const config: Config = {
         '128': '32rem',
       },
       backgroundImage: {
-        'gradient-purple': 'linear-gradient(135deg, #5227FF 0%, #B19EEF 100%)',
-        'gradient-dark':   'linear-gradient(180deg, #0c0c0f 0%, #111116 100%)',
+        'gradient-purple': 'none',
+        'gradient-dark':   'none',
       },
       animation: {
         'fade-in':       'fadeIn 0.5s ease-in-out',
@@ -90,10 +93,10 @@ const config: Config = {
         lineHighlight:   { '0%, 100%': { opacity: '0.4' }, '50%': { opacity: '1' } },
       },
       boxShadow: {
-        'glow-purple': '0 0 30px rgba(82, 39, 255, 0.25)',
-        'glow-violet': '0 0 20px rgba(177, 158, 239, 0.18)',
-        'glow-teal':   '0 0 30px rgba(0, 212, 170, 0.25)',
-        'glow-amber':  '0 0 20px rgba(232, 197, 71, 0.20)',
+        'glow-purple': '0 0 30px rgba(45, 212, 191, 0.25)',
+        'glow-violet': '0 0 20px rgba(20, 184, 166, 0.18)',
+        'glow-teal':   '0 0 30px rgba(45, 212, 191, 0.25)',
+        'glow-amber':  '0 0 20px rgba(13, 148, 136, 0.20)',
       },
       borderRadius: {
         'xl2': '1.25rem',

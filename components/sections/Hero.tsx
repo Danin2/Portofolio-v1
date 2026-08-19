@@ -43,6 +43,7 @@ const Hero = () => {
     let idleId: any = null;
 
     const initMagneticButtons = () => {
+      if (typeof window === 'undefined' || window.innerWidth < 768) return;
       const buttons = ctaRef.current?.querySelectorAll('a, button');
       if (!buttons) return;
 
@@ -90,24 +91,19 @@ const Hero = () => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center bg-[var(--bg-primary)] overflow-hidden">
+    <section className="relative min-h-fit md:min-h-screen flex flex-col items-center justify-center bg-[var(--bg-primary)] overflow-hidden">
 
       {/* ── Ambient Background Layer ── */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
         <div className="absolute inset-0 bg-[var(--bg-primary)] opacity-40" />
 
-        {/* CSS-animated orbs — no JS, GPU-composited */}
-        <div className="absolute top-[5%] left-[5%] w-[600px] h-[600px] bg-[var(--accent-primary)]/8 blur-[140px] rounded-full animate-orb-float-1" />
-        <div className="absolute bottom-[5%] right-[5%] w-[700px] h-[700px] bg-[var(--accent-secondary)]/8 blur-[160px] rounded-full animate-orb-float-2" />
+        {/* CSS-animated orbs — no JS, GPU-composited (Desktop only for max mobile performance) */}
+        <div className="hidden md:block absolute top-[5%] left-[5%] w-[600px] h-[600px] bg-[var(--accent-primary)]/8 blur-[140px] rounded-full animate-orb-float-1" />
+        <div className="hidden md:block absolute bottom-[5%] right-[5%] w-[700px] h-[700px] bg-[var(--accent-secondary)]/8 blur-[160px] rounded-full animate-orb-float-2" />
 
         {/* Grid / Scanline Effect */}
-        <div className="absolute inset-0 opacity-[0.15]"
-          style={{
-            backgroundImage: `linear-gradient(var(--border-primary) 1px, transparent 1px), linear-gradient(90deg, var(--border-primary) 1px, transparent 1px)`,
-            backgroundSize: '80px 80px'
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-[var(--bg-primary)] via-transparent to-[var(--bg-primary)]" />
+        <div className="absolute inset-0 opacity-[0.08] border-b border-[var(--border-primary)]" />
+        <div className="absolute inset-0 bg-transparent" />
       </div>
 
       {/* ── Background Elements (Rays) ────────────────────────── */}
@@ -115,7 +111,7 @@ const Hero = () => {
         <div className="absolute inset-0 z-1 pointer-events-none">
           <LightRays
             raysOrigin="top-left"
-            raysColor="rgba(139, 169, 214, 0.3)"
+            raysColor="#2DD4BF"
             raysSpeed={0.8}
             lightSpread={1.5}
             rayLength={4}
@@ -128,7 +124,7 @@ const Hero = () => {
 
 
       {/* ── Content Container ───────────────────────────────────── */}
-      <div className="container-custom relative z-10 pt-20 md:pt-32 pb-12">
+      <div className="container-custom relative z-10 pt-12 md:pt-32 pb-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-16 lg:gap-24 items-center">
 
           {/* ────────────────── LEFT CONTENT (Typography) ────────────────── */}
@@ -176,7 +172,7 @@ const Hero = () => {
             >
               <Link
                 href="/contact"
-                className="relative inline-flex items-center justify-center gap-4 px-8 py-4 md:px-10 md:py-5 bg-[var(--text-primary)] text-[var(--bg-primary)] font-bold uppercase tracking-[0.2em] text-[0.65rem] md:text-[0.7rem] rounded-full hover:bg-[var(--accent-primary)] hover:text-white transition-all duration-500 shadow-2xl group overflow-hidden"
+                className="relative inline-flex items-center justify-center gap-4 px-8 py-4 md:px-10 md:py-5 bg-[var(--text-primary)] text-[var(--bg-primary)] font-bold uppercase tracking-[0.2em] text-[0.65rem] md:text-[0.7rem] rounded-full hover:opacity-90 transition-all duration-500 shadow-2xl group overflow-hidden"
               >
                 {t('footerCTA.primary_btn')}
               </Link>

@@ -15,8 +15,8 @@ const FeaturedProjects = () => {
 
   return (
     <section id="work" className="relative bg-[var(--bg-primary)] py-24 sm:py-32 overflow-hidden">
-      {/* Background Decor */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+      {/* Background Decor (Desktop Only) */}
+      <div className="hidden md:block pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
         <div className="absolute top-1/4 -right-64 w-[500px] h-[500px] rounded-full bg-[var(--accent-primary)] opacity-[0.03] blur-[120px]" />
         <div className="absolute bottom-1/4 -left-64 w-[500px] h-[500px] rounded-full bg-[var(--accent-secondary)] opacity-[0.03] blur-[120px]" />
       </div>
@@ -65,7 +65,13 @@ const FeaturedProjects = () => {
                 delay={0.1 * (idx + 1)}
                 className={isWide ? "md:col-span-12 lg:col-span-7" : "md:col-span-12 lg:col-span-5"}
               >
-                <Link href={`/projects/${project.slug}`} className="group relative block h-full overflow-hidden rounded-3xl bg-[var(--bg-secondary)] border border-[var(--border-primary)] hover:border-[var(--accent-primary)]/30 transition-all duration-500 shadow-sm">
+                <Link 
+                  href={`/projects/${project.slug}`} 
+                  className="group relative block h-full overflow-hidden rounded-3xl bg-[var(--bg-secondary)] border border-[var(--border-primary)] hover:border-[var(--accent-primary)]/40 hover:-translate-y-1 hover:shadow-2xl transition-all duration-500 shadow-sm"
+                  style={{ transition: 'border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s cubic-bezier(0.23,1,0.32,1)' }}
+                >
+                  {/* Subtle inner glow */}
+                  <div className="absolute top-0 left-0 w-full h-24 bg-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-20 rounded-3xl" />
                   {/* Content Container */}
                   <div className="flex flex-col h-full">
                     {/* Project Info Overlay / Top Section */}
@@ -112,8 +118,8 @@ const FeaturedProjects = () => {
 
                     {/* Image / Visual Background */}
                     <div className="absolute inset-0 z-0 opacity-40 group-hover:opacity-60 transition-opacity duration-700">
-                      {/* Placeholder for project thumbnail with a mesh-gradient fallback */}
-                      <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent-primary)]/20 via-transparent to-transparent" />
+                      {/* Thumbnail fallback */}
+                      <div className="absolute inset-0 bg-transparent" />
                       {project.thumbnail && (
                         <Image 
                           src={project.thumbnail} 
@@ -123,13 +129,13 @@ const FeaturedProjects = () => {
                         />
                       )}
                       
-                      {/* High-end glow effect on hover */}
-                      <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-[#0c0c0f] via-[#0c0c0f]/80 to-transparent" />
+                      {/* Flat overlay on hover */}
+                      <div className="absolute inset-x-0 bottom-0 h-2/3 bg-[var(--bg-secondary)]/90" />
                     </div>
                   </div>
 
                   {/* Top line decoration */}
-                  <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[var(--accent-primary)]/30 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-700" />
+                  <div className="absolute top-0 left-0 w-full h-px bg-[var(--accent-primary)]/30 scale-x-0 group-hover:scale-x-100 transition-transform duration-700" />
                 </Link>
               </ScrollReveal>
             );

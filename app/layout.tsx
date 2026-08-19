@@ -1,31 +1,23 @@
 import type { Metadata } from 'next'
-import { JetBrains_Mono } from 'next/font/google'
-import localFont from 'next/font/local'
+import { Lora, Plus_Jakarta_Sans, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
 import Footer from '@/components/layout/Footer'
 import Navigation from '@/components/layout/Navigation'
 import ClientProviders from '@/components/ui/ClientProviders'
-import ScrollProgress from '@/components/ui/ScrollProgress'
 import BackToTop from '@/components/ui/BackToTop'
 
-const syne = localFont({
-  src: '../public/assets/Font/Syne-VariableFont_wght.ttf',
-  variable: '--font-syne',
+const lora = Lora({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  style: ['normal', 'italic'],
+  variable: '--font-lora',
   display: 'swap',
 })
 
-const dmSans = localFont({
-  src: [
-    {
-      path: '../public/assets/Font/DMSans-VariableFont_opsz,wght.ttf',
-      style: 'normal',
-    },
-    {
-      path: '../public/assets/Font/DMSans-Italic-VariableFont_opsz,wght.ttf',
-      style: 'italic',
-    }
-  ],
-  variable: '--font-dm-sans',
+const plusJakartaSans = Plus_Jakarta_Sans({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800'],
+  variable: '--font-plus-jakarta-sans',
   display: 'swap',
 })
 
@@ -37,10 +29,10 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: 'Muhammad Danindra I | Backend Systems Architect',
+    default: 'Muhammad Danindra I | Frontend Systems Architect',
     template: '%s | Muhammad Danindra I',
   },
-  description: 'Professional backend developer specializing in Node.js, TypeScript, PostgreSQL, and scalable system architecture.',
+  description: 'Professional Frontend developer specializing in Node.js, TypeScript, PostgreSQL, and scalable system architecture.',
 }
 
 export default function RootLayout({
@@ -49,7 +41,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${syne.variable} ${dmSans.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${lora.variable} ${plusJakartaSans.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
       <head>
         {/* Theme init script — runs synchronously to prevent flash of wrong theme */}
         <script
@@ -70,22 +62,12 @@ export default function RootLayout({
             `,
           }}
         />
-        {/* Preconnect for Google Fonts CDN used by JetBrains Mono */}
+        {/* Preconnect for Google Fonts CDN */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        {/* Preload critical display font — Syne is used for all headings */}
-        <link
-          rel="preload"
-          href="/assets/Font/Syne-VariableFont_wght.ttf"
-          as="font"
-          type="font/ttf"
-          crossOrigin="anonymous"
-        />
-
       </head>
       <body className="bg-[var(--bg-primary)] text-[var(--text-primary)] font-sans antialiased">
         <ClientProviders>
-          <ScrollProgress />
           <Navigation />
           <main className="relative z-10 min-h-screen">
             {children}

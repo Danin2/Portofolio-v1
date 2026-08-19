@@ -1,9 +1,8 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import Tilt from "react-parallax-tilt";
 import RevealText from '@/components/ui/RevealText';
 import { getFeaturedProjects } from '@/lib/data/projects';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
@@ -92,11 +91,6 @@ const ProjectPreview = () => {
   const featuredProjects = getFeaturedProjects().slice(0, 3);
   const { ref, isVisible } = useScrollReveal();
   const { t } = useLanguage();
-  const [isTouch, setIsTouch] = useState(false);
-
-  useEffect(() => {
-    setIsTouch(window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768);
-  }, []);
 
   return (
     <section
@@ -136,109 +130,81 @@ const ProjectPreview = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: idx * 0.1, duration: 0.6 }}
+                whileHover={{ y: -4, boxShadow: '0 20px 60px -12px rgba(0,0,0,0.35)' }}
+                className="h-full rounded-[2rem]"
               >
-                <Tilt
-                  tiltMaxAngleX={15}
-                  tiltMaxAngleY={15}
-                  perspective={1000}
-                  scale={1}
-                  transitionSpeed={1000}
-                  glareEnable={true}
-                  glareMaxOpacity={0.15}
-                  glareColor="white"
-                  glarePosition="all"
-                  glareBorderRadius="2rem"
-                  tiltEnable={!isTouch}
+                <Link
+                  href={`/projects/${project.slug}`}
+                  className="group flex flex-col h-full rounded-[2rem] border border-[var(--border-primary)] bg-[var(--bg-secondary)] dark:bg-[var(--card-bg)] overflow-hidden transition-all duration-500 hover:border-[var(--accent-primary)]/40 shadow-sm relative"
+                  style={{ transition: 'border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s cubic-bezier(0.23,1,0.32,1)' }}
                 >
-                  <Link
-                    href={`/projects/${project.slug}`}
-                    className="group flex flex-col h-full rounded-[2rem] border border-[var(--border-primary)] bg-[var(--bg-secondary)] dark:bg-[var(--card-bg)] overflow-hidden transition-all duration-500 hover:border-[var(--accent-primary)]/50 hover:shadow-2xl relative"
-                  >
-                    {/* Terminal header */}
-                    <TerminalCardHeader
-                      projectId={project.id}
-                      lines={termData.lines}
-                      title={termData.title}
-                    />
+                  {/* Shimmer top-line on hover */}
+                  <div className="absolute top-0 left-0 w-full h-px bg-[var(--accent-primary)]/60 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20" />
+                  {/* Subtle inner glow */}
+                  <div className="absolute top-0 left-0 w-full h-24 bg-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-[2rem] z-20" />
 
-                    {/* Card content */}
-                    <div className="p-5 md:p-8 flex flex-col flex-1 relative z-10">
-                      <div className="flex items-center justify-between mb-6">
-                        <span className="text-[0.6rem] font-black uppercase tracking-[0.2em] text-[var(--text-muted)] group-hover:text-[var(--accent-primary)] transition-colors">
-                          {project.category}
-                        </span>
-                        <div className="w-9 h-9 rounded-full bg-[var(--bg-tertiary)] flex items-center justify-center text-[var(--text-muted)] group-hover:bg-[var(--accent-primary)]/15 group-hover:text-[var(--accent-primary)] transition-all duration-300">
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M5 12h14m-7-7 7 7-7 7" />
-                          </svg>
-                        </div>
-                      </div>
+                  {/* Terminal header */}
+                  <TerminalCardHeader
+                    projectId={project.id}
+                    lines={termData.lines}
+                    title={termData.title}
+                  />
 
-                      <h3 className="text-xl font-bold text-[var(--text-primary)] mb-4 group-hover:text-[var(--accent-primary)] transition-colors leading-tight">
-                        {project.title}
-                      </h3>
-
-                      <p className="text-sm text-[var(--text-secondary)] leading-relaxed mb-6 line-clamp-3 opacity-80 group-hover:opacity-100 transition-opacity">
-                        {project.shortDescription}
-                      </p>
-
-                      {/* Metric chips */}
-                      <div className="flex flex-wrap gap-2 mb-6">
-                        {['⚡ <10ms', '🔒 JWT', '📦 Docker'].map((chip) => (
-                          <span
-                            key={chip}
-                            className="text-[0.55rem] font-bold px-2.5 py-1 rounded-full bg-[var(--accent-primary)]/10 border border-[var(--accent-primary)]/20 text-[var(--accent-primary)]"
-                          >
-                            {chip}
-                          </span>
-                        ))}
-                      </div>
-
-                      <div className="mt-auto flex flex-wrap gap-2">
-                        {project.techStack.slice(0, 3).map((tech, i) => (
-                          <motion.span
-                            key={tech}
-                            initial={{ opacity: 0, y: 10 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: 0.2 + i * 0.1, duration: 0.4 }}
-                            className="text-[0.6rem] font-bold px-3 py-1 bg-[var(--bg-tertiary)] rounded-md uppercase tracking-tight text-[var(--text-muted)]"
-                          >
-                            {tech}
-                          </motion.span>
-                        ))}
-                        {project.techStack.length > 3 && (
-                          <span className="text-[0.6rem] text-[var(--text-muted)] self-center px-1">+{project.techStack.length - 3}</span>
-                        )}
+                  {/* Card content */}
+                  <div className="p-5 md:p-8 flex flex-col flex-1 relative z-10">
+                    <div className="flex items-center justify-between mb-6">
+                      <span className="text-[0.6rem] font-black uppercase tracking-[0.2em] text-[var(--text-muted)] group-hover:text-[var(--accent-primary)] transition-colors">
+                        {project.category}
+                      </span>
+                      <div className="w-9 h-9 rounded-full bg-[var(--bg-tertiary)] flex items-center justify-center text-[var(--text-muted)] group-hover:bg-[var(--accent-primary)]/15 group-hover:text-[var(--accent-primary)] transition-all duration-300">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M5 12h14m-7-7 7 7-7 7" />
+                        </svg>
                       </div>
                     </div>
-                  </Link>
-                </Tilt>
+
+                    <h3 className="text-xl font-bold text-[var(--text-primary)] mb-4 group-hover:text-[var(--accent-primary)] transition-colors leading-tight">
+                      {project.title}
+                    </h3>
+
+                    <p className="text-sm text-[var(--text-secondary)] leading-relaxed mb-6 line-clamp-3 opacity-80 group-hover:opacity-100 transition-opacity">
+                      {project.shortDescription}
+                    </p>
+
+                    {/* Metric chips */}
+                    <div className="flex flex-wrap gap-2 mb-6">
+                      {['⚡ <10ms', '🔒 JWT', '📦 Docker'].map((chip) => (
+                        <span
+                          key={chip}
+                          className="text-[0.55rem] font-bold px-2.5 py-1 rounded-full bg-[var(--accent-primary)]/10 border border-[var(--accent-primary)]/20 text-[var(--accent-primary)]"
+                        >
+                          {chip}
+                        </span>
+                      ))}
+                    </div>
+
+                    <div className="mt-auto flex flex-wrap gap-2">
+                      {project.techStack.slice(0, 3).map((tech, i) => (
+                        <motion.span
+                          key={tech}
+                          initial={{ opacity: 0, y: 10 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          viewport={{ once: true }}
+                          transition={{ delay: 0.2 + i * 0.1, duration: 0.4 }}
+                          className="text-[0.6rem] font-bold px-3 py-1 bg-[var(--bg-tertiary)] rounded-md uppercase tracking-tight text-[var(--text-muted)]"
+                        >
+                          {tech}
+                        </motion.span>
+                      ))}
+                      {project.techStack.length > 3 && (
+                        <span className="text-[0.6rem] text-[var(--text-muted)] self-center px-1">+{project.techStack.length - 3}</span>
+                      )}
+                    </div>
+                  </div>
+                </Link>
               </motion.div>
             );
           })}
-        </div>
-
-        {/* CTA Section */}
-        <div className="flex flex-col items-center text-center gap-8 pt-10">
-          <div className="h-px w-20 bg-[var(--border-primary)]" />
-          <Link
-            href="/projects"
-            className="group flex flex-col items-center gap-4"
-          >
-            <span className="text-[0.7rem] font-black uppercase tracking-[0.4em] text-[var(--text-primary)] group-hover:text-[var(--accent-purple)] transition-colors">
-              {t('projects.explore_archive')}
-            </span>
-            <motion.div
-              animate={{ y: [0, 5, 0] }}
-              transition={{ repeat: Infinity, duration: 2 }}
-              className="w-10 h-10 rounded-full border border-[var(--border-primary)] flex items-center justify-center group-hover:border-[var(--text-primary)] transition-colors"
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 5v14m-7-7 7 7 7-7" />
-              </svg>
-            </motion.div>
-          </Link>
         </div>
       </div>
     </section>

@@ -69,12 +69,12 @@ index 563245a..f6834aa 100644
                <div className="flex flex-col items-center max-w-2xl">
 -                <p
 +                <TypewriterText
-+                  text="Backend Systems Engineer"
++                  text="Frontend Systems Engineer"
 +                  delay={1.2}
                    className="font-mono font-bold tracking-[0.3em] text-[var(--accent-violet)] mb-8 uppercase"
                    style={{ fontSize: 'clamp(0.75rem, 1.4vw, 0.9rem)' }}
 -                >
--                  Backend Systems Engineer
+-                  Frontend Systems Engineer
 -                </p>
 +                />
                  <p className="text-[var(--text-secondary)] leading-relaxed text-lg md:text-2xl opacity-90 text-center font-medium">
@@ -228,7 +228,7 @@ index 0000000..563245a
 +                  className="font-mono font-bold tracking-[0.3em] text-[var(--accent-violet)] mb-8 uppercase"
 +                  style={{ fontSize: 'clamp(0.75rem, 1.4vw, 0.9rem)' }}
 +                >
-+                  Backend Systems Engineer
++                  Frontend Systems Engineer
 +                </p>
 +                <p className="text-[var(--text-secondary)] leading-relaxed text-lg md:text-2xl opacity-90 text-center font-medium">
 +                  I architect high-performance server-side foundations,

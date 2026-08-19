@@ -15,11 +15,12 @@ export default function PageLoader() {
       return;
     }
 
-    // Faster loading animation
-    const duration = 2000;
+    // Use setInterval (60ms) instead of rAF to avoid hammering main thread
+    // during the critical load phase. Visual difference is imperceptible.
+    const duration = 800;
     const startTime = Date.now();
 
-    const tick = () => {
+    const intervalId = setInterval(() => {
       const elapsed = Date.now() - startTime;
       const progress = Math.min(elapsed / duration, 1);
 
@@ -27,17 +28,16 @@ export default function PageLoader() {
       const eased = progress < 0.5 ? 2 * progress * progress : 1 - Math.pow(-2 * progress + 2, 2) / 2;
       setCounter(Math.floor(eased * 100));
 
-      if (progress < 1) {
-        requestAnimationFrame(tick);
-      } else {
+      if (progress >= 1) {
+        clearInterval(intervalId);
         setTimeout(() => {
           setIsLoading(false);
           sessionStorage.setItem('portfolio-loaded', 'true');
         }, 500);
       }
-    };
+    }, 60);
 
-    requestAnimationFrame(tick);
+    return () => clearInterval(intervalId);
   }, []);
 
   return (
@@ -49,9 +49,8 @@ export default function PageLoader() {
           exit={{ opacity: 0, scale: 1.1 }}
           transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
         >
-          {/* Subtle background texture */}
-          <div className="absolute inset-0 opacity-[0.03] pointer-events-none"
-            style={{ backgroundImage: 'radial-gradient(var(--text-primary) 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
+          {/* Background texture */}
+          <div className="absolute inset-0 opacity-[0.03] pointer-events-none border-b border-[var(--border-primary)]" />
 
           <div className="relative z-20 flex flex-col items-center gap-12 max-w-xl w-full px-10">
 
@@ -75,7 +74,7 @@ export default function PageLoader() {
                 <motion.div
                   animate={{ y: ['-100%', '200%'] }}
                   transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                  className="w-full h-1/2 bg-gradient-to-b from-transparent via-[var(--accent-purple)] to-transparent"
+                  className="w-full h-1/2 bg-transparent"
                 />
               </div>
             </div>
@@ -92,10 +91,10 @@ export default function PageLoader() {
                 </span>
               </div>
 
-              {/* Progress Bar (Pixel Style) */}
+              {/* Progress Bar */}
               <div className="h-4 w-full bg-[var(--bg-tertiary)] border-2 border-[var(--border-primary)] relative p-0.5">
                 <motion.div
-                  className="h-full bg-gradient-to-r from-[#0ca8e2] via-[#07a9a6] to-[#08a06e]"
+                  className="h-full bg-[var(--accent-primary)]"
                   style={{ width: `${counter}%` }}
                 />
 

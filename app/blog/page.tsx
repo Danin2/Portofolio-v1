@@ -25,7 +25,7 @@ export default function BlogPage() {
             Technical <span className="text-accent-blue">Blog</span>
           </h1>
           <p className="text-body-lg text-text-secondary leading-relaxed">
-            Insights, tutorials, and case studies about backend development,
+            Insights, tutorials, and case studies about Frontend development,
             system design, and software engineering best practices.
           </p>
 
@@ -57,11 +57,10 @@ export default function BlogPage() {
               <button
                 key={category}
                 onClick={() => setSelectedCategory(category)}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-custom ${
-                  selectedCategory === category
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-custom ${selectedCategory === category
                     ? 'bg-accent-blue text-white'
                     : 'bg-bg-tertiary text-text-secondary hover:text-text-primary hover:bg-bg-tertiary/80'
-                }`}
+                  }`}
               >
                 {category}
               </button>
@@ -114,10 +113,10 @@ export default function BlogPage() {
                   {/* Meta Info */}
                   <div className="flex items-center justify-between pt-4 border-t border-bg-tertiary text-xs text-text-muted">
                     <span>{post.author}</span>
-                    <span>{new Date(post.publishedAt).toLocaleDateString('en-US', { 
-                      month: 'short', 
-                      day: 'numeric', 
-                      year: 'numeric' 
+                    <span>{new Date(post.publishedAt).toLocaleDateString('en-US', {
+                      month: 'short',
+                      day: 'numeric',
+                      year: 'numeric'
                     })}</span>
                   </div>
 

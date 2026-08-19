@@ -31,9 +31,9 @@ const FooterCTA = ({ className = "" }: FooterCTAProps) => {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-        className="relative rounded-[2rem] md:rounded-[3.5rem] bg-[var(--bg-secondary)]/40 backdrop-blur-3xl border border-[var(--border-primary)] p-8 sm:p-12 lg:p-24 overflow-hidden text-center shadow-2xl"
+        className="relative rounded-[2rem] md:rounded-[3.5rem] bg-[var(--bg-secondary)] md:bg-[var(--bg-secondary)]/40 md:backdrop-blur-3xl border border-[var(--border-primary)] p-8 sm:p-12 lg:p-24 overflow-hidden text-center shadow-2xl"
       >
-        <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent-primary)]/5 via-transparent to-[var(--accent-secondary)]/5 pointer-events-none" />
+        <div className="absolute inset-0 bg-transparent pointer-events-none" />
 
         <div className="relative z-10 max-w-3xl mx-auto">
           <motion.h2
@@ -73,7 +73,7 @@ const FooterCTA = ({ className = "" }: FooterCTAProps) => {
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto">
               <Link
                 href={primaryBtnHref}
-                className="px-8 py-4 md:px-12 md:py-5 bg-[var(--text-primary)] text-[var(--bg-primary)] font-bold uppercase tracking-widest text-[0.65rem] md:text-[0.7rem] rounded-full transition-all shadow-xl hover:bg-[var(--accent-primary)] hover:text-white block text-center"
+                className="px-8 py-4 md:px-12 md:py-5 bg-[var(--text-primary)] text-[var(--bg-primary)] font-bold uppercase tracking-widest text-[0.65rem] md:text-[0.7rem] rounded-full transition-all shadow-xl hover:opacity-90 block text-center"
               >
                 {primaryBtnText}
               </Link>

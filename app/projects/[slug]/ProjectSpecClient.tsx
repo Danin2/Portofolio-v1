@@ -57,7 +57,7 @@ export default function ProjectSpecClient({ project }: ProjectSpecClientProps) {
 
   const metrics = useMemo(() => [
     { label: 'Category', value: project.category },
-    { label: 'Role', value: 'Lead Backend Engineer' },
+    { label: 'Role', value: 'Lead Frontend Engineer' },
     { label: 'Status', value: 'Production Ready' },
     { label: 'Completed', value: new Date(project.completedAt).toLocaleDateString('en-US', dateOpts) },
   ], [project, dateOpts]);
@@ -206,28 +206,28 @@ export default function ProjectSpecClient({ project }: ProjectSpecClientProps) {
 
       {/* ── FOOTER CTA ─────────────────────────────────────── */}
       <section className="container-custom mt-40">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           className="relative rounded-[3.5rem] bg-[var(--bg-secondary)]/40 backdrop-blur-3xl border border-[var(--border-primary)] p-12 lg:p-24 overflow-hidden text-center shadow-2xl"
         >
-          <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent-purple)]/5 via-transparent to-[var(--accent-violet)]/5 pointer-events-none" />
-          
+          <div className="absolute inset-0 bg-transparent pointer-events-none" />
+
           <div className="relative z-10 max-w-3xl mx-auto">
-            <motion.h2 
+            <motion.h2
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2, duration: 0.8 }}
               className="text-4xl lg:text-7xl font-black text-[var(--text-primary)] mb-10 tracking-tight leading-tight"
             >
-              Ready to discuss <br/>
+              Ready to discuss <br />
               <span className="gradient-text italic font-medium">your next project?</span>
             </motion.h2>
-            
-            <motion.p 
+
+            <motion.p
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -236,8 +236,8 @@ export default function ProjectSpecClient({ project }: ProjectSpecClientProps) {
             >
               I am always open to discussing new opportunities and technical challenges. Let&apos;s build the future together.
             </motion.p>
-            
-            <motion.div 
+
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}

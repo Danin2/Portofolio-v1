@@ -5,7 +5,7 @@ export default function MeteorsDemo() {
     return (
         <div className="flex items-center justify-center py-20">
             <div className="relative w-full max-w-xl">
-                <div className="absolute inset-0 h-full w-full scale-[0.80] transform rounded-full bg-red-500 bg-gradient-to-r from-blue-500 to-teal-500 blur-3xl" />
+                <div className="absolute inset-0 h-full w-full scale-[0.80] transform rounded-full bg-[var(--accent-primary)]/10 blur-3xl" />
                 <div className="relative flex h-full flex-col items-start justify-end overflow-hidden rounded-2xl border border-bg-tertiary bg-bg-secondary px-4 py-8 shadow-xl">
                     <div className="mb-4 flex h-5 w-5 items-center justify-center rounded-full border border-text-muted">
                         <svg
@@ -30,7 +30,7 @@ export default function MeteorsDemo() {
 
                     <p className="relative z-50 mb-4 text-base font-normal text-text-secondary">
                         I architect high-performance systems with the precision of a celestial event.
-                        Backend development is where logic meets performance.
+                        Frontend development is where logic meets performance.
                     </p>
 
                     <button className="rounded-lg border border-bg-tertiary px-4 py-1 text-text-secondary hover:text-white transition-colors">

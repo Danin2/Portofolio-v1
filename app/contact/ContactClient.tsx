@@ -59,7 +59,7 @@ const contactInfo = [
 // ─── Availability Status Card ─────────────────────────────────────────────────
 function AvailabilityCard({ t }: { t: (k: string) => any }) {
   return (
-    <div className="rounded-[2rem] p-8 border border-[var(--border-primary)] bg-[var(--bg-secondary)]/40 backdrop-blur-xl shadow-xl group hover:border-[var(--accent-primary)]/30 transition-all duration-500">
+    <div className="rounded-[2rem] p-8 border border-[var(--border-primary)] bg-[var(--bg-secondary)] md:bg-[var(--bg-secondary)]/40 md:backdrop-blur-xl shadow-xl group hover:border-[var(--accent-primary)]/30 transition-all duration-500">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
           <span className="relative flex h-3 w-3">
@@ -150,6 +150,7 @@ export default function ContactClient() {
   };
 
   useEffect(() => {
+    if (window.innerWidth < 768) return;
     const onMouseMove = (e: MouseEvent) => {
       if (spotlightRef.current) {
         gsap.to(spotlightRef.current, {
@@ -167,16 +168,16 @@ export default function ContactClient() {
   return (
     <div className="min-h-screen bg-[var(--bg-primary)] relative overflow-hidden flex flex-col pt-24 md:pt-32 pb-20">
 
-      {/* ── Ambient Background Blobs ── */}
-      <div className="absolute top-[10%] left-[-5%] w-[500px] h-[500px] rounded-full pointer-events-none opacity-[0.06] blur-[120px] bg-[var(--accent-primary)] animate-pulse" />
-      <div className="absolute bottom-[10%] right-[-5%] w-[400px] h-[400px] rounded-full pointer-events-none opacity-[0.04] blur-[100px] bg-[var(--accent-secondary)]" />
+      {/* ── Ambient Background Blobs (Desktop Only) ── */}
+      <div className="hidden md:block absolute top-[10%] left-[-5%] w-[500px] h-[500px] rounded-full pointer-events-none opacity-[0.06] blur-[120px] bg-[var(--accent-primary)] animate-pulse" />
+      <div className="hidden md:block absolute bottom-[10%] right-[-5%] w-[400px] h-[400px] rounded-full pointer-events-none opacity-[0.04] blur-[100px] bg-[var(--accent-secondary)]" />
 
-      {/* ── Cursor Spotlight ── */}
+      {/* ── Cursor Spotlight (Desktop Only) ── */}
       <div
         ref={spotlightRef}
-        className="pointer-events-none fixed top-0 left-0 w-[800px] h-[800px] -translate-x-1/2 -translate-y-1/2 z-[2] opacity-[0.1] blur-[120px]"
+        className="hidden md:block pointer-events-none fixed top-0 left-0 w-[800px] h-[800px] -translate-x-1/2 -translate-y-1/2 z-[2] opacity-[0.1] blur-[120px]"
         style={{
-          background: 'radial-gradient(circle, var(--accent-primary) 0%, transparent 70%)',
+          background: 'transparent',
         }}
       />
 
@@ -279,18 +280,16 @@ export default function ContactClient() {
               <div className="absolute -inset-1 bg-gradient-to-r from-[var(--accent-primary)]/20 to-[var(--accent-secondary)]/10 rounded-[3rem] blur-2xl opacity-40 pointer-events-none" />
 
               {/* Terminal window wrapper */}
-              <div className="relative rounded-[2.5rem] overflow-hidden border border-[var(--border-primary)] shadow-2xl bg-[var(--bg-secondary)]/60 backdrop-blur-3xl group hover:border-[var(--accent-primary)]/20 transition-colors duration-500">
+              <div className="relative rounded-[2.5rem] overflow-hidden border border-[var(--border-primary)] shadow-2xl bg-[var(--bg-secondary)] md:bg-[var(--bg-secondary)]/60 md:backdrop-blur-3xl group hover:border-[var(--accent-primary)]/20 transition-colors duration-500">
 
                 {/* Terminal window title bar */}
-                <div className="flex items-center gap-2 px-6 py-4 bg-[var(--bg-secondary)]/80 backdrop-blur-sm border-b border-[var(--border-primary)]">
+                <div className="flex items-center gap-2 px-6 py-4 bg-[var(--bg-secondary)] border-b border-[var(--border-primary)]">
                   <div className="flex gap-1.5">
                     <span className="w-3 h-3 rounded-full bg-[#FF5F56]/80" />
                     <span className="w-3 h-3 rounded-full bg-[#FFBD2E]/80" />
                     <span className="w-3 h-3 rounded-full bg-[#27C93F]/80" />
                   </div>
                   <span className="mx-auto text-[0.6rem] font-mono text-[var(--text-muted)] font-bold tracking-widest uppercase flex items-center gap-2">
-                    <span className="w-1 h-1 rounded-full bg-green-500 animate-pulse" />
-                    secure-transmission-channel
                   </span>
                 </div>
 
@@ -326,16 +325,14 @@ export default function ContactClient() {
                         className="space-y-10"
                       >
                         {[
-                          { label: t('contact.form_name_label'), type: 'text', placeholder: t('contact.form_name_placeholder'), name: 'name', helper: t('contact.form_name_helper') },
-                          { label: t('contact.form_email_label'), type: 'email', placeholder: t('contact.form_email_placeholder'), name: 'email', helper: t('contact.form_email_helper') },
-                        ].map(({ label, type, placeholder, name, helper }) => (
+                          { label: t('contact.form_name_helper'), type: 'text', placeholder: t('contact.form_name_placeholder'), name: 'name' },
+                          { label: t('contact.form_email_helper'), type: 'email', placeholder: t('contact.form_email_placeholder'), name: 'email' },
+                        ].map(({ label, type, placeholder, name }) => (
                           <div key={name} className="space-y-3">
                             <div className="flex items-center justify-between">
                               <label className="flex items-center gap-2 text-[0.65rem] uppercase tracking-[0.3em] text-[var(--text-muted)] font-black pl-1">
-                                <span className={`font-mono transition-colors duration-300 ${focusedField === name ? 'text-[var(--accent-primary)]' : 'text-[var(--text-muted)]'}`}>&gt;</span>
                                 {label}
                               </label>
-                              <span className="text-[10px] text-[var(--text-muted)] italic opacity-60 font-medium">{helper}</span>
                             </div>
                             <input
                               required
@@ -352,10 +349,8 @@ export default function ContactClient() {
                         <div className="space-y-3">
                           <div className="flex items-center justify-between">
                             <label className="flex items-center gap-2 text-[0.65rem] uppercase tracking-[0.3em] text-[var(--text-muted)] font-black pl-1">
-                              <span className={`font-mono transition-colors duration-300 ${focusedField === 'requirements' ? 'text-[var(--accent-primary)]' : 'text-[var(--text-muted)]'}`}>&gt;</span>
-                              {t('contact.form_message_label')}
+                              {t('contact.form_message_helper')}
                             </label>
-                            <span className="text-[10px] text-[var(--text-muted)] italic opacity-60 font-medium">{t('contact.form_message_helper')}</span>
                           </div>
                           <textarea
                             required

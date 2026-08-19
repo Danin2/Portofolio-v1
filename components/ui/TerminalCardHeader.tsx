@@ -18,7 +18,7 @@ const lineColors = {
 
 /**
  * TerminalCardHeader — Terminal-style mockup header for project cards.
- * Shows relevant backend output lines with a blinking cursor.
+ * Shows relevant Frontend output lines with a blinking cursor.
  */
 export default function TerminalCardHeader({ lines, title = 'bash' }: TerminalCardHeaderProps) {
   const [cursorVisible, setCursorVisible] = useState(true);
@@ -42,7 +42,7 @@ export default function TerminalCardHeader({ lines, title = 'bash' }: TerminalCa
       <div className="terminal-body py-3">
         {lines.map((line, idx) => (
           <div key={idx} className="flex items-start gap-2 leading-relaxed">
-            <span className="text-[#00D4AA] text-[0.65rem] shrink-0 mt-px">$</span>
+            <span className="text-[var(--accent-primary)] text-[0.65rem] shrink-0 mt-px">$</span>
             <span className={`font-mono text-[0.65rem] ${lineColors[line.type]}`}>
               {line.text}
             </span>
@@ -50,9 +50,9 @@ export default function TerminalCardHeader({ lines, title = 'bash' }: TerminalCa
         ))}
         {/* Blinking cursor on last line */}
         <div className="flex items-center gap-2 mt-1">
-          <span className="text-[#00D4AA] text-[0.65rem] shrink-0">$</span>
+          <span className="text-[var(--accent-primary)] text-[0.65rem] shrink-0">$</span>
           <span
-            className="inline-block w-1.5 h-3 bg-[#00D4AA]"
+            className="inline-block w-1.5 h-3 bg-[var(--accent-primary)]"
             style={{ opacity: cursorVisible ? 1 : 0, transition: 'opacity 0.1s' }}
           />
         </div>

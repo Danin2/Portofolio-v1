@@ -54,8 +54,8 @@ const Footer = () => {
           {/* Brand */}
           <div className="space-y-6">
             <div className="flex items-center gap-4">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] flex items-center justify-center shadow-lg">
-                <span className="text-white font-black text-xs font-mono">MD</span>
+              <div className="w-10 h-10 rounded-xl bg-[var(--accent-primary)] flex items-center justify-center shadow-lg">
+                <span className="text-[var(--bg-primary)] font-black text-xs font-mono">MD</span>
               </div>
               <span className="font-bold text-xl font-mono text-[var(--text-primary)] tracking-tight">
                 Mas<span className="text-[var(--accent-primary)]">Dani</span>

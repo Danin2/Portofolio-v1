@@ -3,7 +3,6 @@
 import React, { useEffect, useId, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import Tilt from "react-parallax-tilt";
 import { useOutsideClick } from "@/hooks/use-outside-click";
 import RevealText from '@/components/ui/RevealText';
 import ScrollReveal from '@/components/ui/ScrollReveal';
@@ -26,19 +25,19 @@ type WithClassName = { className?: string };
 const SKILL_ICONS = [
   <Layers className="w-10 h-10" />,
   <Database className="w-8 h-8" />,
-  <Terminal className="w-8 h-8 text-[#8BA9D6]" />,
+  <Terminal className="w-8 h-8 text-[var(--accent-primary)]" />,
   <Server className="w-8 h-8" />,
   <Shield className="w-8 h-8" />,
   <Cpu className="w-8 h-8" />,
 ];
 
 const SKILL_COLORS = [
-  "from-[#8BA9D6] to-[#475569]",
-  "from-[#475569] to-[#2D3748]",
-  "from-[#8BA9D6] to-[#2D3748]",
-  "from-[#2D3748] to-[#8BA9D6]",
-  "from-[#8BA9D6] to-[#1A202C]",
-  "from-[#1A202C] to-[#8BA9D6]",
+  "bg-[var(--accent-primary)]",
+  "bg-[var(--accent-primary)]",
+  "bg-[var(--accent-primary)]",
+  "bg-[var(--accent-primary)]",
+  "bg-[var(--accent-primary)]",
+  "bg-[var(--accent-primary)]",
 ];
 
 const SKILL_SRCS = [
@@ -131,11 +130,8 @@ const FeaturedSkills = () => {
   const modalRef = useRef<HTMLDivElement>(null);
   const { ref: sectionRef, isVisible } = useScrollReveal();
 
-  const [isTouch, setIsTouch] = useState(false);
-
   useEffect(() => {
     setMounted(true);
-    setIsTouch(window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768);
   }, []);
 
   useEffect(() => {
@@ -239,7 +235,7 @@ const FeaturedSkills = () => {
                   >
                     <header className="mb-6 md:mb-10">
                       <div
-                        className={`inline-flex p-3 md:p-4 rounded-2xl bg-gradient-to-br ${active.color} text-white mb-4 md:mb-6 shadow-lg`}
+                        className={`inline-flex p-3 md:p-4 rounded-2xl bg-[var(--accent-primary)] text-[var(--bg-primary)] mb-4 md:mb-6 shadow-lg`}
                       >
                         {active.icon}
                       </div>
@@ -283,76 +279,72 @@ const FeaturedSkills = () => {
                   idx === 3 ? "lg:col-span-4 md:col-span-3" :
                     idx === 4 ? "lg:col-span-4 md:col-span-3" :
                       "lg:col-span-12 md:col-span-6";
-            return (
-              <Tilt
-                key={card.title}
-                tiltMaxAngleX={15}
-                tiltMaxAngleY={15}
-                perspective={1000}
-                scale={1}
-                transitionSpeed={1000}
-                className={`${colSpan}`}
-                glareEnable={true}
-                glareMaxOpacity={0.15}
-                glareColor="white"
-                glarePosition="all"
-                glareBorderRadius="2rem"
-                tiltEnable={!isTouch}
+            const cardInner = (
+              <motion.div
+                layoutId={`card-${card.title}-${id}`}
+                onClick={() => setActive(card)}
+                className={`group h-full relative p-5 md:p-8 lg:p-10 flex flex-col border border-[var(--border-primary)] bg-[var(--bg-secondary)] dark:bg-[var(--card-bg)] rounded-[1.5rem] md:rounded-[2rem] cursor-pointer shadow-sm overflow-hidden`}
+                style={{ transition: 'border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s cubic-bezier(0.23,1,0.32,1)' }}
+                whileHover={{ y: -4, boxShadow: '0 20px 60px -12px rgba(0,0,0,0.35)' }}
               >
-                <motion.div
-                  layoutId={`card-${card.title}-${id}`}
-                  onClick={() => setActive(card)}
-                  className={`group h-full relative p-5 md:p-8 lg:p-10 flex flex-col border border-[var(--border-primary)] bg-[var(--bg-secondary)] dark:bg-[var(--card-bg)] rounded-[1.5rem] md:rounded-[2rem] cursor-pointer transition-all duration-500 hover:border-[var(--accent-purple)]/50 shadow-sm hover:shadow-2xl hover:-translate-y-1`}
-                >
-                  {/* Visual Accent */}
-                  <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
-                    {React.cloneElement(card.icon as React.ReactElement<WithClassName>, { className: 'w-12 h-12' })}
-                  </div>
+                {/* Shimmer top-line on hover */}
+                <div className="absolute top-0 left-0 w-full h-px bg-[var(--accent-primary)]/60 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                {/* Subtle inner glow */}
+                <div className="absolute top-0 left-0 w-full h-24 bg-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-[1.5rem] md:rounded-[2rem]" />
 
-                  <div className="relative z-10 flex flex-col h-full">
-                    <header className="mb-auto">
-                      <motion.div
-                        layoutId={`icon-${card.title}-${id}`}
-                        className={`inline-flex p-3 md:p-4 rounded-2xl bg-gradient-to-br ${card.color} text-white mb-5 md:mb-8 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 shadow-xl`}
-                      >
-                        {React.cloneElement(card.icon as React.ReactElement<WithClassName>, { className: 'w-8 h-8' })}
-                      </motion.div>
-                      <motion.h3
-                        layoutId={`title-${card.title}-${id}`}
-                        className="font-bold text-[var(--text-primary)] text-2xl group-hover:text-[var(--accent-purple)] transition-colors mb-2"
-                      >
-                        {card.title}
-                      </motion.h3>
-                      <motion.p
-                        layoutId={`description-${card.title}-${id}`}
-                        className="text-[var(--text-secondary)] text-sm opacity-80 leading-relaxed max-w-xs"
-                      >
-                        {card.description}
-                      </motion.p>
+                {/* Visual Accent */}
+                <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
+                  {React.cloneElement(card.icon as React.ReactElement<WithClassName>, { className: 'w-12 h-12' })}
+                </div>
 
-                      {/* Concrete Technologies */}
-                      <div className="flex flex-wrap gap-2 mt-4">
-                        {card.techs?.map(tech => (
-                          <span key={tech} className="text-[0.55rem] font-black uppercase tracking-widest text-[var(--accent-purple)] bg-[var(--accent-purple)]/5 px-2 py-1 rounded-md border border-[var(--accent-purple)]/10 group-hover:border-[var(--accent-purple)]/30 transition-all">
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
-                    </header>
+                <div className="relative z-10 flex flex-col h-full">
+                  <header className="mb-auto">
+                    <motion.div
+                      layoutId={`icon-${card.title}-${id}`}
+                      className={`inline-flex p-3 md:p-4 rounded-2xl bg-[var(--accent-primary)] text-white mb-5 md:mb-8 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 shadow-xl`}
+                    >
+                      {React.cloneElement(card.icon as React.ReactElement<WithClassName>, { className: 'w-8 h-8' })}
+                    </motion.div>
+                    <h3
+                      className="font-bold text-[var(--text-primary)] text-2xl group-hover:text-[var(--accent-purple)] transition-colors mb-2"
+                    >
+                      {card.title}
+                    </h3>
+                    <p
+                      className="text-[var(--text-secondary)] text-sm opacity-80 leading-relaxed max-w-xs"
+                    >
+                      {card.description}
+                    </p>
 
-                    <footer className="mt-6 md:mt-10 flex items-center justify-between">
-                      <div className="text-[0.6rem] font-black uppercase tracking-[0.2em] text-[var(--text-muted)] group-hover:text-[var(--accent-violet)] transition-colors">
-                        {t('skills.learn_more')}
-                      </div>
-                      <div className="w-8 h-8 rounded-full border border-[var(--border-primary)] flex items-center justify-center text-[var(--text-muted)] group-hover:bg-[var(--accent-purple)] group-hover:text-white transition-all duration-300">
-                        →
-                      </div>
-                    </footer>
-                  </div>
-                </motion.div>
-              </Tilt>
+                    {/* Concrete Technologies */}
+                    <div className="flex flex-wrap gap-2 mt-4">
+                      {card.techs?.map(tech => (
+                        <span key={tech} className="text-[0.55rem] font-black uppercase tracking-widest text-[var(--accent-purple)] bg-[var(--accent-purple)]/5 px-2 py-1 rounded-md border border-[var(--accent-purple)]/10 group-hover:border-[var(--accent-purple)]/30 transition-all">
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </header>
+
+                  <footer className="mt-6 md:mt-10 flex items-center justify-between">
+                    <div className="text-[0.6rem] font-black uppercase tracking-[0.2em] text-[var(--text-muted)] group-hover:text-[var(--accent-violet)] transition-colors">
+                      {t('skills.learn_more')}
+                    </div>
+                    <div className="w-8 h-8 rounded-full border border-[var(--border-primary)] flex items-center justify-center text-[var(--text-muted)] group-hover:bg-[var(--accent-purple)] group-hover:text-white transition-all duration-300">
+                      →
+                    </div>
+                  </footer>
+                </div>
+              </motion.div>
+            );
+
+            return (
+              <div key={card.title} className={`${colSpan}`}>
+                {cardInner}
+              </div>
             );
           })}
+
         </div>
       </div>
     </section >

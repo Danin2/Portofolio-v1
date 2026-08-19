@@ -23,10 +23,10 @@ const translations: Record<Language, Record<string, any>> = {
       build: 'Contact ↗',
     },
     hero: {
-      tag: 'Backend Systems Engineer',
+      tag: 'Frontend Systems Engineer',
       title_part1: 'Engineering',
       title_part2: 'Digital Foundations.',
-      desc: "Focused on building resilient backend systems, high-throughput APIs, and scalable infrastructure with precision.",
+      desc: "Focused on building resilient Frontend systems, high-throughput APIs, and scalable infrastructure with precision.",
       cta_projects: 'My Projects',
       cta_skills: 'View Skills',
     },
@@ -70,7 +70,7 @@ const translations: Record<Language, Record<string, any>> = {
           ecosystem_items: ['Vite-powered dev server', 'Vitest for unit testing', 'Rapid HMR workflows', 'Rollup/ESBuild optimization'],
         },
         {
-          title: 'Backend API',
+          title: 'Frontend API',
           description: 'Type-Safe Robust Foundation',
           content_intro: 'Building secure, well-documented, and high-performance APIs using modern Node.js and TypeScript frameworks.',
           items: [
@@ -111,7 +111,7 @@ const translations: Record<Language, Record<string, any>> = {
       items: [
         {
           title: 'Future Systems Engineer',
-          description: 'Focused on building large-scale resilient infrastructure. Continuously exploring the limits of backend optimization and distributed system design.',
+          description: 'Focused on building large-scale resilient infrastructure. Continuously exploring the limits of Frontend optimization and distributed system design.',
         },
         {
           title: 'Open Source & Optimization',
@@ -138,18 +138,17 @@ const translations: Record<Language, Record<string, any>> = {
     projects: {
       section_title: 'Selected',
       section_title_italic: 'Creations',
-      section_desc: 'A glimpse into robust backend systems and modern API architectures.',
+      section_desc: 'A glimpse into robust Frontend systems and modern API architectures.',
       featured_title: 'Featured',
       featured_title_gradient: 'Projects',
-      featured_desc: 'A showcase of high-performance backend systems, distributed architectures, and robust API solutions.',
+      featured_desc: 'A showcase of high-performance Frontend systems, distributed architectures, and robust API solutions.',
       selected_work: 'Selected Work',
       all_projects: 'All Projects',
-      explore_archive: 'Explore Full Archive',
       interested: 'Interested in more?',
       explore_link: 'Explore the full archive',
     },
     footer: {
-      desc: 'Architecting high-performance backend systems with precision, scalability, and clean system design.',
+      desc: 'Architecting high-performance Frontend systems with precision, scalability, and clean system design.',
       nav_title: 'Navigation',
       channels_title: 'Channels',
       rights: 'All rights reserved.',
@@ -158,14 +157,14 @@ const translations: Record<Language, Record<string, any>> = {
     },
     footerCTA: {
       title: "Ready to architect something great?",
-      desc: "I'm currently accepting new projects and consulting inquiries. Let's talk about your next backend challenge.",
+      desc: "I'm currently accepting new projects and consulting inquiries. Let's talk about your next Frontend challenge.",
       primary_btn: 'Hire Me →',
       secondary_btn: 'View Projects',
     },
     about: {
       title: 'Systems & Identity',
-      narrative: "Hello! I'm Muhammad Danindra I. My approach to backend engineering is grounded in the belief that the strongest infrastructure is that which operates seamlessly and reliably. I specialize in designing type-safe APIs, optimizing database query pipelines, and orchestrating distributed containerized environments that power modern digital experiences.",
-      role: 'Backend Systems Engineer',
+      narrative: "Hello! I'm Muhammad Danindra I. My approach to Frontend engineering is grounded in the belief that the strongest infrastructure is that which operates seamlessly and reliably. I specialize in designing type-safe APIs, optimizing database query pipelines, and orchestrating distributed containerized environments that power modern digital experiences.",
+      role: 'Frontend Systems Engineer',
       location: 'Surakarta, ID',
       profile_title: 'My Profile',
       stats: ['Years Exp.', 'Systems Built', 'Perf. Boost', 'Reliability'],
@@ -186,7 +185,7 @@ const translations: Record<Language, Record<string, any>> = {
     contact: {
       title_line1: "Let's architect",
       title_line2: 'the future.',
-      desc: "Have a complex backend challenge or a high-scale system in mind? I'm ready to help you build resilient foundations.",
+      desc: "Have a complex Frontend challenge or a high-scale system in mind? I'm ready to help you build resilient foundations.",
       availability_status: 'System Status',
       availability_title: 'Available for Projects',
       availability_desc: 'Open to new projects and technical collaborations. Ready to architect resilient systems.',
@@ -202,7 +201,7 @@ const translations: Record<Language, Record<string, any>> = {
       form_message_label: 'System Requirements',
       form_message_placeholder: 'Describe your architectural needs...',
       form_message_helper: '(Describe your project or inquiry)',
-      submit_btn: 'Execute Transmission',
+      submit_btn: ' Send Message',
       submitting_btn: 'Transmitting Data...',
       success_title: 'Packet Delivered',
       success_desc: 'System received your transmission. I will respond via secure channel shortly.',
@@ -226,10 +225,10 @@ const translations: Record<Language, Record<string, any>> = {
       build: 'Kontak ↗',
     },
     hero: {
-      tag: 'Rekayasa Sistem Backend',
+      tag: 'Rekayasa Sistem Frontend',
       title_part1: 'Merancang',
       title_part2: 'Fondasi Digital.',
-      desc: 'Berfokus pada pembangunan sistem backend yang tangguh, API berkinerja tinggi, dan infrastruktur terdistribusi dengan presisi.',
+      desc: 'Berfokus pada pembangunan sistem Frontend yang tangguh, API berkinerja tinggi, dan infrastruktur terdistribusi dengan presisi.',
       cta_projects: 'Proyek Saya',
       cta_skills: 'Lihat Keahlian',
     },
@@ -273,7 +272,7 @@ const translations: Record<Language, Record<string, any>> = {
           ecosystem_items: ['Dev server berbasis Vite', 'Vitest untuk unit testing', 'Alur kerja Rapid HMR', 'Optimasi Rollup/ESBuild'],
         },
         {
-          title: 'Backend API',
+          title: 'Frontend API',
           description: 'Fondasi Kokoh & Type-Safe',
           content_intro: 'Membangun API yang aman, terdokumentasi dengan baik, dan berperforma tinggi menggunakan framework Node.js dan TypeScript modern.',
           items: [
@@ -314,7 +313,7 @@ const translations: Record<Language, Record<string, any>> = {
       items: [
         {
           title: 'Future Systems Engineer',
-          description: 'Fokus pada pembangunan infrastruktur skala besar yang tangguh. Terus mengeksplorasi batas-batas optimasi backend dan desain sistem terdistribusi.',
+          description: 'Fokus pada pembangunan infrastruktur skala besar yang tangguh. Terus mengeksplorasi batas-batas optimasi Frontend dan desain sistem terdistribusi.',
         },
         {
           title: 'Open Source & Optimasi',
@@ -341,18 +340,17 @@ const translations: Record<Language, Record<string, any>> = {
     projects: {
       section_title: 'Kreasi',
       section_title_italic: 'Terpilih',
-      section_desc: 'Sekilas tentang sistem backend yang tangguh dan arsitektur API modern.',
+      section_desc: 'Sekilas tentang sistem Frontend yang tangguh dan arsitektur API modern.',
       featured_title: 'Proyek',
       featured_title_gradient: 'Unggulan',
-      featured_desc: 'Pameran sistem backend berperforma tinggi, arsitektur terdistribusi, dan solusi API yang kuat.',
+      featured_desc: 'Pameran sistem Frontend berperforma tinggi, arsitektur terdistribusi, dan solusi API yang kuat.',
       selected_work: 'Karya Pilihan',
       all_projects: 'Semua Proyek',
-      explore_archive: 'Jelajahi Semua Arsip',
       interested: 'Tertarik melihat lebih?',
       explore_link: 'Jelajahi arsip lengkap',
     },
     footer: {
-      desc: 'Merancang sistem backend berperforma tinggi dengan presisi, skalabilitas, dan desain sistem yang bersih.',
+      desc: 'Merancang sistem Frontend berperforma tinggi dengan presisi, skalabilitas, dan desain sistem yang bersih.',
       nav_title: 'Navigasi',
       channels_title: 'Saluran',
       rights: 'Hak cipta dilindungi.',
@@ -361,14 +359,14 @@ const translations: Record<Language, Record<string, any>> = {
     },
     footerCTA: {
       title: "Siap membangun sesuatu yang luar biasa?",
-      desc: "Saya sedang menerima proyek baru dan konsultasi. Mari bicara tentang tantangan backend Anda berikutnya.",
+      desc: "Saya sedang menerima proyek baru dan konsultasi. Mari bicara tentang tantangan Frontend Anda berikutnya.",
       primary_btn: 'Hire Me →',
       secondary_btn: 'Lihat Proyek',
     },
     about: {
       title: 'Sang Arsitek / Identitas',
       narrative: 'Halo! Saya Muhammad Danindra I. Pendekatan saya dalam rekayasa perangkat lunak didasarkan pada keyakinan bahwa arsitektur terkuat adalah yang tetap tidak terlihat.',
-      role: 'Backend Engineer',
+      role: 'Frontend Engineer',
       location: 'Surakarta, ID',
       profile_title: 'Profil Saya',
       stats: ['Tahun Pengalaman', 'Sistem Dibangun', 'Peningkatan Performa', 'Keandalan'],
@@ -393,14 +391,13 @@ const translations: Record<Language, Record<string, any>> = {
     contact: {
       title_line1: 'Ayo rancang',
       title_line2: 'masa depan.',
-      desc: 'Punya tantangan backend yang kompleks atau sistem skala besar dalam pikiran? Saya siap membantu Anda membangun fondasi yang tangguh.',
+      desc: 'Punya tantangan Frontend yang kompleks atau sistem skala besar dalam pikiran? Saya siap membantu Anda membangun fondasi yang tangguh.',
       availability_status: 'Status Sistem',
       availability_title: 'Tersedia untuk Proyek',
       availability_desc: 'Terbuka untuk proyek baru dan kolaborasi teknis. Siap merancang sistem yang tangguh.',
       timezone_label: 'Zona Waktu',
       response_label: 'Respons',
       terminal_nodes: 'Node Terminal',
-      form_name_label: 'Identifikasi',
       form_name_placeholder: 'Nama Anda',
       form_name_helper: '(Nama lengkap Anda)',
       form_email_label: 'Jalur Balik',
@@ -554,7 +551,6 @@ const translations: Record<Language, Record<string, any>> = {
       featured_desc: '高性能后端系统、分布式架构和强大 API 解决方案的展示。',
       selected_work: '精选作品',
       all_projects: '全部项目',
-      explore_archive: '探索完整存档',
       interested: '想了解更多？',
       explore_link: '探索完整存档',
     },

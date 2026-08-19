@@ -4,7 +4,7 @@ import AboutClient from './AboutClient';
 
 export const metadata: Metadata = {
   title: 'About',
-  description: 'Learn about my journey as a backend developer, my technical skills, and my approach to building scalable systems.',
+  description: 'Learn about my journey as a Frontend developer, my technical skills, and my approach to building scalable systems.',
 };
 
 const values = [
@@ -36,7 +36,7 @@ const values = [
   {
     icon: 'RefreshCw',
     title: 'Continuous Learning',
-    description: 'Technology evolves rapidly. I stay current with best practices, new tools, and emerging patterns in backend development.',
+    description: 'Technology evolves rapidly. I stay current with best practices, new tools, and emerging patterns in Frontend development.',
   },
 ];
 

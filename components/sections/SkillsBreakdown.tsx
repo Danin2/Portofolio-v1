@@ -10,8 +10,8 @@ interface Skill {
 }
 
 const skillsData: Skill[] = [
-  { name: 'Node.js', level: 90, category: 'Backend' },
-  { name: 'TypeScript', level: 85, category: 'Backend' },
+  { name: 'Node.js', level: 90, category: 'Frontend' },
+  { name: 'TypeScript', level: 85, category: 'Frontend' },
   { name: 'PostgreSQL', level: 80, category: 'Database' },
   { name: 'Redis', level: 70, category: 'Database' },
   { name: 'NestJS', level: 75, category: 'Frameworks' },
@@ -23,7 +23,7 @@ const skillsData: Skill[] = [
 const categories = Array.from(new Set(skillsData.map(s => s.category)));
 
 const SkillsBreakdown = () => {
-  const [activeCategory, setActiveCategory] = useState<string>('Backend');
+  const [activeCategory, setActiveCategory] = useState<string>('Frontend');
 
   const filtered = skillsData.filter(s => s.category === activeCategory);
 
@@ -86,7 +86,7 @@ const SkillsBreakdown = () => {
                         width: `${skill.level}%`,
                         transformOrigin: 'left'
                       }}
-                      className="absolute inset-y-0 left-0 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)]"
+                      className="absolute inset-y-0 left-0 bg-[var(--accent-primary)]"
                     />
                   </div>
                 </div>

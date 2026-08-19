@@ -17,7 +17,7 @@ export async function generateStaticParams() {
 // Generate metadata
 export async function generateMetadata({ params }: { params: { slug: string } }) {
   const post = getPostBySlug(params.slug);
-  
+
   if (!post) {
     return { title: 'Post Not Found' };
   }
@@ -88,11 +88,11 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
         <div className="max-w-4xl mx-auto">
           <div className="prose prose-invert prose-lg max-w-none">
             {/* Render Markdown-like content */}
-            <div 
+            <div
               className="blog-content"
-              dangerouslySetInnerHTML={{ 
-                __html: formatContent(post.content) 
-              }} 
+              dangerouslySetInnerHTML={{
+                __html: formatContent(post.content)
+              }}
             />
           </div>
         </div>
@@ -103,24 +103,24 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
         <Section className="bg-bg-secondary">
           <div className="max-w-6xl mx-auto">
             <h2 className="text-h2 font-bold mb-8">Related Articles</h2>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {relatedPosts.map((relatedPost) => (
                 <Card key={relatedPost.id} hover>
                   <Badge variant="success" className="mb-3">
                     {relatedPost.category}
                   </Badge>
-                  
+
                   <Link href={`/blog/${relatedPost.slug}`}>
                     <h3 className="text-h4 font-semibold mb-2 hover:text-accent-blue transition-custom">
                       {relatedPost.title}
                     </h3>
                   </Link>
-                  
+
                   <p className="text-body-sm text-text-secondary mb-4 leading-relaxed line-clamp-3">
                     {relatedPost.excerpt}
                   </p>
-                  
+
                   <div className="flex items-center justify-between text-xs text-text-muted">
                     <span>{relatedPost.readingTime} min read</span>
                     <span>
@@ -142,7 +142,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
         <div className="max-w-3xl mx-auto text-center space-y-6">
           <h2 className="text-h2 font-bold">Want to Learn More?</h2>
           <p className="text-body-lg text-text-secondary">
-            Check out more articles or get in touch to discuss backend development.
+            Check out more articles or get in touch to discuss Frontend development.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button variant="primary" size="lg" href="/blog">
@@ -180,7 +180,7 @@ function formatContent(content: string): string {
 
   // Convert bullet points
   html = html.replace(/^\- (.*$)/gim, '<li class="ml-6 mb-2">$1</li>');
-    html = html.replace(/(<li.*<\/li>)/s, '<ul class="list-disc my-4 space-y-2">$1</ul>');
+  html = html.replace(/(<li.*<\/li>)/s, '<ul class="list-disc my-4 space-y-2">$1</ul>');
 
   // Convert paragraphs
   html = html.replace(/^(?!<[h|u|p|l])(.*$)/gim, '<p class="mb-4 leading-relaxed text-text-secondary">$1</p>');

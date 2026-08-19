@@ -93,7 +93,7 @@ const orders = await db.query(
     `,
     category: 'Case Study',
     tags: ['PostgreSQL', 'Performance', 'Optimization', 'SQL'],
-    author: 'Backend Developer',
+    author: 'Frontend Developer',
     publishedAt: '2024-03-15',
     readingTime: 8,
     featured: true,
@@ -102,7 +102,7 @@ const orders = await db.query(
     id: '2',
     title: 'Understanding the N+1 Query Problem',
     slug: 'understanding-n-plus-one-query-problem',
-    excerpt: 'A deep dive into one of the most common performance issues in backend applications and how to fix it.',
+    excerpt: 'A deep dive into one of the most common performance issues in Frontend applications and how to fix it.',
     content: `
 # Understanding the N+1 Query Problem
 
@@ -211,7 +211,7 @@ Always be aware of how many database queries your code generates. Use database p
     `,
     category: 'Tutorial',
     tags: ['Performance', 'SQL', 'Best Practices', 'Node.js'],
-    author: 'Backend Developer',
+    author: 'Frontend Developer',
     publishedAt: '2024-03-10',
     readingTime: 6,
     featured: true,
@@ -395,7 +395,7 @@ Follow these principles and your API consumers will thank you! 🎉
     `,
     category: 'Best Practices',
     tags: ['REST API', 'Design', 'Best Practices', 'HTTP'],
-    author: 'Backend Developer',
+    author: 'Frontend Developer',
     publishedAt: '2024-03-05',
     readingTime: 10,
     featured: true,
@@ -404,7 +404,7 @@ Follow these principles and your API consumers will thank you! 🎉
     id: '4',
     title: '5 Essential Security Practices for APIs',
     slug: 'api-security-practices',
-    excerpt: 'Protect your APIs with these fundamental security measures every backend developer should implement.',
+    excerpt: 'Protect your APIs with these fundamental security measures every Frontend developer should implement.',
     content: `
 # 5 Essential Security Practices for APIs
 
@@ -540,7 +540,7 @@ Stay secure! 🔐
     `,
     category: 'Best Practices',
     tags: ['Security', 'API', 'JWT', 'Best Practices'],
-    author: 'Backend Developer',
+    author: 'Frontend Developer',
     publishedAt: '2024-02-28',
     readingTime: 7,
     featured: false,
@@ -703,7 +703,7 @@ Start simple with cache-aside, optimize later! 🚀
     `,
     category: 'Tutorial',
     tags: ['Redis', 'Caching', 'Performance', 'Node.js'],
-    author: 'Backend Developer',
+    author: 'Frontend Developer',
     publishedAt: '2024-02-20',
     readingTime: 9,
     featured: false,
@@ -729,10 +729,10 @@ export const getAllCategories = (): string[] => {
 
 export const getRelatedPosts = (currentPost: BlogPost, limit: number = 3): BlogPost[] => {
   return blogPosts
-    .filter(post => 
-      post.id !== currentPost.id && 
-      (post.category === currentPost.category || 
-       post.tags.some(tag => currentPost.tags.includes(tag)))
+    .filter(post =>
+      post.id !== currentPost.id &&
+      (post.category === currentPost.category ||
+        post.tags.some(tag => currentPost.tags.includes(tag)))
     )
     .slice(0, limit);
 };

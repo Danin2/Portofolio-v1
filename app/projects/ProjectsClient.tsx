@@ -4,7 +4,6 @@ import React, { useState, useEffect, useRef, useMemo, memo } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import Link from 'next/link';
 import { projects, TECH_META } from '@/lib/data/projects';
-import Tilt from "react-parallax-tilt";
 import { Project } from '@/types/project';
 import RevealText from '@/components/ui/RevealText';
 import { certificates } from '@/lib/data/certificates';
@@ -52,28 +51,28 @@ TechBadge.displayName = 'TechBadge';
 // Card header configs per project slug
 const CARD_HEADERS: Record<string, { gradient: string; accent: string; label: string }> = {
   'ecommerce-rest-api': {
-    gradient: 'linear-gradient(135deg, rgba(108,142,191,0.3) 0%, rgba(15,23,42,0.6) 100%)',
-    accent: '#6C8EBF',
+    gradient: 'var(--card-bg)',
+    accent: 'var(--accent-primary)',
     label: 'REST API',
   },
   'realtime-chat-app': {
-    gradient: 'linear-gradient(135deg, rgba(74,109,156,0.3) 0%, rgba(10,20,55,0.6) 100%)',
-    accent: '#4A6D9C',
+    gradient: 'var(--card-bg)',
+    accent: 'var(--accent-primary)',
     label: 'WebSocket',
   },
   'task-management-api': {
-    gradient: 'linear-gradient(135deg, rgba(51,65,85,0.3) 0%, rgba(5,35,25,0.6) 100%)',
-    accent: '#334155',
+    gradient: 'var(--card-bg)',
+    accent: 'var(--accent-primary)',
     label: 'REST API',
   },
   'microservices-blog': {
-    gradient: 'linear-gradient(135deg, rgba(148,163,184,0.3) 0%, rgba(25,10,45,0.6) 100%)',
-    accent: '#94A3B8',
+    gradient: 'var(--card-bg)',
+    accent: 'var(--accent-primary)',
     label: 'Microservices',
   },
   'database-migration-tool': {
-    gradient: 'linear-gradient(135deg, rgba(108,142,191,0.4) 0%, rgba(10,18,30,0.6) 100%)',
-    accent: '#6C8EBF',
+    gradient: 'var(--card-bg)',
+    accent: 'var(--accent-primary)',
     label: 'CLI Tool',
   },
 };
@@ -109,116 +108,109 @@ const ProjectCard = memo(({ project, isFeatured }: { project: Project; isFeature
   const header = CARD_HEADERS[project.slug] || CARD_HEADERS['ecommerce-rest-api'];
 
   return (
-    <Tilt
-      tiltMaxAngleX={8}
-      tiltMaxAngleY={8}
-      perspective={1000}
-      scale={1}
-      transitionSpeed={1000}
-      glareEnable={true}
-      glareMaxOpacity={0.1}
-      glareColor="white"
-      glarePosition="all"
-      glareBorderRadius="1.5rem"
-      className={isFeatured ? 'md:col-span-2' : ''}
+    <motion.div
+      layout
+      initial={{ opacity: 0, y: 24 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.95 }}
+      transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
+      whileHover={{ y: -4, boxShadow: '0 20px 60px -12px rgba(0,0,0,0.35)' }}
+      className={`group relative flex flex-col h-full rounded-3xl overflow-hidden border border-[var(--border-primary)] hover:border-[var(--accent-primary)]/40 bg-[var(--bg-secondary)] dark:bg-[var(--card-bg)] shadow-sm transition-all duration-500 ${isFeatured ? 'md:col-span-2 md:flex-row' : ''
+        }`}
+      style={{ transition: 'border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s cubic-bezier(0.23,1,0.32,1)' }}
     >
-      <motion.div
-        layout
-        initial={{ opacity: 0, y: 24 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.95 }}
-        transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
-        className={`group relative flex flex-col h-full rounded-3xl overflow-hidden border border-[rgba(255,255,255,0.1)] dark:bg-[rgba(255,255,255,0.05)] bg-[rgba(0,0,0,0.03)] backdrop-blur-[10px] transition-all duration-300 hover:border-[var(--accent-primary)]/40 hover:shadow-2xl ${isFeatured ? 'md:flex-row' : ''
-          }`}
+      {/* Shimmer top-line on hover */}
+      <div className="absolute top-0 left-0 w-full h-px bg-[var(--accent-primary)]/60 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20" />
+      {/* Subtle inner glow */}
+      <div className="absolute top-0 left-0 w-full h-24 bg-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-20 rounded-3xl" />
+
+      {/* ── Visual Card Header ──────────────────────────── */}
+      <div
+        className={`relative overflow-hidden flex items-center justify-center ${isFeatured ? 'md:w-2/5' : ''}`}
+        style={{
+          height: isFeatured ? '100%' : '160px',
+          minHeight: isFeatured ? '220px' : '160px',
+          background: header.gradient,
+        }}
       >
-        {/* ── Visual Card Header ──────────────────────────── */}
-        <div
-          className={`relative overflow-hidden flex items-center justify-center ${isFeatured ? 'md:w-2/5' : ''}`}
-          style={{
-            height: isFeatured ? '100%' : '160px',
-            minHeight: isFeatured ? '220px' : '160px',
-            background: header.gradient,
-          }}
-        >
-          {/* Accent top line */}
-          <div style={{
-            position: 'absolute', top: 0, left: 0, right: 0, height: '2px',
-            background: `linear-gradient(90deg, transparent, ${header.accent}, transparent)`,
-          }} />
+        {/* Accent top line */}
+        <div style={{
+          position: 'absolute', top: 0, left: 0, right: 0, height: '2px',
+          background: header.accent,
+        }} />
 
-          {/* Category label badge */}
-          <span style={{
-            position: 'absolute', top: '12px', right: '12px',
-            padding: '4px 10px', borderRadius: '9999px',
-            background: `rgba(255,255,255,0.08)`,
-            border: `1px solid ${header.accent}55`,
-            color: header.accent,
-            fontSize: '10px',
-            fontWeight: '700',
-            letterSpacing: '0.15em',
-            textTransform: 'uppercase',
-          }}>
-            {header.label}
+        {/* Category label badge */}
+        <span style={{
+          position: 'absolute', top: '12px', right: '12px',
+          padding: '4px 10px', borderRadius: '9999px',
+          background: `rgba(255,255,255,0.08)`,
+          border: `1px solid ${header.accent}55`,
+          color: header.accent,
+          fontSize: '10px',
+          fontWeight: '700',
+          letterSpacing: '0.15em',
+          textTransform: 'uppercase',
+        }}>
+          {header.label}
+        </span>
+
+        {/* Large category icon, decorative */}
+        <div style={{ opacity: 0.1, color: 'white' }} className="group-hover:opacity-[0.15] transition-opacity duration-500">
+          <ProjectHeaderIcon category={project.category} />
+        </div>
+
+        {/* Bottom overlay */}
+        <div style={{
+          position: 'absolute', bottom: 0, left: 0, right: 0, height: '40px',
+          background: 'transparent',
+        }} />
+      </div>
+
+      {/* ── Content Section ─────────────────────────────── */}
+      <div className={`flex-1 p-5 md:p-8 lg:p-10 flex flex-col ${isFeatured ? 'md:justify-center' : ''}`}>
+        <div className="flex items-center justify-between mb-4">
+          <span className="text-[0.6rem] font-bold uppercase tracking-[0.2em] text-[var(--text-muted)]">
+            {project.category}
           </span>
-
-          {/* Large category icon, decorative */}
-          <div style={{ opacity: 0.1, color: 'white' }} className="group-hover:opacity-[0.15] transition-opacity duration-500">
-            <ProjectHeaderIcon category={project.category} />
-          </div>
-
-          {/* Bottom glow */}
-          <div style={{
-            position: 'absolute', bottom: 0, left: 0, right: 0, height: '40px',
-            background: `linear-gradient(to top, ${header.accent}12, transparent)`,
-          }} />
+          <span className="text-[0.6rem] font-mono text-[var(--text-muted)]">
+            {project.completedAt?.split('-')[0] || '2024'}
+          </span>
         </div>
 
-        {/* ── Content Section ─────────────────────────────── */}
-        <div className={`flex-1 p-8 lg:p-10 flex flex-col ${isFeatured ? 'md:justify-center' : ''}`}>
-          <div className="flex items-center justify-between mb-4">
-            <span className="text-[0.6rem] font-bold uppercase tracking-[0.2em] text-[var(--text-muted)]">
-              {project.category}
-            </span>
-            <span className="text-[0.6rem] font-mono text-[var(--text-muted)]">
-              {project.completedAt?.split('-')[0] || '2024'}
-            </span>
-          </div>
+        <h2 className="text-xl lg:text-2xl font-bold text-[var(--text-primary)] mb-4 group-hover:text-[var(--accent-primary)] transition-colors duration-300">
+          {project.title}
+        </h2>
 
-          <h2 className="text-xl lg:text-2xl font-bold text-[var(--text-primary)] mb-4 group-hover:text-[var(--accent-primary)] transition-colors duration-300">
-            {project.title}
-          </h2>
+        <p className="text-sm lg:text-base text-[var(--text-secondary)] leading-relaxed mb-8 line-clamp-3 opacity-80 group-hover:opacity-100 transition-opacity">
+          {project.shortDescription}
+        </p>
 
-          <p className="text-sm lg:text-base text-[var(--text-secondary)] leading-relaxed mb-8 line-clamp-3 opacity-80 group-hover:opacity-100 transition-opacity">
-            {project.shortDescription}
-          </p>
-
-          <div className="mt-auto space-y-6">
-            <div className="flex flex-wrap gap-1.5">
-              {project.techStack.slice(0, isFeatured ? 6 : 4).map(tech => (
-                <TechBadge key={tech} tech={tech} />
-              ))}
-              {project.techStack.length > (isFeatured ? 6 : 4) && (
-                <span className="text-[0.65rem] text-[var(--text-muted)] flex items-center px-1">
-                  +{project.techStack.length - (isFeatured ? 6 : 4)}
-                </span>
-              )}
-            </div>
-
-            <Link
-              href={`/projects/${project.slug}`}
-              className="inline-flex items-center gap-2 text-[0.7rem] font-bold uppercase tracking-widest text-[var(--text-primary)] group/link"
-            >
-              Explore System
-              <span className="w-5 h-5 rounded-full bg-[var(--bg-tertiary)] flex items-center justify-center group-hover/link:bg-[var(--accent-primary)] group-hover/link:text-white transition-all duration-300">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M5 12h14m-7-7 7 7-7 7" />
-                </svg>
+        <div className="mt-auto space-y-6">
+          <div className="flex flex-wrap gap-1.5">
+            {project.techStack.slice(0, isFeatured ? 6 : 4).map(tech => (
+              <TechBadge key={tech} tech={tech} />
+            ))}
+            {project.techStack.length > (isFeatured ? 6 : 4) && (
+              <span className="text-[0.65rem] text-[var(--text-muted)] flex items-center px-1">
+                +{project.techStack.length - (isFeatured ? 6 : 4)}
               </span>
-            </Link>
+            )}
           </div>
+
+          <Link
+            href={`/projects/${project.slug}`}
+            className="inline-flex items-center gap-2 text-[0.7rem] font-bold uppercase tracking-widest text-[var(--text-primary)] group/link"
+          >
+            Explore System
+            <span className="w-5 h-5 rounded-full bg-[var(--bg-tertiary)] flex items-center justify-center group-hover/link:bg-[var(--accent-primary)] group-hover/link:text-white transition-all duration-300">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 12h14m-7-7 7 7-7 7" />
+              </svg>
+            </span>
+          </Link>
         </div>
-      </motion.div>
-    </Tilt>
+      </div>
+    </motion.div>
   );
 });
 ProjectCard.displayName = 'ProjectCard';
@@ -255,7 +247,7 @@ export default function ProjectsClient({ projects, categories, totalTechs }: Pro
     <div ref={containerRef} className="min-h-screen bg-[var(--bg-primary)] selection:bg-[var(--accent-primary)] selection:text-white pb-32">
 
       {/* ── HERO SECTION ───────────────────────────────────── */}
-      <section className="relative pt-32 pb-20 overflow-hidden">
+      <section className="relative pt-24 md:pt-32 pb-10 md:pb-24 overflow-hidden">
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <div className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] rounded-full bg-[var(--accent-primary)]/5 blur-[120px]" />
           <div className="absolute top-[20%] -right-[10%] w-[30%] h-[30%] rounded-full bg-[var(--accent-secondary)]/5 blur-[100px]" />
@@ -264,140 +256,52 @@ export default function ProjectsClient({ projects, categories, totalTechs }: Pro
         <div className="container-custom relative z-10">
           <motion.div style={{ opacity: headerOpacity, y: headerY }}>
 
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tight text-[var(--text-primary)] mb-8 leading-[0.9]">
+            <h1 className="text-4xl md:text-7xl lg:text-8xl font-black tracking-tight text-[var(--text-primary)] mb-4 md:mb-6 leading-[0.9]">
               Selected <span className="text-[var(--text-muted)] font-light italic">Projects</span>
             </h1>
 
             <div className="max-w-2xl">
               <p className="text-lg md:text-xl text-[var(--text-secondary)] leading-relaxed opacity-80">
-                A showcase of architecting scalable backend solutions, distributed systems, and modern API infrastructures with clinical precision.
+                A showcase of architecting scalable Frontend solutions, distributed systems, and modern API infrastructures with clinical precision.
               </p>
             </div>
           </motion.div>
-
-          {/* System Dashboard Section */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mt-24 mb-12">
-            <div className="lg:col-span-8">
-              <div className="relative group p-8 rounded-[2rem] bg-[var(--bg-secondary)]/50 border border-[var(--border-primary)] overflow-hidden">
-                <div className="absolute top-0 left-0 w-1 h-full bg-[var(--accent-primary)] opacity-50" />
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="flex gap-1.5">
-                    <div className="w-2.5 h-2.5 rounded-full bg-red-500/20 border border-red-500/40" />
-                    <div className="w-2.5 h-2.5 rounded-full bg-amber-500/20 border border-amber-500/40" />
-                    <div className="w-2.5 h-2.5 rounded-full bg-green-500/20 border border-green-500/40" />
-                  </div>
-                  <span className="text-[0.6rem] font-mono font-bold text-[var(--accent-primary)] uppercase tracking-[0.2em]">System_Logs :: Technical_Dossier</span>
-                </div>
-                <div className="space-y-4 font-mono text-[0.65rem] md:text-[0.75rem] leading-relaxed text-[var(--text-secondary)]">
-                  <div className="flex gap-4 group/line">
-                    <span className="text-[var(--text-muted)] opacity-50">01</span>
-                    <p><span className="text-[var(--accent-primary)] font-bold">INIT:</span> System architect profile successfully loaded for <span className="text-[var(--text-primary)]">Muhammad Danindra</span>.</p>
-                  </div>
-                  <div className="flex gap-4 group/line">
-                    <span className="text-[var(--text-muted)] opacity-50">02</span>
-                    <p><span className="text-[var(--accent-primary)] font-bold">INFO:</span> Displaying <span className="text-[var(--text-primary)] font-bold">{projects.length} mission-critical</span> backend systems and microservices.</p>
-                  </div>
-                  <div className="flex gap-4 group/line">
-                    <span className="text-[var(--text-muted)] opacity-50">03</span>
-                    <p><span className="text-[var(--accent-primary)] font-bold">SCAN:</span> Core stack verified: <span className="text-[var(--text-primary)]">Node.js, TypeScript, PostgreSQL, Distributed Systems</span>.</p>
-                  </div>
-                  <div className="flex gap-4 group/line">
-                    <span className="text-[var(--text-muted)] opacity-50">04</span>
-                    <p><span className="text-green-500 font-bold">READY:</span> Navigation protocols active. Use filters to sort by system architecture.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="lg:col-span-4 grid grid-cols-2 gap-4">
-              {[
-                {
-                  label: 'Latency', value: '14ms',
-                  icon: (
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
-                    </svg>
-                  ),
-                },
-                {
-                  label: 'Uptime', value: '99.9%',
-                  icon: (
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-                      <polyline points="22 4 12 14.01 9 11.01"/>
-                    </svg>
-                  ),
-                },
-                {
-                  label: 'Builds', value: '842',
-                  icon: (
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                      <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
-                    </svg>
-                  ),
-                },
-                {
-                  label: 'Nodes', value: '12',
-                  icon: (
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                      <circle cx="12" cy="12" r="10"/>
-                      <line x1="2" y1="12" x2="22" y2="12"/>
-                      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-                    </svg>
-                  ),
-                },
-              ].map((stat) => (
-                <div key={stat.label} className="p-6 rounded-2xl bg-[var(--bg-tertiary)]/30 border border-[var(--border-primary)] hover:border-[var(--accent-primary)]/30 transition-all group">
-                  <span className="text-[var(--accent-primary)] mb-2 block group-hover:scale-110 transition-transform">{stat.icon}</span>
-                  <div className="text-lg font-black text-[var(--text-primary)]">{stat.value}</div>
-                  <div className="text-xs font-bold uppercase tracking-widest text-[var(--text-secondary)]">{stat.label}</div>
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
       </section>
 
       {/* ── NAVIGATION & FILTERS ────────────────────────────── */}
-      <div className="sticky top-0 z-50 bg-[var(--bg-primary)]/80 backdrop-blur-xl border-y border-[var(--border-primary)]">
-        <div className="container-custom py-4 flex flex-col md:flex-row md:items-center justify-between gap-6">
-          {/* Main Tabs */}
-          <div className="flex items-center p-1 bg-[var(--bg-tertiary)]/50 rounded-xl w-fit border border-[var(--border-primary)]">
+      <div className="bg-[var(--bg-primary)] border-b border-[var(--border-primary)]">
+        <div className="container-custom">
+          {/* Main Tabs — full-width underline style */}
+          <div className="flex border-b border-[var(--border-primary)] -mb-px">
             {TABS.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`relative px-6 py-2 text-[0.7rem] font-bold uppercase tracking-wider transition-colors duration-300 ${activeTab === tab.id ? 'text-white' : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'
-                  }`}
+                className={`relative flex-1 py-3 md:py-4 text-[0.65rem] md:text-[0.7rem] font-bold uppercase tracking-wider whitespace-nowrap transition-colors duration-200 ${
+                  activeTab === tab.id
+                    ? 'text-[var(--text-primary)] border-b-2 border-[var(--text-primary)]'
+                    : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'
+                }`}
               >
-                <span className="relative z-10 flex items-center gap-2">
-                  {tab.label}
-                  <span className={`text-[0.6rem] opacity-50 ${activeTab === tab.id ? 'text-white/80' : ''}`}>
-                    {tab.count}
-                  </span>
-                </span>
-                {activeTab === tab.id && (
-                  <motion.div
-                    layoutId="activeTab"
-                    className="absolute inset-0 bg-[var(--accent-primary)] rounded-lg shadow-lg shadow-[var(--accent-primary)]/20"
-                    transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
-                  />
-                )}
+                {tab.label}
+                <span className="ml-1.5 text-[0.6rem] opacity-60">{tab.count}</span>
               </button>
             ))}
           </div>
 
           {/* Contextual Filters */}
           {activeTab === 'projects' && (
-            <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1 md:pb-0">
+            <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-3">
               {['All', ...categories].map((cat) => (
                 <button
                   key={cat}
                   onClick={() => setSelectedCategory(cat)}
-                  className={`whitespace-nowrap px-4 py-1.5 rounded-full text-[0.65rem] font-bold transition-all duration-300 border ${selectedCategory === cat
-                    ? 'bg-[var(--text-primary)] text-[var(--bg-primary)] border-[var(--text-primary)]'
-                    : 'border-[var(--border-primary)] text-[var(--text-muted)] hover:border-[var(--text-primary)] hover:text-[var(--text-primary)]'
-                    }`}
+                  className={`whitespace-nowrap px-3 py-1 rounded-full text-[0.65rem] font-bold transition-all duration-200 border ${
+                    selectedCategory === cat
+                      ? 'bg-[var(--text-primary)] text-[var(--bg-primary)] border-[var(--text-primary)]'
+                      : 'border-[var(--border-primary)] text-[var(--text-muted)] hover:border-[var(--text-primary)] hover:text-[var(--text-primary)]'
+                  }`}
                 >
                   {cat}
                 </button>
@@ -408,7 +312,7 @@ export default function ProjectsClient({ projects, categories, totalTechs }: Pro
       </div>
 
       {/* ── CONTENT GRID ───────────────────────────────────── */}
-      <section className="mt-16 container-custom">
+      <section className="mt-8 md:mt-16 container-custom">
         <AnimatePresence mode="wait">
           {activeTab === 'projects' && (
             <motion.div
@@ -419,13 +323,32 @@ export default function ProjectsClient({ projects, categories, totalTechs }: Pro
               transition={{ duration: 0.4 }}
               className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12"
             >
-              {filteredProjects.map((project) => (
-                <ProjectCard
-                  key={project.id}
-                  project={project}
-                  isFeatured={project.featured && selectedCategory === 'All'}
-                />
-              ))}
+              {filteredProjects.length === 0 ? (
+                <div className="col-span-full py-16 text-center border border-dashed border-[var(--border-primary)] rounded-3xl p-8 bg-[var(--bg-secondary)]/30">
+                  <div className="w-12 h-12 rounded-full bg-[var(--bg-tertiary)] flex items-center justify-center mx-auto mb-4 text-[var(--text-muted)]">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="11" cy="11" r="8" />
+                      <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                    </svg>
+                  </div>
+                  <p className="text-[var(--text-primary)] font-bold text-base mb-1">No matching projects found</p>
+                  <p className="text-[var(--text-muted)] text-xs mb-6">No systems match your category "{selectedCategory}"</p>
+                  <button
+                    onClick={() => setSelectedCategory('All')}
+                    className="px-6 py-2.5 rounded-full bg-[var(--accent-primary)] text-white text-xs font-bold uppercase tracking-wider hover:opacity-90 transition-opacity"
+                  >
+                    Reset Filter
+                  </button>
+                </div>
+              ) : (
+                filteredProjects.map((project) => (
+                  <ProjectCard
+                    key={project.id}
+                    project={project}
+                    isFeatured={project.featured && selectedCategory === 'All'}
+                  />
+                ))
+              )}
             </motion.div>
           )}
 
@@ -444,51 +367,46 @@ export default function ProjectsClient({ projects, categories, totalTechs }: Pro
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: idx * 0.05 }}
-                  className="h-full"
+                  whileHover={{ y: -4, boxShadow: '0 20px 60px -12px rgba(0,0,0,0.35)' }}
+                  className="h-full rounded-3xl"
                 >
-                  <Tilt
-                    tiltMaxAngleX={12}
-                    tiltMaxAngleY={12}
-                    perspective={1000}
-                    scale={1}
-                    transitionSpeed={1000}
-                    glareEnable={true}
-                    glareMaxOpacity={0.1}
-                    glareColor="white"
-                    glarePosition="all"
-                    glareBorderRadius="1.5rem"
-                    className="h-full"
+                  <div
+                    className="group h-full bg-[var(--bg-secondary)] dark:bg-[var(--card-bg)] backdrop-blur-[10px] rounded-3xl p-8 border border-[var(--border-primary)] hover:border-[var(--accent-primary)]/40 transition-all duration-500 shadow-sm relative overflow-hidden flex flex-col"
+                    style={{ transition: 'border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s cubic-bezier(0.23,1,0.32,1)' }}
                   >
-                    <div className="group h-full bg-[rgba(255,255,255,0.03)] dark:bg-[rgba(255,255,255,0.05)] backdrop-blur-[10px] rounded-3xl p-8 border border-[rgba(255,255,255,0.1)] hover:border-[var(--accent-primary)]/40 transition-all duration-300 shadow-sm hover:shadow-2xl flex flex-col">
-                      <div className="flex items-center justify-between mb-6">
-                        <span className="text-[0.6rem] font-mono text-[var(--text-muted)] uppercase tracking-widest">{cert.date}</span>
-                      </div>
-                      <h4 className="text-lg font-bold text-[var(--text-primary)] mb-2 group-hover:text-[var(--accent-primary)] transition-colors">{cert.title}</h4>
-                      <p className="text-[0.7rem] font-bold uppercase tracking-widest text-[var(--accent-primary)] mb-6 opacity-80">{cert.issuer}</p>
+                    {/* Shimmer top-line on hover */}
+                    <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[var(--accent-primary)]/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20" />
+                    {/* Subtle inner glow */}
+                    <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-[var(--accent-primary)]/4 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-20 rounded-3xl" />
 
-                      <div className="flex flex-wrap gap-2 mb-8">
-                        {cert.tags.map(tag => (
-                          <span key={tag} className="px-2 py-0.5 rounded bg-[var(--bg-tertiary)] text-[var(--text-muted)] text-[0.55rem] font-bold uppercase tracking-tighter">
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-
-                      {cert.credentialUrl && (
-                        <div className="mt-auto">
-                          <a
-                            href={cert.credentialUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-[0.65rem] font-black uppercase tracking-widest text-[var(--text-primary)] inline-flex items-center gap-2 group/link"
-                          >
-                            Verify Link
-                            <span className="group-hover/link:translate-x-1 transition-transform">→</span>
-                          </a>
-                        </div>
-                      )}
+                    <div className="flex items-center justify-between mb-6 relative z-10">
+                      <span className="text-[0.6rem] font-mono text-[var(--text-muted)] uppercase tracking-widest">{cert.date}</span>
                     </div>
-                  </Tilt>
+                    <h4 className="text-lg font-bold text-[var(--text-primary)] mb-2 group-hover:text-[var(--accent-primary)] transition-colors relative z-10">{cert.title}</h4>
+                    <p className="text-[0.7rem] font-bold uppercase tracking-widest text-[var(--accent-primary)] mb-6 opacity-80 relative z-10">{cert.issuer}</p>
+
+                    <div className="flex flex-wrap gap-2 mb-8 relative z-10">
+                      {cert.tags.map(tag => (
+                        <span key={tag} className="px-2 py-0.5 rounded bg-[var(--bg-tertiary)] text-[var(--text-muted)] text-[0.55rem] font-bold uppercase tracking-tighter">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+
+                    {cert.credentialUrl && (
+                      <div className="mt-auto relative z-10">
+                        <a
+                          href={cert.credentialUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[0.65rem] font-black uppercase tracking-widest text-[var(--text-primary)] inline-flex items-center gap-2 group/link"
+                        >
+                          Verify Link
+                          <span className="group-hover/link:translate-x-1 transition-transform">→</span>
+                        </a>
+                      </div>
+                    )}
+                  </div>
                 </motion.div>
               ))}
             </motion.div>

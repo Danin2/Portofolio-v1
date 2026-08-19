@@ -5,9 +5,6 @@ const TechMarquee = dynamic(() => import('@/components/sections/TechMarquee'), {
   loading: () => <div className="h-20 bg-[var(--section-bg-alt)] animate-pulse" />
 });
 
-const Stats = dynamic(() => import('@/components/sections/Stats'), {
-  loading: () => <div className="h-40 bg-[var(--section-bg)] animate-pulse" />
-});
 
 const FeaturedSkills = dynamic(() => import('@/components/sections/FeaturedSkills'), {
   loading: () => <div className="h-96 bg-[var(--section-bg)] animate-pulse" />
@@ -26,8 +23,8 @@ export default function Home() {
     '@context': 'https://schema.org',
     '@type': 'Person',
     name: 'Muhammad Danindra I',
-    jobTitle: 'Backend Systems Engineer',
-    description: 'Professional backend developer specializing in Node.js, TypeScript, and scalable system architecture',
+    jobTitle: 'Frontend Systems Engineer',
+    description: 'Professional Frontend developer specializing in Node.js, TypeScript, and scalable system architecture',
     url: 'https://danindra.dev',
     sameAs: [
       'https://github.com/danindra',
@@ -48,9 +45,6 @@ export default function Home() {
 
       {/* 2. Marquee — scrolling tech logos strip */}
       <TechMarquee />
-
-      {/* Stats Section */}
-      <Stats />
 
       {/* 3. Skills — core expertise grid */}
       <FeaturedSkills />

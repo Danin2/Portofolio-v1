@@ -26,7 +26,7 @@ const CATEGORIES = [
   { id: 'all', label: 'All Units', icon: <Terminal className="w-3.5 h-3.5" />, color: '#94a3b8', accent: 'slate' },
   { id: 'languages', label: 'Languages', icon: <Cpu className="w-3.5 h-3.5" />, color: '#A855F7', accent: 'purple' },
   { id: 'frontend', label: 'Frontend', icon: <Layout className="w-3.5 h-3.5" />, color: '#3B82F6', accent: 'blue' },
-  { id: 'backend', label: 'Backend', icon: <Server className="w-3.5 h-3.5" />, color: '#FF7F50', accent: 'coral' },
+  { id: 'Frontend', label: 'Frontend', icon: <Server className="w-3.5 h-3.5" />, color: '#FF7F50', accent: 'coral' },
   { id: 'database', label: 'Database', icon: <Database className="w-3.5 h-3.5" />, color: '#EAB308', accent: 'yellow' },
   { id: 'devops', label: 'DevOps', icon: <Settings className="w-3.5 h-3.5" />, color: '#14B8A6', accent: 'teal' },
   { id: 'tools', label: 'Tools', icon: <Wrench className="w-3.5 h-3.5" />, color: '#22C55E', accent: 'green' },
@@ -54,10 +54,10 @@ const INITIAL_KEYS: TechKey[] = [
   { id: 'tw', name: 'Tailwind', category: 'frontend', icon: 'TW' },
   { id: 'vue', name: 'Vue.js', category: 'frontend', icon: 'VU' },
 
-  { id: 'nest', name: 'NestJS', category: 'backend', icon: 'NS' },
-  { id: 'ex', name: 'Express', category: 'backend', icon: 'EX' },
-  { id: 'gql', name: 'GraphQL', category: 'backend', icon: 'GQ' },
-  { id: 'io', name: 'Socket.io', category: 'backend', icon: 'SI' },
+  { id: 'nest', name: 'NestJS', category: 'Frontend', icon: 'NS' },
+  { id: 'ex', name: 'Express', category: 'Frontend', icon: 'EX' },
+  { id: 'gql', name: 'GraphQL', category: 'Frontend', icon: 'GQ' },
+  { id: 'io', name: 'Socket.io', category: 'Frontend', icon: 'SI' },
 
   { id: 'pg', name: 'PostgreSQL', category: 'database', icon: 'PG' },
   { id: 'mg', name: 'MongoDB', category: 'database', icon: 'MG' },
@@ -161,7 +161,7 @@ const Key3D = ({
           />
 
           {/* Subtle Surface Texture */}
-          <div className="absolute inset-0 opacity-[0.03] pointer-events-none rounded-lg bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]" />
+          <div className="absolute inset-0 opacity-[0.03] pointer-events-none rounded-lg" style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='2' height='2' fill='%23fff'/%3E%3Crect x='2' y='2' width='2' height='2' fill='%23fff'/%3E%3C/svg%3E\")", backgroundSize: '4px 4px' }} />
         </div>
       </div>
     </div>
@@ -257,7 +257,7 @@ export default function KeyboardTechStack() {
       {/* MacBook Pro Frame */}
       <div className="relative mx-auto w-full group">
         {/* The "Lid" / Screen Frame */}
-        <div className="relative p-1 bg-gradient-to-b from-[#3a3a3a] to-[#1a1a1a] rounded-[2rem] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)] border border-white/5">
+        <div className="relative p-1 bg-[#222222] rounded-[2rem] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)] border border-white/5">
 
           {/* Inner Black Bezel */}
           <div className="relative p-2 md:p-4 bg-[#0a0a0a] rounded-[1.8rem] overflow-hidden">
@@ -386,7 +386,7 @@ export default function KeyboardTechStack() {
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
               className="relative w-full max-w-lg bg-[var(--card-bg)] border border-[var(--border-primary)] rounded-[2.5rem] p-10 shadow-2xl overflow-hidden"
             >
-              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[var(--accent-primary)] to-transparent opacity-50" />
+              <div className="absolute top-0 left-0 w-full h-1 bg-[var(--accent-primary)]/50" />
 
               <div className="flex items-center justify-between mb-10">
                 <h3 className="text-2xl font-black text-[var(--text-primary)] flex items-center gap-4">

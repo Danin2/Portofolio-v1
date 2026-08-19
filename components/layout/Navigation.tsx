@@ -58,17 +58,18 @@ const Navigation = () => {
   ];
   // Manual scroll-driven values — framer-motion's useScroll/useTransform
   // don't work under Lenis because Lenis doesn't fire native scroll events.
-  const [scrollPos, setScrollPos] = useState(0);
-
-  // Interpolate navHeight and navPadding from scrollPos (0..100 range)
-  const clampedT = Math.min(scrollPos / 100, 1);
-  const navHeightVal = 90 - clampedT * 20; // 90 → 70
-  const navPaddingVal = 2 - clampedT * 0.75; // 2rem → 1.25rem
-
   useEffect(() => {
+    let ticking = false;
+
     const handleScroll = (pos: number) => {
-      setScrollPos(pos);
-      setIsScrolled(pos > 20);
+      if (ticking) return;
+      ticking = true;
+
+      requestAnimationFrame(() => {
+        const nextScrolled = pos > 20;
+        setIsScrolled(prev => (prev !== nextScrolled ? nextScrolled : prev));
+        ticking = false;
+      });
     };
 
     const onNativeScroll = () => handleScroll(window.scrollY);
@@ -110,9 +111,9 @@ const Navigation = () => {
     <>
       <motion.nav
         style={{
-          height: navHeightVal,
-          paddingTop: `${navPaddingVal}rem`,
-          paddingBottom: `${navPaddingVal}rem`,
+          height: isScrolled ? 70 : 90,
+          paddingTop: isScrolled ? '1.25rem' : '2rem',
+          paddingBottom: isScrolled ? '1.25rem' : '2rem',
           transition: 'height 0.3s ease, padding 0.3s ease',
         }}
         className="fixed top-0 left-0 right-0 z-50 flex items-center justify-center pointer-events-none"
@@ -120,13 +121,13 @@ const Navigation = () => {
         <div className={`
           relative transition-all duration-700 ease-[0.23,1,0.32,1] pointer-events-auto
           ${isScrolled
-            ? 'w-[92%] md:w-[85%] max-w-[1200px] h-14 bg-[var(--bg-primary)]/85 backdrop-blur-xl border border-[var(--border-primary)] rounded-full px-8 flex items-center justify-between shadow-[0_12px_40px_rgba(0,0,0,0.15)]'
+            ? 'w-[92%] md:w-[85%] max-w-[1200px] h-14 bg-[var(--bg-primary)]/95 md:bg-[var(--bg-primary)]/85 md:backdrop-blur-xl border border-[var(--border-primary)] rounded-full px-8 flex items-center justify-between shadow-[0_12px_40px_rgba(0,0,0,0.15)]'
             : 'container-custom flex items-center justify-between h-full pt-4 bg-transparent'
           }
         `}>
           {/* Subtle Inner Glow */}
           {isScrolled && (
-            <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/[0.08] to-transparent pointer-events-none" />
+            <div className="absolute inset-0 rounded-full bg-transparent pointer-events-none" />
           )}
 
           {/* ── Logo Area ───────────────────────────────── */}
@@ -135,9 +136,9 @@ const Navigation = () => {
               <motion.div
                 whileHover={{ rotate: 180, scale: 1.1 }}
                 transition={{ type: 'spring', stiffness: 200, damping: 10 }}
-                className="w-8 h-8 rounded-lg bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] flex items-center justify-center shadow-md shrink-0"
+                className="w-8 h-8 rounded-lg bg-[var(--accent-primary)] flex items-center justify-center shadow-md shrink-0"
               >
-                <span className="text-white font-black text-[10px] font-mono">MD</span>
+                <span className="text-[var(--bg-primary)] font-black text-[10px] font-mono">MD</span>
               </motion.div>
               <span className="font-bold text-base font-mono tracking-tighter text-[var(--text-primary)] hidden sm:block">
                 Mas<span className="text-[var(--accent-primary)]">Dani</span>
@@ -167,7 +168,7 @@ const Navigation = () => {
                             animate={{ opacity: 1, scale: 1 }}
                             exit={{ opacity: 0, scale: 0.9 }}
                             transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
-                            className="absolute inset-0 bg-white/10 dark:bg-white/5 rounded-full border border-white/10 dark:border-white/5 -z-10 shadow-sm"
+                            className="absolute inset-0 bg-[var(--text-primary)]/10 rounded-full border border-[var(--border-primary)] -z-10 shadow-sm"
                           />
                         )}
                       </AnimatePresence>
@@ -196,7 +197,7 @@ const Navigation = () => {
 
           <Link
             href="/contact"
-            className={`hidden sm:flex items-center group bg-[var(--text-primary)] text-[var(--bg-primary)] px-5 py-2 rounded-full text-[0.6rem] font-black uppercase tracking-widest hover:bg-[var(--accent-primary)] hover:text-white transition-all shadow-md ${isScrolled ? 'px-4 py-1.5' : ''}`}
+            className={`hidden sm:flex items-center group bg-[var(--text-primary)] text-[var(--bg-primary)] px-5 py-2 rounded-full text-[0.6rem] font-black uppercase tracking-widest hover:opacity-90 transition-all shadow-md ${isScrolled ? 'px-4 py-1.5' : ''}`}
           >
             {t('nav.build')}
           </Link>
@@ -222,10 +223,10 @@ const Navigation = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[45] bg-[var(--bg-primary)]/98 backdrop-blur-3xl flex flex-col px-8 py-6 pt-24 justify-start overflow-y-auto"
+            className="fixed inset-0 z-[45] bg-[var(--bg-primary)] flex flex-col px-8 py-6 pt-24 justify-start overflow-y-auto"
           >
             {/* Background Grid */}
-            <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{ backgroundImage: 'radial-gradient(var(--text-primary) 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+            <div className="absolute inset-0 opacity-[0.02] pointer-events-none bg-[var(--border-primary)]" />
 
             <div className="relative z-10 space-y-6">
               {navItems.map((item, idx) => (

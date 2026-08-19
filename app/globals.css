@@ -181,95 +181,102 @@
 
 /* ─── Base CSS Variables ─────────────────────────────────── */
 :root {
-  /* Default: Light Mode - Premium Slate System */
-  --bg-primary: #FFFFFF;
-  --bg-secondary: #F8FAFC;
-  --bg-tertiary: #F1F5F9;
+  /* Default: Light Mode — Soft Charcoal Text on Ivory Cream */
+  --bg-primary: #FAF8F5;
+  --bg-secondary: #F0EDE6;
+  --bg-tertiary: #E4E0D5;
 
-  /* Text */
-  --text-primary: #0F172A;
-  --text-secondary: #334155;
-  --text-muted: #556070;
+  /* Text — Soft Dark Charcoal for Readable Contrast */
+  --text-primary: #1C1C1E;
+  --text-secondary: #48484A;
+  --text-muted: #636366;
 
-  /* Accents — Slate Blue primary, Deep Slate secondary */
-  --accent-primary: #6C8EBF;
-  --accent-primary-rgb: 108, 142, 191;
-  --accent-secondary: #475569;
-  --accent-secondary-rgb: 71, 85, 105;
+  /* Accents */
+  --accent-primary: #1C1C1E;
+  --accent-primary-rgb: 28, 28, 30;
+  --accent-secondary: #2C2C2E;
+  --accent-secondary-rgb: 44, 44, 46;
   
-  /* Compat Aliases for older components */
-  --accent-purple: #6C8EBF;
-  --accent-purple-rgb: 108, 142, 191;
-  --accent-teal: #6C8EBF;
-  --accent-teal-rgb: 108, 142, 191;
-  --accent-violet: #475569;
-  --accent-violet-rgb: 71, 85, 105;
+  /* Compat Aliases */
+  --accent-purple: #1C1C1E;
+  --accent-purple-rgb: 28, 28, 30;
+  --accent-teal: #1C1C1E;
+  --accent-teal-rgb: 28, 28, 30;
+  --accent-violet: #2C2C2E;
+  --accent-violet-rgb: 44, 44, 46;
+
+  /* CTA Button */
+  --btn-cta-bg: #1C1C1E;
+  --btn-cta-text: #FAF8F5;
 
   /* Borders & Overlays */
-  --border-primary: rgba(15, 23, 42, 0.08);
-  --border-secondary: rgba(15, 23, 42, 0.04);
-  --glass-bg: rgba(255, 255, 255, 0.7);
-  --card-bg: #FFFFFF;
-  --gradient-text-start: #6C8EBF;
-  --gradient-text-mid: #4A6D9C;
-  --gradient-text-end: #334155;
+  --border-primary: #DCD7CC;
+  --border-secondary: rgba(28, 28, 30, 0.08);
+  --glass-bg: rgba(250, 248, 245, 0.88);
+  --card-bg: #F0EDE6;
+  --gradient-text-start: #1C1C1E;
+  --gradient-text-mid: #1C1C1E;
+  --gradient-text-end: #48484A;
 
   /* Section Backgrounds */
-  --section-bg: #FFFFFF;
-  --section-bg-alt: #F8FAFC;
+  --section-bg: #FAF8F5;
+  --section-bg-alt: #F0EDE6;
 
   /* Spotlight */
-  --spotlight-opacity: 0.12;
-  --spotlight-blur: 100px;
-  --spotlight-color: #6C8EBF;
+  --spotlight-opacity: 0;
+  --spotlight-blur: 0px;
+  --spotlight-color: transparent;
 }
 
 .dark,
 [data-theme='dark'] {
-  /* Dark Mode Overrides - Refined Dark Professional */
-  --bg-primary: #020204;
-  --bg-secondary: #070709;
-  --bg-tertiary: #0D0D10;
+  /* Dark Mode — Charcoal Black-Gray & Balanced Contrast Hierarchy */
+  --bg-primary: #121214;
+  --bg-secondary: #1C1C20;
+  --bg-tertiary: #28282E;
 
   color-scheme: dark;
 
-  /* Text */
-  --text-primary: #F8FAFC;
-  --text-secondary: #B0C0D4;
-  --text-muted: #7A8FA6;
+  /* Text — Off-White Headers & Soft Gray Body */
+  --text-primary: #F4F4F6;
+  --text-secondary: #A1A1AA;
+  --text-muted: #71717A;
 
-  /* Accents — Slate Blue primary */
-  --accent-primary: #8BA9D6;
-  --accent-primary-rgb: 139, 169, 214;
-  --accent-secondary: #64748B;
-  --accent-secondary-rgb: 100, 116, 139;
+  /* Accents */
+  --accent-primary: #E4E4E7;
+  --accent-primary-rgb: 228, 228, 231;
+  --accent-secondary: #A1A1AA;
+  --accent-secondary-rgb: 161, 161, 170;
 
   /* Compat Aliases */
-  --accent-purple: #8BA9D6;
-  --accent-purple-rgb: 139, 169, 214;
-  --accent-teal: #8BA9D6;
-  --accent-teal-rgb: 139, 169, 214;
-  --accent-violet: #64748B;
-  --accent-violet-rgb: 100, 116, 139;
+  --accent-purple: #E4E4E7;
+  --accent-purple-rgb: 228, 228, 231;
+  --accent-teal: #E4E4E7;
+  --accent-teal-rgb: 228, 228, 231;
+  --accent-violet: #A1A1AA;
+  --accent-violet-rgb: 161, 161, 170;
+
+  /* CTA Button */
+  --btn-cta-bg: #F4F4F6;
+  --btn-cta-text: #121214;
 
   /* Borders & Overlays */
-  --border-primary: rgba(255, 255, 255, 0.05);
-  --border-secondary: rgba(255, 255, 255, 0.02);
-  --glass-bg: rgba(2, 2, 4, 0.85);
-  --card-bg: #070709;
-  --gradient-text-start: #D1DBEA;
-  --gradient-text-mid: #8BA9D6;
-  --gradient-text-end: #475569;
+  --border-primary: #2D2D35;
+  --border-secondary: rgba(255, 255, 255, 0.08);
+  --glass-bg: rgba(18, 18, 20, 0.88);
+  --card-bg: #1C1C20;
+  --gradient-text-start: #F4F4F6;
+  --gradient-text-mid: #F4F4F6;
+  --gradient-text-end: #A1A1AA;
 
   /* Section Backgrounds */
   --section-bg: var(--bg-primary);
   --section-bg-alt: var(--bg-secondary);
 
   /* Spotlight */
-  --spotlight-opacity: 0.3;
-  --spotlight-blur: 140px;
-  --spotlight-color: var(--accent-primary);
-  --spotlight-blend: screen;
+  --spotlight-opacity: 0;
+  --spotlight-blur: 0px;
+  --spotlight-color: transparent;
 }
 
 
@@ -287,7 +294,7 @@ html {
 body {
   background-color: var(--bg-primary);
   color: var(--text-primary);
-  font-family: var(--font-dm-sans), system-ui, sans-serif;
+  font-family: var(--font-plus-jakarta-sans), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   /* Optimize text rendering speed over legibility on large text blocks */
@@ -306,7 +313,7 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-syne), sans-serif;
+  font-family: var(--font-lora), Georgia, serif;
 }
 
 ::selection {
@@ -428,10 +435,9 @@ h1, h2, h3, h4, h5, h6 {
 
 /* ─── Typography helpers ─────────────────────────────────── */
 .gradient-text {
-  background: linear-gradient(135deg, var(--gradient-text-start) 0%, var(--gradient-text-mid) 50%, var(--gradient-text-end) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--accent-primary);
+  background: none;
+  -webkit-text-fill-color: initial;
 }
 
 .label-uppercase {
@@ -558,16 +564,9 @@ h1, h2, h3, h4, h5, h6 {
 
 /* ─── Shimmer Gradient ───────────────────────────────────── */
 .shimmer-text {
-  background: linear-gradient(90deg,
-      var(--text-muted) 0%,
-      var(--text-primary) 40%,
-      var(--accent-teal, #00D4AA) 60%,
-      var(--text-muted) 100%);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: shimmer 3s linear infinite;
+  color: var(--text-primary);
+  background: none;
+  -webkit-text-fill-color: initial;
 }
 
 /* ─── Terminal Window ────────────────────────────────────── */
@@ -628,7 +627,7 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-jetbrains-mono), monospace;
   font-size: 0.875rem;
   color: var(--accent-violet);
-  border: 1px solid rgba(177, 158, 239, 0.2);
+  border: 1px solid rgba(var(--accent-primary-rgb), 0.2);
   display: inline-block;
 }
 

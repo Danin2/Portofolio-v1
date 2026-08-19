@@ -316,6 +316,12 @@ void main() {
                     return;
                 }
 
+                // Pause rendering when tab is hidden to save GPU power
+                if (document.hidden) {
+                    animationIdRef.current = requestAnimationFrame(loop);
+                    return;
+                }
+
                 uniforms.iTime.value = t * 0.001;
 
                 if (followMouse && mouseInfluence > 0.0) {

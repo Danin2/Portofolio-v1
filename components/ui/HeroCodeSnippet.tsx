@@ -25,6 +25,7 @@ export default function HeroCodeSnippet({
 
   useEffect(() => {
     setMounted(true);
+    if (typeof window === 'undefined' || window.innerWidth < 1280) return;
     const interval = setInterval(() => {
       setHighlightedLine(prev => (prev + 1) % codeLines.length);
     }, 1400);
@@ -50,8 +51,8 @@ export default function HeroCodeSnippet({
           inset: 0,
           borderRadius: '0.75rem',
           filter: 'blur(40px)',
-          opacity: 0.25,
-          background: 'radial-gradient(circle, var(--accent-primary) 0%, transparent 70%)',
+          backgroundColor: 'var(--accent-primary)',
+          opacity: 0.1,
         }}
       />
     </div>
