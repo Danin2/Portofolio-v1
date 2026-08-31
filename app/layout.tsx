@@ -8,7 +8,7 @@ import BackToTop from '@/components/ui/BackToTop'
 
 const lora = Lora({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
+  weight: ['400', '700'],
   style: ['normal', 'italic'],
   variable: '--font-lora',
   display: 'swap',
@@ -16,7 +16,7 @@ const lora = Lora({
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800'],
+  weight: ['400', '600', '700'],
   variable: '--font-plus-jakarta-sans',
   display: 'swap',
 })
@@ -62,9 +62,6 @@ export default function RootLayout({
             `,
           }}
         />
-        {/* Preconnect for Google Fonts CDN */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
       <body className="bg-[var(--bg-primary)] text-[var(--text-primary)] font-sans antialiased">
         <ClientProviders>

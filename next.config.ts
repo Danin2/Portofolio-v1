@@ -29,7 +29,6 @@ const nextConfig: NextConfig = {
       "lucide-react",
       "react-icons",
       "framer-motion",
-      "three",
     ],
   },
 };

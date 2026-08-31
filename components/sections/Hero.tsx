@@ -5,12 +5,7 @@ import { motion } from 'framer-motion';
 import { gsap } from 'gsap';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
-import RevealText from '@/components/ui/RevealText';
-import ScrollReveal from '@/components/ui/ScrollReveal';
-import StaggeredText from '@/components/ui/StaggeredText';
-import TypewriterText from '@/components/ui/TypewriterText';
 import HeroCodeSnippet from '@/components/ui/HeroCodeSnippet';
-import ProfileCard from '@/components/ui/ProfileCard';
 import { useLanguage } from '@/context/LanguageContext';
 
 // Lazy-load WebGL/heavy components — removed from critical render path
@@ -132,31 +127,31 @@ const Hero = () => {
 
             {/* Availability Badge (Task 6) */}
 
+            {/* H1 — CSS-animated, paint-visible immediately (no JS opacity gate) */}
             <div className="mb-6 md:mb-10 space-y-1">
-              <div className="overflow-hidden">
-                <StaggeredText
-                  text="Muhammad"
-                  delay={0.2}
-                  className="font-display font-black leading-[0.85] tracking-tighter text-[var(--text-primary)] select-none"
-                  style={{ fontSize: 'clamp(2.4rem, 8vw, 8rem)' } as React.CSSProperties}
-                />
-              </div>
-              <div
-                className="font-display font-black leading-[0.85] tracking-tighter select-none gradient-text overflow-hidden"
-                style={{ fontSize: 'clamp(2.4rem, 8vw, 8rem)' } as React.CSSProperties}
+              <h1
+                className="font-display font-black leading-[0.85] tracking-tighter text-[var(--text-primary)] select-none animate-reveal"
+                style={{ fontSize: 'clamp(2.4rem, 8vw, 8rem)', animationDelay: '0s', animationFillMode: 'both' } as React.CSSProperties}
               >
-                <StaggeredText text="Danindra I" delay={0.6} />
+                Muhammad
+              </h1>
+              <div
+                className="font-display font-black leading-[0.85] tracking-tighter select-none gradient-text animate-reveal"
+                style={{ fontSize: 'clamp(2.4rem, 8vw, 8rem)', animationDelay: '0.15s', animationFillMode: 'both' } as React.CSSProperties}
+              >
+                Danindra I
               </div>
             </div>
 
             <div className="flex flex-col items-start max-w-2xl">
               <div className="flex items-center gap-4 mb-5 md:mb-8">
                 <div className="h-px w-12 bg-[var(--accent-primary)] opacity-50" />
-                <TypewriterText
-                  text=" Junior Web Development"
-                  delay={1.2}
-                  className="font-mono font-black tracking-[0.2em] md:tracking-[0.4em] text-[var(--accent-primary)] uppercase text-[0.65rem] md:text-[0.85rem]"
-                />
+                <span
+                  className="font-mono font-black tracking-[0.2em] md:tracking-[0.4em] text-[var(--accent-primary)] uppercase text-[0.65rem] md:text-[0.85rem] animate-reveal"
+                  style={{ animationDelay: '0.3s', animationFillMode: 'both' } as React.CSSProperties}
+                >
+                  Junior Web Development
+                </span>
               </div>
               <p className="text-[var(--text-secondary)] leading-relaxed text-base md:text-xl opacity-90 font-medium mb-8 md:mb-12 max-w-xl">
                 {t('hero.desc')}

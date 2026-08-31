@@ -3,12 +3,12 @@
 import React, { useState, useRef, useCallback } from 'react';
 import Image from 'next/image';
 import { useLanguage } from '@/context/LanguageContext';
-import { 
-  ShieldCheck, 
-  Rotate3d, 
-  Terminal, 
-  Cpu, 
-  Sparkles, 
+import {
+  ShieldCheck,
+  Rotate3d,
+  Terminal,
+  Cpu,
+  Sparkles,
   Globe,
   CheckCircle2
 } from 'lucide-react';
@@ -92,7 +92,7 @@ export default function Profile3DCard({
         onMouseLeave={handleMouseLeave}
       >
         {/* Glowing Background Backdrop Ambient Aura */}
-        <div 
+        <div
           className="absolute -inset-4 rounded-[3.5rem] bg-[var(--accent-primary)]/20 blur-2xl transition-opacity duration-700 pointer-events-none"
           style={{ opacity: isHovered ? 0.85 : 0.4 }}
         />
@@ -113,8 +113,8 @@ export default function Profile3DCard({
             style={{
               backfaceVisibility: 'hidden',
               WebkitBackfaceVisibility: 'hidden',
-              boxShadow: isHovered 
-                ? '0 30px 60px -12px rgba(0, 0, 0, 0.7), 0 0 40px 2px rgba(99, 102, 241, 0.25)' 
+              boxShadow: isHovered
+                ? '0 30px 60px -12px rgba(0, 0, 0, 0.7), 0 0 40px 2px rgba(99, 102, 241, 0.25)'
                 : '0 20px 40px -15px rgba(0, 0, 0, 0.5)'
             }}
           >
@@ -128,35 +128,18 @@ export default function Profile3DCard({
             />
 
             {/* Subtle Grid Pattern Overlay */}
-            <div 
+            <div
               className="absolute inset-0 pointer-events-none opacity-10 rounded-[2.8rem]"
             />
 
             {/* Top Bar / Badge Header */}
-            <div 
+            <div
               className="relative z-10 flex items-center justify-between transition-transform duration-300"
-              style={{ transform: 'translateZ(30px)' }}
-            >
-              <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md">
-                <span className="relative flex h-2.5 w-2.5">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
-                </span>
-                <span className="text-[11px] font-mono font-semibold tracking-wider text-emerald-400 uppercase">
-                  AVAILABLE FOR PROJECTS
-                </span>
-              </div>
-
-              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300">
-                <ShieldCheck className="w-3.5 h-3.5 text-indigo-400" />
-                <span className="text-[10px] font-mono font-bold tracking-widest uppercase">
-                  DEV-2026
-                </span>
-              </div>
+              style={{ transform: 'translateZ(30px)' }}>
             </div>
 
             {/* Avatar & 3D Centerpiece */}
-            <div 
+            <div
               className="relative z-10 my-auto flex flex-col items-center text-center transition-transform duration-300"
               style={{ transform: 'translateZ(45px)' }}
             >
@@ -190,13 +173,9 @@ export default function Profile3DCard({
               <p className="text-xs font-mono font-semibold text-indigo-400 uppercase tracking-widest mb-3">
                 @{handle} · Senior Fullstack Architect
               </p>
-              
-              <p className="text-xs text-slate-300/80 max-w-[260px] leading-relaxed font-light mb-5">
-                {t('hero.subtitle') || 'Building scalable cloud architectures, high-performance APIs, and futuristic interactive UI.'}
-              </p>
 
               {/* Floating Tech Stack Badges */}
-              <div 
+              <div
                 className="flex flex-wrap justify-center gap-1.5 max-w-[290px]"
                 style={{ transform: 'translateZ(20px)' }}
               >
@@ -217,7 +196,7 @@ export default function Profile3DCard({
             </div>
 
             {/* Bottom Actions & Flip Button */}
-            <div 
+            <div
               className="relative z-10 flex items-center justify-between pt-4 border-t border-white/10"
               style={{ transform: 'translateZ(30px)' }}
             >

@@ -4,9 +4,12 @@ import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { gsap } from 'gsap';
 import RevealText from '@/components/ui/RevealText';
-import LightRays from '@/components/ui/LightRays';
+import dynamic from 'next/dynamic';
 import ScrollReveal from '@/components/ui/ScrollReveal';
 import { useLanguage } from '@/context/LanguageContext';
+
+const LightRays = dynamic(() => import('@/components/ui/LightRays'), { ssr: false, loading: () => null });
+
 
 // ─── Icon Components ──────────────────────────────────────────────────────────
 const MailIcon = () => (

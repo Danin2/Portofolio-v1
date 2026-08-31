@@ -3,100 +3,37 @@
 import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import RevealText from '@/components/ui/RevealText';
-import { getFeaturedProjects } from '@/lib/data/projects';
+import { projects } from '@/lib/data/projects';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
-import TerminalCardHeader from '@/components/ui/TerminalCardHeader';
 import { useLanguage } from '@/context/LanguageContext';
+import AccordionGallery from '@/components/ui/AccordionGallery';
 
-// Terminal output lines per project
-const terminalData: Record<string, { lines: { text: string; type: 'command' | 'success' | 'info' | 'warning' }[]; title: string }> = {
-  default: {
-    title: 'api.ts',
-    lines: [
-      { text: 'GET /api/v1/health → 200 OK (4ms)', type: 'success' },
-      { text: 'POST /api/v1/auth → JWT issued', type: 'info' },
-      { text: 'Server running on :3000 ✓', type: 'success' },
-    ],
-  },
+// High quality visual representations for each project
+const projectImages: Record<string, string> = {
+  'ecommerce-rest-api': 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80',
+  'realtime-chat-app': 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80',
+  'task-management-api': 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80',
+  'microservices-blog': 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80',
+  'database-migration-tool': 'https://images.unsplash.com/photo-1544383835-bda2bc66a55d?auto=format&fit=crop&w=1200&q=80',
 };
 
-// Map project slug/title keywords to terminal lines
-function getTerminalData(project: { slug: string; title: string }) {
-  const slug = project.slug.toLowerCase();
-  const title = project.title.toLowerCase();
-
-  if (slug.includes('ecommerce') || title.includes('commerce') || title.includes('shop')) {
-    return {
-      title: 'ecommerce.ts',
-      lines: [
-        { text: 'GET /api/products → 200 OK (8ms)', type: 'success' as const },
-        { text: 'POST /api/orders → 201 Created', type: 'success' as const },
-        { text: 'Redis cache: 94% hit rate ✓', type: 'info' as const },
-      ],
-    };
-  }
-  if (slug.includes('chat') || title.includes('chat') || title.includes('message')) {
-    return {
-      title: 'websocket.ts',
-      lines: [
-        { text: 'WS connected · 1,247 active sessions', type: 'success' as const },
-        { text: 'MSG delivered in <5ms avg', type: 'info' as const },
-        { text: '[BROKER] Kafka lag: 0ms ✓', type: 'success' as const },
-      ],
-    };
-  }
-  if (slug.includes('task') || title.includes('task') || title.includes('todo')) {
-    return {
-      title: 'tasks.ts',
-      lines: [
-        { text: 'POST /tasks · RBAC verified · logged', type: 'success' as const },
-        { text: '[AUTH] role: admin · access granted', type: 'info' as const },
-        { text: 'Queue processed: 120 jobs/s ✓', type: 'success' as const },
-      ],
-    };
-  }
-  if (slug.includes('micro') || title.includes('micro')) {
-    return {
-      title: 'services.ts',
-      lines: [
-        { text: '[BROKER] 3 services healthy · lag: 0ms', type: 'success' as const },
-        { text: 'gRPC: auth → order · 2ms', type: 'info' as const },
-        { text: 'K8s: all pods running ✓', type: 'success' as const },
-      ],
-    };
-  }
-  if (slug.includes('db') || title.includes('database') || title.includes('migration')) {
-    return {
-      title: 'migrate.ts',
-      lines: [
-        { text: 'migrating... v1.0 → v2.0 [████████] 100%', type: 'success' as const },
-        { text: 'schema verified · indexes OK', type: 'info' as const },
-        { text: 'Rollback point saved ✓', type: 'success' as const },
-      ],
-    };
-  }
-
-  return {
-    title: `${project.slug.split('-')[0]}.ts`,
-    lines: [
-      { text: `GET /api/health → 200 OK (4ms)`, type: 'success' as const },
-      { text: `POST /api/v1/auth → JWT issued`, type: 'info' as const },
-      { text: `Server running · uptime 99.9% ✓`, type: 'success' as const },
-    ],
-  };
-}
-
 const ProjectPreview = () => {
-  const featuredProjects = getFeaturedProjects().slice(0, 3);
   const { ref, isVisible } = useScrollReveal();
   const { t } = useLanguage();
+
+  const galleryItems = projects.slice(0, 5).map(project => ({
+    image: projectImages[project.slug] || 'https://picsum.photos/id/1015/900/1200',
+    label: project.title,
+    link: `/projects/${project.slug}`,
+    alt: project.title,
+  }));
 
   return (
     <section
       ref={ref}
-      className={`relative bg-[var(--bg-primary)] section-padding overflow-hidden border-t border-[var(--border-primary)] transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-        }`}
+      className={`relative bg-[var(--bg-primary)] section-padding overflow-hidden border-t border-[var(--border-primary)] transition-all duration-700 ${
+        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+      }`}
     >
       {/* Background decoration */}
       <div className="absolute inset-0 pointer-events-none">
@@ -106,11 +43,16 @@ const ProjectPreview = () => {
 
       <div className="container-custom relative z-10">
         {/* Header Section */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 md:gap-10 mb-10 md:mb-20">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 md:gap-10 mb-8 md:mb-14">
           <div className="max-w-2xl">
-
-            <h2 className="text-3xl md:text-5xl lg:text-6xl font-black tracking-tight text-[var(--text-primary)]" style={{ textWrap: 'balance' } as React.CSSProperties}>
-              {t('projects.section_title')} <span className="text-[var(--text-muted)] font-light italic">{t('projects.section_title_italic')}</span>
+            <h2
+              className="text-3xl md:text-5xl lg:text-6xl font-black tracking-tight text-[var(--text-primary)]"
+              style={{ textWrap: 'balance' } as React.CSSProperties}
+            >
+              {t('projects.section_title')}{' '}
+              <span className="text-[var(--text-muted)] font-light italic">
+                {t('projects.section_title_italic')}
+              </span>
             </h2>
           </div>
 
@@ -119,92 +61,37 @@ const ProjectPreview = () => {
           </p>
         </div>
 
-        {/* Project Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-8 mb-10 md:mb-20">
-          {featuredProjects.map((project, idx) => {
-            const termData = getTerminalData(project);
-            return (
-              <motion.div
-                key={project.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.1, duration: 0.6 }}
-                whileHover={{ y: -4, boxShadow: '0 20px 60px -12px rgba(0,0,0,0.35)' }}
-                className="h-full rounded-[2rem]"
-              >
-                <Link
-                  href={`/projects/${project.slug}`}
-                  className="group flex flex-col h-full rounded-[2rem] border border-[var(--border-primary)] bg-[var(--bg-secondary)] dark:bg-[var(--card-bg)] overflow-hidden transition-all duration-500 hover:border-[var(--accent-primary)]/40 shadow-sm relative"
-                  style={{ transition: 'border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s cubic-bezier(0.23,1,0.32,1)' }}
-                >
-                  {/* Shimmer top-line on hover */}
-                  <div className="absolute top-0 left-0 w-full h-px bg-[var(--accent-primary)]/60 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20" />
-                  {/* Subtle inner glow */}
-                  <div className="absolute top-0 left-0 w-full h-24 bg-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-[2rem] z-20" />
+        {/* Accordion Gallery Component */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          className="w-full mb-10 md:mb-16"
+        >
+          <AccordionGallery
+            items={galleryItems}
+            defaultIndex={2}
+            expandRatio={0.52}
+            trigger="hover"
+            height={480}
+            gap={12}
+            radius={20}
+            accentColor="var(--accent-primary)"
+            overlayColor="#0a0a0f"
+            textColor="#ffffff"
+          />
+        </motion.div>
 
-                  {/* Terminal header */}
-                  <TerminalCardHeader
-                    projectId={project.id}
-                    lines={termData.lines}
-                    title={termData.title}
-                  />
-
-                  {/* Card content */}
-                  <div className="p-5 md:p-8 flex flex-col flex-1 relative z-10">
-                    <div className="flex items-center justify-between mb-6">
-                      <span className="text-[0.6rem] font-black uppercase tracking-[0.2em] text-[var(--text-muted)] group-hover:text-[var(--accent-primary)] transition-colors">
-                        {project.category}
-                      </span>
-                      <div className="w-9 h-9 rounded-full bg-[var(--bg-tertiary)] flex items-center justify-center text-[var(--text-muted)] group-hover:bg-[var(--accent-primary)]/15 group-hover:text-[var(--accent-primary)] transition-all duration-300">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M5 12h14m-7-7 7 7-7 7" />
-                        </svg>
-                      </div>
-                    </div>
-
-                    <h3 className="text-xl font-bold text-[var(--text-primary)] mb-4 group-hover:text-[var(--accent-primary)] transition-colors leading-tight">
-                      {project.title}
-                    </h3>
-
-                    <p className="text-sm text-[var(--text-secondary)] leading-relaxed mb-6 line-clamp-3 opacity-80 group-hover:opacity-100 transition-opacity">
-                      {project.shortDescription}
-                    </p>
-
-                    {/* Metric chips */}
-                    <div className="flex flex-wrap gap-2 mb-6">
-                      {['⚡ <10ms', '🔒 JWT', '📦 Docker'].map((chip) => (
-                        <span
-                          key={chip}
-                          className="text-[0.55rem] font-bold px-2.5 py-1 rounded-full bg-[var(--accent-primary)]/10 border border-[var(--accent-primary)]/20 text-[var(--accent-primary)]"
-                        >
-                          {chip}
-                        </span>
-                      ))}
-                    </div>
-
-                    <div className="mt-auto flex flex-wrap gap-2">
-                      {project.techStack.slice(0, 3).map((tech, i) => (
-                        <motion.span
-                          key={tech}
-                          initial={{ opacity: 0, y: 10 }}
-                          whileInView={{ opacity: 1, y: 0 }}
-                          viewport={{ once: true }}
-                          transition={{ delay: 0.2 + i * 0.1, duration: 0.4 }}
-                          className="text-[0.6rem] font-bold px-3 py-1 bg-[var(--bg-tertiary)] rounded-md uppercase tracking-tight text-[var(--text-muted)]"
-                        >
-                          {tech}
-                        </motion.span>
-                      ))}
-                      {project.techStack.length > 3 && (
-                        <span className="text-[0.6rem] text-[var(--text-muted)] self-center px-1">+{project.techStack.length - 3}</span>
-                      )}
-                    </div>
-                  </div>
-                </Link>
-              </motion.div>
-            );
-          })}
+        {/* Archive CTA */}
+        <div className="flex justify-center items-center">
+          <Link
+            href="/projects"
+            className="group inline-flex items-center gap-2 px-6 py-3 border border-[var(--border-primary)] hover:border-[var(--accent-primary)] rounded-full text-xs font-bold uppercase tracking-widest text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-all duration-300 bg-[var(--bg-secondary)]/50 backdrop-blur-sm"
+          >
+            {t('projects.all_projects')}
+            <span className="group-hover:translate-x-1 transition-transform inline-block">→</span>
+          </Link>
         </div>
       </div>
     </section>

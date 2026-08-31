@@ -17,7 +17,7 @@ export default function PageLoader() {
 
     // Use setInterval (60ms) instead of rAF to avoid hammering main thread
     // during the critical load phase. Visual difference is imperceptible.
-    const duration = 800;
+    const duration = 400;
     const startTime = Date.now();
 
     const intervalId = setInterval(() => {
@@ -33,7 +33,7 @@ export default function PageLoader() {
         setTimeout(() => {
           setIsLoading(false);
           sessionStorage.setItem('portfolio-loaded', 'true');
-        }, 500);
+        }, 200);
       }
     }, 60);
 

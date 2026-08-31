@@ -5,9 +5,13 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import RevealText from '@/components/ui/RevealText';
 import dynamic from 'next/dynamic';
-import * as LucideIcons from 'lucide-react';
 import FooterCTA from '@/components/sections/FooterCTA';
 import { useLanguage } from '@/context/LanguageContext';
+import { Code2, ShieldCheck, Gauge, FlaskConical, BookOpen, RefreshCw } from 'lucide-react';
+
+const ICON_MAP: Record<string, React.ElementType> = {
+  Code2, ShieldCheck, Gauge, FlaskConical, BookOpen, RefreshCw,
+};
 
 const ExperienceTimeline = dynamic(() => import('@/components/sections/ExperienceTimeline'), {
   ssr: false,
@@ -34,8 +38,7 @@ interface AboutClientProps {
 
 function getLucideIcon(name?: string) {
   if (!name) return null;
-  const IconComponent = (LucideIcons as any)[name];
-  return (IconComponent as React.ElementType) || null;
+  return ICON_MAP[name] || null;
 }
 
 export default function AboutClient({ values }: AboutClientProps) {

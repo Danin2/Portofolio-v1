@@ -1,2 +1,12 @@
 {
+    "files.watcherExclude": {
+        "**/.agents/**": true
+    },
+    "search.exclude": {
+        "**/.agents/**": true,
+        "**/.next/**": true,
+        "**/node_modules/**": true
+    },
+    "tailwindCSS.lint.suggestCanonicalClasses": "ignore",
+    "tailwindCSS.lint.cssConflict": "ignore"
 }
